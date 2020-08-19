@@ -1,0 +1,90 @@
+/*
+    The base folder will contain our basic project definitions like a project boiler plate.
+
+    This base SASS file will be for the real low level basics, such as resets 
+    and styles for the HTML and body element selectors.
+    Note this file should be a partial so we can later import it into the main SASS file 
+    (Sass feature: Partials & Imports).
+
+    The PARTIAL files their name always starts with an underscore. e.g. _base.scss
+    Now IMPORT this file into main.scss file without the underscore like this - @import "base/base"
+*/
+
+
+/* UNIVERSAL SELECTOR RESET
+   By default, browsers apply a certain margin, and/or a certain padding, to some elements. 
+   And we don't want that, obviously for consistency. * means Universal Selector.
+   We should also declare selector for all after and before pseudo-elements so that the 
+   declaration block will apply to all elements. 
+ */
+ *,
+ *::after,
+ *::before {
+     margin: 0;
+     padding: 0;
+ 
+     /* Whenever we can use inheritance, we should use it 
+     instead of using something like the universal selector (*). 
+                             
+     Using inherit keyword to force inheritance here.
+                             
+     box-sizing property by itself is not inherited, but by setting the box-sizing property 
+     on Universal selector (so basically each and every element on the entire page) to inherit, 
+     it'll automatically inherit whatever we put here on border-box. 
+     So this is considered a slightly better practice by the CSS community 
+     because it makes it a bit easier to change the box-sizing like in plugins or other components 
+     where we might want to use a different property for box-sizing. 
+     So it doesn't make a huge difference, just a slightly better practice 
+     to do the box-sizing border-box like this. */
+     box-sizing: inherit; 
+ }
+ 
+ /* Important: DECLARE ROOT font-size. */
+ html {  
+     /*  We should not set ROOT font-size in px. The problem is that by doing so we actually 
+         override the browser font size setting that the user can manually change in the browser settings
+         and many people actually do that. e.g. when they have bad sight and cannot see so good,
+         then some people actually increase the default font size of their browser.
+         So if we set our ROOT font-size in px, then we remove the ability for these people 
+         to see our website properly because they can no longer change the default font size 
+         (they can, but our root font size will not be affected by that anymore).
+         So this is a really bad practice, and that is why we should set overall font size to a percentage,
+         which will translate to a percentage of the font size given by the browser.
+         Now the default font size, if the user doesn't change anything is 16 pixels.
+         But here we want 10px for our ease because 1 rem = root font-size. so here 1 rem = 10px.
+         So now it's easier for us to do calculations (w.r.t 10) while assigning 
+         rem based font-sizes/length units. 
+         If it were say 16px, then we would have to do lot more calculations in each selector.
+         
+         So Default browser font-size is 16px. 
+         hence if we want root font-size to be 10 px, then 10/16 = 0.625 => 62.5% 
+         So by default 62.5% translates to 10px (0.625 * 16).
+         If user changes to 20px, then 62.5% translates to = 12.5px (0.625 * 20).
+         If user changes to 22px, then 62.5% translates to 13.75px (0.625 * 22).
+ 
+         So with this we allow the user to actually zoom in on the page automatically, 
+         not only to change the font size, but to also to zoom in on the page, 
+         because basically what happens is Not exactly zooming, 
+         but increasing all of the measurements that we have on our page.
+ 
+         This is really widely used technique in the CSS developer community 
+         because it's so simple and yet so powerful.
+ 
+         Note: rems are not supported below Internet Explorer 9.
+     */
+     font-size: 62.5%; // This defines what one rem is
+     
+     /*font-size: 10px;*/   /* ROOT font size. Why 10, bcz 1 rem = root font-size. so here 1 rem = 10px.
+                            So now it's easier for us to do calculations (w.r.t 10)
+                            while assigning rem based font-sizes/length units. If it were say 16px, 
+                            then we would have to do lot more calculations in each selector. */
+ }
+ 
+ /* Project wide definitions */
+ // some part of body is defined in typography.
+ body {
+     box-sizing: border-box; /* width = border + padding + width of the content, and 
+                                height = border + padding + height of the content.
+                                Plz note that margin is NOT added bcz it is outside box.
+                             */
+ }

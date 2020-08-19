@@ -1,0 +1,16 @@
+
+// mixin for clearfix. 
+/*
+    What the clearfix does is to append a pseudo element after the element which will then clear these floats.
+*/
+@mixin clearfix {
+    &::after {
+
+        /*  we always need to specify the content property, otherwise a pseudo element will not appear on the page, 
+            and we want it empty because we don't want to see this element on the page. */
+        content: "";
+        display: table; // standard value for clearfix.
+        clear: both; /* the property that actually performs this clearfix is the clear property.        
+                        This would clear both floats, so float left and float right */
+    }
+}

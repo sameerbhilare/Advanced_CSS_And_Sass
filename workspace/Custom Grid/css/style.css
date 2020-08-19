@@ -1,0 +1,425 @@
+/*
+    We are implementing "The 7-1 Pattern".
+    "The 7-1 Pattern" architecture is really designed to handle large multi-page websites or web apps.
+    So maybe for a small landing page like this project, this might seem like a bit too much, a bit overkill.
+    But once you start working on a huge project then you'll appreciate how this makes things easier, 
+    so it's really important to have an architecture like this in place 
+    especially when we're working on a larger project.
+*/
+/*  
+    This main file only serves to import all the other files. 
+    So, there will be no code here in this file except for all these import declarations.
+*/
+/*
+    What the clearfix does is to append a pseudo element after the element which will then clear these floats.
+*/
+/*
+    In the abstracts folder we're only going to put code that's not going to output any css.
+    e.g. variables, mixins, functions and stuff like that.
+*/
+/*
+    base file for animations.
+*/
+/* with keyframes at-rule, we can control how animation should work at any point of time between start and end. */
+/* For the browser performance, it's best to only ever animate two different properties. 
+    One is opacity, and the other one is the transform property. 
+    The browsers are optimized for these two properties.*/
+@keyframes moveInLeft {
+  /* what should happen at the start which is 0% */
+  0% {
+    opacity: 0;
+    transform: translateX(-10rem);
+    /* along the X axis, initial position is a lot more to the left */ }
+  80% {
+    opacity: 1;
+    transform: translateX(1rem);
+    /* intermediate position is slightly to the right. */ }
+  /* what should happen at the end which is 100% */
+  100% {
+    opacity: 1;
+    transform: translate(0);
+    /* 0 to look exactly the way it looks without animations. */ } }
+
+@keyframes moveInRight {
+  /* what should happen at the start which is 0% */
+  0% {
+    opacity: 0;
+    transform: translateX(10rem);
+    /* initial position is a lot more to the right. + means right */ }
+  80% {
+    opacity: 1;
+    transform: translateX(-1rem);
+    /* intermediate position is slightly to the left. minus(-) means left */ }
+  /* what should happen at the end which is 100% */
+  100% {
+    opacity: 1;
+    transform: translate(0);
+    /* 0 to look exactly the way it looks without animations. */ } }
+
+@keyframes moveInBottom {
+  /* what should happen at the start which is 0% */
+  0% {
+    opacity: 0;
+    transform: translateY(1rem);
+    /* initial position is a to the bottom. + means bottom */ }
+  /* what should happen at the end which is 100% */
+  100% {
+    opacity: 1;
+    transform: translate(0);
+    /* 0 to look exactly the way it looks without animations. */ } }
+
+/*
+    The base folder will contain our basic project definitions like a project boiler plate.
+
+    This base SASS file will be for the real low level basics, such as resets 
+    and styles for the HTML and body element selectors.
+    Note this file should be a partial so we can later import it into the main SASS file 
+    (Sass feature: Partials & Imports).
+
+    The PARTIAL files their name always starts with an underscore. e.g. _base.scss
+    Now IMPORT this file into main.scss file without the underscore like this - @import "base/base"
+*/
+/* UNIVERSAL SELECTOR RESET
+   By default, browsers apply a certain margin, and/or a certain padding, to some elements. 
+   And we don't want that, obviously for consistency. * means Universal Selector.
+   We should also declare selector for all after and before pseudo-elements so that the 
+   declaration block will apply to all elements. 
+ */
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  /* Whenever we can use inheritance, we should use it 
+     instead of using something like the universal selector (*). 
+                             
+     Using inherit keyword to force inheritance here.
+                             
+     box-sizing property by itself is not inherited, but by setting the box-sizing property 
+     on Universal selector (so basically each and every element on the entire page) to inherit, 
+     it'll automatically inherit whatever we put here on border-box. 
+     So this is considered a slightly better practice by the CSS community 
+     because it makes it a bit easier to change the box-sizing like in plugins or other components 
+     where we might want to use a different property for box-sizing. 
+     So it doesn't make a huge difference, just a slightly better practice 
+     to do the box-sizing border-box like this. */
+  box-sizing: inherit; }
+
+/* Important: DECLARE ROOT font-size. */
+html {
+  /*  We should not set ROOT font-size in px. The problem is that by doing so we actually 
+         override the browser font size setting that the user can manually change in the browser settings
+         and many people actually do that. e.g. when they have bad sight and cannot see so good,
+         then some people actually increase the default font size of their browser.
+         So if we set our ROOT font-size in px, then we remove the ability for these people 
+         to see our website properly because they can no longer change the default font size 
+         (they can, but our root font size will not be affected by that anymore).
+         So this is a really bad practice, and that is why we should set overall font size to a percentage,
+         which will translate to a percentage of the font size given by the browser.
+         Now the default font size, if the user doesn't change anything is 16 pixels.
+         But here we want 10px for our ease because 1 rem = root font-size. so here 1 rem = 10px.
+         So now it's easier for us to do calculations (w.r.t 10) while assigning 
+         rem based font-sizes/length units. 
+         If it were say 16px, then we would have to do lot more calculations in each selector.
+         
+         So Default browser font-size is 16px. 
+         hence if we want root font-size to be 10 px, then 10/16 = 0.625 => 62.5% 
+         So by default 62.5% translates to 10px (0.625 * 16).
+         If user changes to 20px, then 62.5% translates to = 12.5px (0.625 * 20).
+         If user changes to 22px, then 62.5% translates to 13.75px (0.625 * 22).
+ 
+         So with this we allow the user to actually zoom in on the page automatically, 
+         not only to change the font size, but to also to zoom in on the page, 
+         because basically what happens is Not exactly zooming, 
+         but increasing all of the measurements that we have on our page.
+ 
+         This is really widely used technique in the CSS developer community 
+         because it's so simple and yet so powerful.
+ 
+         Note: rems are not supported below Internet Explorer 9.
+     */
+  font-size: 62.5%;
+  /*font-size: 10px;*/
+  /* ROOT font size. Why 10, bcz 1 rem = root font-size. so here 1 rem = 10px.
+                            So now it's easier for us to do calculations (w.r.t 10)
+                            while assigning rem based font-sizes/length units. If it were say 16px, 
+                            then we would have to do lot more calculations in each selector. */ }
+
+/* Project wide definitions */
+body {
+  box-sizing: border-box;
+  /* width = border + padding + width of the content, and 
+                                height = border + padding + height of the content.
+                                Plz note that margin is NOT added bcz it is outside box.
+                             */ }
+
+/*
+    Typography is the art and technique of arranging type to make written language readable and beautiful.
+*/
+/* Project wide definitions */
+body {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  /*font-size: 16px;*/
+  line-height: 1.7;
+  color: #777;
+  padding: 3rem;
+  /* to have a feel of showing everything into a box. */ }
+
+/*
+    You could that this is a component but I think its a part of typography and 
+    so this seems to the most intuitive place for me when I will be looking for the heading.
+*/
+.heading-primary {
+  color: #fff;
+  text-transform: uppercase;
+  backface-visibility: hidden;
+  margin-bottom: 6rem;
+  /* for mergin between header text and button. */ }
+  .heading-primary--main {
+    display: block;
+    font-size: 6rem;
+    font-weight: 400;
+    letter-spacing: 3.5rem;
+    /* properties for animations */
+    animation-name: moveInLeft;
+    animation-duration: 1s;
+    /* total duration of the animation */
+    /* this is a function which defines how the animation will proceed.     
+          So, how fast or how slow the parameters defined in the keyframes(moveInLeft) happen over time.*/
+    animation-timing-function: ease-out;
+    /*ease-out: faster in the beginning, slower at the end. */
+    /* animation-iteration-count: 3; number of times the animatiob should run */
+    /* animation-delay: 3s;  time before starting the animation */ }
+  .heading-primary--sub {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    /* available font-weights are - 100;300;400;700;900. 
+                            - as mentioned in the Google Font which we included in our html page. */
+    letter-spacing: 1.75rem;
+    /* properties for animations */
+    animation: moveInRight 1s ease-out;
+    /* shorthand syntax using just animation property. */ }
+
+/*
+    The button is a component, because it's certainly a block. So, we can call it the component. 
+    It's reusable across the page, it's independent, it works everywhere 
+    and it's a building block that we can use wherever we want on our page.
+*/
+.btn {
+  /* :link - pseudo class. pseudo-classes are a special state of a selector. 
+        we use pseudo-classes to style elements under a special condition. */
+  /* pseudo-elements allow us to style certain parts of elements. 
+        the ::after pseudo-element adds like a virtual element right after the element that we're selecting.
+        And we can then style that pseudo-element. */ }
+  .btn:link, .btn:visited {
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 1.5rem 4rem;
+    /* top, bottom => 15px, left, right => 40px */
+    display: inline-block;
+    /* we should always do this if we want to give paddings, heights or width to an element */
+    /* To align this button at the center, we don;t have to use transform and all. that wold be overkill for this
+            That's bcz this is an inline block element and so it's treated as if it was text. 
+            And so we can easily use the text's text-align property and set it to center. 
+            (text-align:center is already done in it's parent element 'text-box' above)*/
+    border-radius: 10rem;
+    /* put higher number 100px +, then will have rounded left and right side.*/
+    /* transition used for animation. Pass the properties that you want to animate on an event. */
+    /* We need to put the transition animation to the initial state only. 
+            So that transforms mentioned in :hover, :active will work. */
+    transition: all 0.2s;
+    /* all: all properties are enabled to be animated. */
+    position: relative;
+    /* this is required for .btn-white::after to work. */
+    font-size: 1.6rem; }
+  .btn:hover {
+    transform: translateY(-3px);
+    /* to move up the element. On Y axis: -ve means up, +ve means down */
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+    /*offset-x, offset-y, blur-radius, color*/
+    /* when we hover the button, we want certain style for the pseudo-element (::after). 
+            Defining pseudo-class for pseudo-element .btn:hover::after */ }
+    .btn:hover::after {
+      /* We want the element to grow and to fade out. */
+      transform: scaleX(1.4) scaleY(1.6);
+      opacity: 0;
+      /* transition: all 0.4s; this will have effect on hover-in only not for hover-in and hover-out */ }
+  .btn:active {
+    /* when we click on the button */
+    transform: translateY(-1px);
+    /* to move up the element w.r.t initial state (:link, :visited).*/
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    /*offset-x, offset-y, blur-radius, color*/
+    /* .5 means 0.5 */ }
+  .btn--white {
+    background-color: #fff;
+    color: #777;
+    /* pseudo-element for btn-white.  .btn--white::after */ }
+    .btn--white::after {
+      background-color: #fff; }
+  .btn::after {
+    /* The trick here is to add an element that looks exactly like the button that we already have,
+            but we put it behind the button. And when we hover out of the button, then this hidden pseudo-element
+            amazingly goes back behind the button. */
+    /* First, in order for an after pseudo-element to actually appear on the page,
+            we need to specify its content property. 
+            It doesn't matter what the content is. It can even be empty but we have to specify it.
+            Otherwise it's not going to appear. Same thing with the display property. */
+    content: "";
+    /* content must be defined */
+    display: inline-block;
+    /* display must be defined */
+    height: 100%;
+    /* must be defined. 100% of the height of the actual/parent button */
+    width: 100%;
+    /* must be defined. 100% of the width of the actual/parent button */
+    border-radius: 10rem;
+    /* same as parent otherwise we will face issues in differentiating betn actual and pseudo-element*/
+    /* this pseudo element should be (hidden) behind parent element. 
+            absolute positioning needs to have a reference. And the reference is the first element
+            with the relative position that it can find. */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    /* z-index defines the position of the elements if they are one on top of another. */
+    transition: all 0.4s;
+    /* We need to put the transition animation to the initial state. 
+                                so that it will apply for the scaling mentioned in .btn:hover::after 
+                                and will have effect on both hover-in and hover-out */ }
+  .btn--animated {
+    animation: moveInBottom 0.5s ease-out 0.75s;
+    /*name, duration, timing-function, delay */
+    /* It will automatically apply the styles up to 0% mentioned in the keyframe (moveInBottom) 
+            BEFORE the animation starts. 
+            If this is not used, then we will see initial position of the button and it doesn't look good. */
+    animation-fill-mode: backwards; }
+
+/*
+    In the layouts folder we define the overall layout of the project e.g. global footer, header.
+*/
+/* Note this is 'header' class not <header> element */
+.header {
+  height: 95vh;
+  /* 95% of viewport height bcz we have added padding for body element. */
+  background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.8), rgba(40, 180, 133, 0.8)), url(../img/hero.jpg);
+  background-size: cover;
+  /* to cover whole viewport area so that whole image can be seen */
+  background-position: top;
+  /* ensure that whatever the viewport size is 
+                                 the top of the image always stays at the top of the container. */
+  /* to clip out a part of the image. 
+       There are multiple options but as per our need we need use polygon. 
+       polygon just takes cordinates of how you want to see it.
+         - for triangle - need to pass 3 cordinates,
+         - for rectangle or any shape of 4 points - need to pass 4 cordinates, etc. 
+    */
+  clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
+  position: relative;
+  /* marking it as relative bcz .logo-box & .text-box are marked as absolute. */ }
+  .header__logo-box {
+    position: absolute;
+    top: 4rem;
+    /* 40px from top w.r.t it's parent element which is header. so mark header as relative. 
+                   If it's immediate parent is not marked as 'relative', 
+                   then it checks for the reference of the first element with the relative position 
+                   that it can find. If it cant's find any thing, it will take reference 
+                   w.r.t viewport which is top of the window. */
+    left: 4rem;
+    /* 40px from top w.r.t it's parent element which is header. so mark header as relative. */ }
+  .header__logo {
+    height: 3.5rem;
+    width: auto; }
+  .header__text-box {
+    /*
+       top 40% and left 50% - are in relation to the parent element. 
+       So 50% of the parent element is where the text box was located to the left side. 
+       But, on the transform, when we use translate, this is in relation to the element itself.
+       And this makes it possible that the element is exactly at the center.
+       */
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center; }
+
+.row {
+  /*
+        max-width means is that if we have enough available space, then it will have the width that we specified
+        but if there is not enough width, so basically if the viewport is smaller than width that we specified,
+        so in this case, if the viewport is smaller than 114 rem, then it will simply fill 100% of the available space.
+    */
+  max-width: 114rem;
+  background-color: #eee;
+  /* 
+        That's the trick to center block elements inside of another block element.
+        When we say that we want the margin to be automatically, this means that the browser, 
+        when rendering the page, will automatically figure out the margin 
+        that we want on the left and on the right side.
+        And since it's both set to auto, it means that left and right will be the same, 
+        and CSS will automatically calculate the left margin and the right margin, 
+        and they will be the same, and so of course, the element will be centered.
+    */
+  margin: 0 auto;
+  /*
+        we should have some space, some gutter between these rows EXCEPT last child. 
+        So imagine we have a layout, and then we have multiple rows, 
+        and we naturally want some space between them.
+    */
+  /*
+        It will select all of the elements in which the class attribute starts with "col-".
+        
+        ^= means starts with
+        *= means contains
+        $= means ends with
+
+        There is a whole lot of applications for this kind of selector. 
+        e.g. we could also select anchor elements, which have the target attribute set to blank, 
+        so these are the links that open in a new tab when we click them, 
+        and we could then style these ones differently than the regular links.
+    */ }
+  .row:not(:last-child) {
+    margin-bottom: 8rem; }
+  .row::after {
+    /*  we always need to specify the content property, otherwise a pseudo element will not appear on the page, 
+            and we want it empty because we don't want to see this element on the page. */
+    content: "";
+    display: table;
+    clear: both;
+    /* the property that actually performs this clearfix is the clear property.        
+                        This would clear both floats, so float left and float right */ }
+  .row [class^="col-"] {
+    background-color: orangered;
+    float: left; }
+    .row [class^="col-"]:not(:last-child) {
+      margin-right: 6rem; }
+  .row .col-1-of-2 {
+    /*
+        native calc() function allows us to make calculations where we can mix units.
+        That's a big difference between doing native CSS calculations or doing them in Sass 
+        because in Sass, we can also do operations of course but we cannot do them with multiple units,
+        so we cannot for example mix rem with pixels, with percentages.
+        That's because we compile our Sass file while we're developing the page, 
+        so even before the page is served of course to the user 
+        but this kind of calculation all depends on the layout, so it has to happen while the website is rendered
+        using the visual formatting model. That's when these calculations can occur 
+        because it's only then when CSS and when the browser knows what the percentage is, what the rem is, 
+        and what all of that stuff is.
+        */
+    width: calc( (100% - 6rem) / 2); }
+  .row .col-1-of-3 {
+    width: calc( (100% - 2 * 6rem ) / 3); }
+  .row .col-2-of-3 {
+    width: calc( 2 * ((100% - 2 * 6rem ) / 3) + 6rem); }
+  .row .col-1-of-4 {
+    width: calc( (100% - 3 * 6rem ) / 4); }
+  .row .col-2-of-4 {
+    width: calc( 2 * ((100% - 3 * 6rem ) / 4) + 6rem); }
+  .row .col-3-of-4 {
+    width: calc( 3 * ((100% - 3 * 6rem ) / 4) + (2 * 6rem)); }
+
+/*
+    Styles that are only going apply for the home/landing page.
+*/
