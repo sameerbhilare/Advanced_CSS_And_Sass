@@ -34,15 +34,17 @@
             border-bottom: 3px solid $color-primary;
         }
 
-        /* To style the input boxes based on the validity of the input value. */
+        /* To style the input boxes based on the validity of the input value. 
+           The input box will be invalid if the validation added on the element fails. e.g. 'required' */
         &:focus:invalid {
             border-bottom: 3px solid $color-secondary-dark;
         }
 
         /*  pseudo elements represent things that are actually on the webpage.
+            ::placeholder pseudo-element represents the placeholder text in an <input> or <textarea> element.
             Placeholder text should be light grey and as soon as we start typing, the text should become darker. */
         &::-webkit-input-placeholder {
-            color: $color-grey-dark-2;
+            color: $color-grey-dark-2; // initial state- lighter color
         }
         &::-moz-placeholder { /* Firefox 19+ */
             color: $color-grey-dark-2;
@@ -65,7 +67,9 @@
     }
 
     /* When the placeholder is shown on the input element, then we need to hide the label.
-       And as soon as user types something, the placeholder is gone and hence below styles will also be NOT applied.
+       And as soon as user types something, the placeholder is gone and this pseudo-class (:placeholder-shown)
+       is also NOT applied and hence below styles will also be NOT applied, and hence the label will
+       automatically be visible with the animated effect as defined above in '&__label' selector.
 
        So it's not the input that we want to style, but we want to style the label.
        We want the label to be hidden and not the input. 
@@ -78,12 +82,12 @@
     */
     &__input:placeholder-shown + &__label {
         /* opacity:0, then the element is basically still be on the page, but only invisible.
-           When we set visibility: hidden, the element is jsut gone. 
+           When we set visibility: hidden, the element is just gone. 
            So why don't we just use the visibility hidden without the opacity?
            That's because we cannot animate the visibility, That's why we use the opacity to animate this effect. */
-        opacity: 0; 
-        visibility: hidden;
-        transform: translateY(-4rem);
+        opacity: 0;                   // initial position when placeholder is shown
+        visibility: hidden;           // initial position when placeholder is shown
+        transform: translateY(-4rem); // initial position when placeholder is shown
     }
 
 
@@ -97,7 +101,7 @@
     /*  Basically we want to replace the 'actual radio button' with our 'custom radio button'.
         as our custom radio button has the exact same functionality as that of actual radio button. 
         So just hide the actual radio button.
-        Btw the same thing actually works for check boxes as well. */
+        Btw the same way we can style check boxes as well. */
     &__radio-input {
         display: none;
     }
@@ -111,12 +115,14 @@
 
     // custom radio button
     &__radio-button {
-        // circle - soth both height and width will be same.
+        // circle - to have a cicle both height and width need to be same.
         height: 3rem;
         width: 3rem;
-        border: 5px solid $color-primary;
         border-radius: 50%; // to have a circle
-        display: inline-block; // in order for the height and width to work, block or inline-block is needed.
+        
+        border: 5px solid $color-primary;
+        display: inline-block; /* this is span element and span element is an inline element
+                                  so in order for the height and width to work, block or inline-block is needed. */
 
         position: absolute;
         left: 0;
@@ -124,12 +130,15 @@
 
         // filled circle inside outside circle
         &::after {
-            height: 1.3rem;
-            width: 1.3rem;
+            // each ::after, ::before pseudo element MUST have content and display properties set.
             content: "";
             display: block;
+
+            // inner filled circle
+            height: 1.3rem;
+            width: 1.3rem;
             border-radius: 50%; // to have a circle
-            background-color: $color-primary;
+            background-color: $color-primary; // filled circle
 
             // position the element in the center
             position: absolute; // parent is marked absolute as well so it works.
@@ -145,7 +154,7 @@
     /* each time we hit the radio label we have to make the circle (&__radio-button::after) appear in the center.
        So basically put the opacity of the after pseudo-element to 1.
        Luckily we have pseudo-class :checked on the radio input element to style our trick.
-       Otherwise we ould have to write event handler for the radio button events. 
+       Otherwise we would have to write event handler for the radio button events. 
        
        <input type="radio" class="form__radio-input" id="small" name="groupSize">
         <label for="small" class="form__radio-label">
@@ -153,8 +162,8 @@
             Small tour group
         </label>
 
-        so when form__radio-input, we want to get sibling form__radio-label and then get child of that
-        which is form__radio-label and then we want to style its ::after pseudo element.
+        so when form__radio-input is checked, we want to get sibling form__radio-label and then get child of that
+        which is form__radio-button and then we want to style form__radio-button's ::after pseudo element.
 
         So as soon as we hit the label element, the radio-input becomes checked.
         And what we do then is to simply select the sibling of that one, and then the child 

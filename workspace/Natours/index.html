@@ -337,20 +337,22 @@
 
                                 <div class="form__group">
                                     <!-- autocomplte="off" to hide text input's browser-generated dropdown list of previous values -->
-                                    <input type="text" class="form__input" placeholder="Full Name" id="name" required autocomplete="off">
+                                    <input type="text" class="form__input" placeholder="Full Name" id="name" 
+                                           required autocomplete="off">
                                     <label for="name" class="form__label">Full Name</label>
                                 </div>
 
                                 <div class="form__group">
                                     <!-- autocomplte="off" to hide text input's browser-generated dropdown list of previous values -->
-                                    <input type="email" class="form__input" placeholder="Email Address" id="email" required autocomplete="off">
+                                    <input type="email" class="form__input" placeholder="Email Address" id="email" 
+                                           required autocomplete="off">
                                     <label for="email" class="form__label">Email Address</label>
                                 </div>
 
                                 <div class="form__group u-margin-bottom-medium">
                                     <div class="form__radio-group">
-                                <!-- In CSS, we cannot style the radio buttons So these radio buttons
-                                    And so what we have to do is to basically build our own buttons. 
+                                <!-- In CSS, we cannot style the radio buttons so what we have to do is to 
+                                    basically build our own buttons. 
                                     We will hide '.form__radio-input' and create custom radio button for '.form__radio-button'. 
                                     And Since we connected the label with the input, then even if this is hidden, 
                                     it will still become selected. So when we click on the label (.form__radio-label), 

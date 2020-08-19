@@ -62,8 +62,8 @@
         but at some width it should be opaque and after that background image should be visible. 
         (See Booking form on page to better visualize this.)
         SOLUTIONS - We can solve this in 2 ways.
-        1. One appraach to add another element and then on that element 
-           we would use clip-path again in order to make for that clipped shape.
+        1. One approach is to add another element and then on that element 
+           we would use clip-path in order to make for that clipped shape.
         2. Using solid-color gradient - this is just another background-color that we have on top of the image.
            It can start from one side, wide all the way till some point and 
            then all of a sudden we can change it to a transparent color. */

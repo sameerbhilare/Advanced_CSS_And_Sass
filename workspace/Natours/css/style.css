@@ -595,7 +595,9 @@ body {
 
 .form {
   /* When the placeholder is shown on the input element, then we need to hide the label.
-       And as soon as user types something, the placeholder is gone and hence below styles will also be NOT applied.
+       And as soon as user types something, the placeholder is gone and this pseudo-class (:placeholder-shown)
+       is also NOT applied and hence below styles will also be NOT applied, and hence the label will
+       automatically be visible with the animated effect as defined above in '&__label' selector.
 
        So it's not the input that we want to style, but we want to style the label.
        We want the label to be hidden and not the input. 
@@ -609,11 +611,11 @@ body {
   /*  Basically we want to replace the 'actual radio button' with our 'custom radio button'.
         as our custom radio button has the exact same functionality as that of actual radio button. 
         So just hide the actual radio button.
-        Btw the same thing actually works for check boxes as well. */
+        Btw the same way we can style check boxes as well. */
   /* each time we hit the radio label we have to make the circle (&__radio-button::after) appear in the center.
        So basically put the opacity of the after pseudo-element to 1.
        Luckily we have pseudo-class :checked on the radio input element to style our trick.
-       Otherwise we ould have to write event handler for the radio button events. 
+       Otherwise we would have to write event handler for the radio button events. 
        
        <input type="radio" class="form__radio-input" id="small" name="groupSize">
         <label for="small" class="form__radio-label">
@@ -621,8 +623,8 @@ body {
             Small tour group
         </label>
 
-        so when form__radio-input, we want to get sibling form__radio-label and then get child of that
-        which is form__radio-label and then we want to style its ::after pseudo element.
+        so when form__radio-input is checked, we want to get sibling form__radio-label and then get child of that
+        which is form__radio-button and then we want to style form__radio-button's ::after pseudo element.
 
         So as soon as we hit the label element, the radio-input becomes checked.
         And what we do then is to simply select the sibling of that one, and then the child 
@@ -651,8 +653,10 @@ body {
            but reset it to transparent. 
            So it will be invisible in the normal state and then as soon as we click it, as it's focused. */
     border-bottom: 3px solid transparent;
-    /* To style the input boxes based on the validity of the input value. */
+    /* To style the input boxes based on the validity of the input value. 
+           The input box will be invalid if the validation added on the element fails. e.g. 'required' */
     /*  pseudo elements represent things that are actually on the webpage.
+            ::placeholder pseudo-element represents the placeholder text in an <input> or <textarea> element.
             Placeholder text should be light grey and as soon as we start typing, the text should become darker. */ }
     .form__input:focus {
       outline: none;
@@ -679,7 +683,7 @@ body {
     transition: all .5s; }
   .form__input:placeholder-shown + .form__label {
     /* opacity:0, then the element is basically still be on the page, but only invisible.
-           When we set visibility: hidden, the element is jsut gone. 
+           When we set visibility: hidden, the element is just gone. 
            So why don't we just use the visibility hidden without the opacity?
            That's because we cannot animate the visibility, That's why we use the opacity to animate this effect. */
     opacity: 0;
@@ -698,17 +702,19 @@ body {
   .form__radio-button {
     height: 3rem;
     width: 3rem;
-    border: 5px solid #55c57a;
     border-radius: 50%;
+    border: 5px solid #55c57a;
     display: inline-block;
+    /* this is span element and span element is an inline element
+                                  so in order for the height and width to work, block or inline-block is needed. */
     position: absolute;
     left: 0;
     top: -.4rem; }
     .form__radio-button::after {
-      height: 1.3rem;
-      width: 1.3rem;
       content: "";
       display: block;
+      height: 1.3rem;
+      width: 1.3rem;
       border-radius: 50%;
       background-color: #55c57a;
       position: absolute;
@@ -883,8 +889,8 @@ body {
   .story__img {
     /* Flexible images for responsive web design always need a width. Always, without any exception! */
     /* Here we have to use height: 100% instead of width: 100% 
-           because the\is particular image is wider than it's hight, 
-           so if we gave it a 100% width then, of course, it cannot fill this entire circle. */
+           because this particular image is wider than it's height, 
+           so if we give it a 100% width then, of course, it cannot fill this entire circle. */
     height: 100%;
     transform: translateX(-4rem) scale(1.4);
     /* Whenever we're dealing with animations and translating stuff, 
@@ -911,6 +917,8 @@ body {
     transform: translate(-50%, -50%); }
   .story:hover .story__img {
     transform: translateX(-4rem) scale(1);
+    /* zoom out effect. Also need to pass translateX(-4rem)
+                                                  which is same as initial position to have desired effect. */
     /* Very cool property - filter. 
            The filter CSS property applies graphical effects like blur or color shift to an element. 
            Filters are commonly used to adjust the rendering of images, backgrounds, and borders.
@@ -1264,8 +1272,8 @@ body {
         but at some width it should be opaque and after that background image should be visible. 
         (See Booking form on page to better visualize this.)
         SOLUTIONS - We can solve this in 2 ways.
-        1. One appraach to add another element and then on that element 
-           we would use clip-path again in order to make for that clipped shape.
+        1. One approach is to add another element and then on that element 
+           we would use clip-path in order to make for that clipped shape.
         2. Using solid-color gradient - this is just another background-color that we have on top of the image.
            It can start from one side, wide all the way till some point and 
            then all of a sudden we can change it to a transparent color. */
