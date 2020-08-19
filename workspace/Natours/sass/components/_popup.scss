@@ -8,6 +8,11 @@
     background-color: rgba($color-black, .8);
     z-index: 9999;
 
+    // If we have display:none, we can then not animate it. So use opacity and visibility.
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s;
+
     &__content {
         @include absCenter;
         width: 75%;
@@ -23,6 +28,18 @@
         And then the popup__left and the popup__right they are both table cells.
         And then the browser will automatically give them the same height. */
         display: table; // child has display: table-cell;
+
+        // initial position of the content, for animation effect.
+        /* you can only have one transform property in each declaration block.
+           If we have more than one transform property in one declaration block, it will not work.
+           solution is to repeat the transform values to have desired effect. */
+        transform: translate(-50%, -50%) scale(.25); // repeating translate(-50%, -50%) from absCenter mixin code.
+                                                    // scale(.25) - initial position
+        opacity: 0; // initial position
+
+        /* Delay this transition here by .2 seconds. So that first we allow the black background
+           to come in and then after that we fade in our popup box. */
+        transition: all .5s .2s; 
     }
 
     &__left {
@@ -80,5 +97,45 @@
         /* BTW These columns and the hyphens properties allows us to get closer 
            to the traditional print designs like a magazine layout or a real newspaper.
            That's why these properties were introduced. */
+    }
+
+
+    // POPUP OPEN STATES
+    /* when we click on the 'Book Now' button on the back cards, then the anchor will basically become this popup,
+       i.e. target, as we have anchored it to #popup div. 
+       
+       We have a pseudo class called target, which applies to an element which is the target 
+       when we click on a button, or basically when the URL changes to having target in it. */
+       &:target {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    // POPUP OPEN STATES
+    /* We want to style the content at the moment where the popup is open. */
+    // .popup__content is child element of .popup
+    &:target &__content {
+        transform: translate(-50%, -50%) scale(1); // repeating translate(-50%, -50%) from absCenter mixin code.
+        opacity: 1; // initial position
+    }
+
+    &__close {
+        &:link,
+        &:visited {
+            color: $color-grey-dark;
+            position: absolute;
+            top: .5rem;
+            right: 1.5rem;
+            font-size: 3rem;
+            text-decoration: none;
+            display: inline-block;
+            line-height: 1;
+            transition: all .2s;
+        }
+
+        &:hover,
+        &:active {
+            color: $color-primary;
+        }
     }
 }
