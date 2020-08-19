@@ -1,0 +1,47 @@
+
+.composition {
+    position: relative;
+
+    &__photo {
+        /* Always define the width of images in percentages if possible. (Responsive images)
+           This way, it will nicely scale with the view port. */
+        width: 55%;
+        box-shadow: 0 1.5rem 4rem rgba($color-black, .4);
+        border-radius: 2px;
+        position: absolute;
+        z-index: 10; // initial z-index
+        transition: all .2s; // to have animation effect
+        outline-offset: 2rem; // this will only have effect if outline is set. (currently set in the :hover)
+
+        &--p1 {
+            top: -2rem;
+            left: 0;
+        }
+
+        &--p2 {
+            top: 2rem;
+            right: 0;
+        }
+
+        &--p3 {
+            top: 10rem;
+            left: 20%;
+        }
+        
+        &:hover {
+            /* Outline is similar to border.
+               But with the outline, we can set outline offset.
+               outline-offset is the space between the outline and the element on which the outline is applied. */
+            outline: 1.5rem solid $color-primary;
+            transform: scale(1.05) translateY(-.5rem); // little zoom into the picture
+            box-shadow: 0 2rem 4rem rgba($color-black, .5); // increase box shadow since we scalled up the element.
+            z-index: 20; // so that other images wil overlap below this image.
+        }
+    }
+
+    /* IMPORTANT: What below selector means is  - 
+       When we hover the composition, then select the composition photo/photos which is/are not hovered.*/
+    &:hover &__photo:not(:hover) {
+        transform: scale(.95); // scale down all images except the one which is currently hovered.
+    }
+}

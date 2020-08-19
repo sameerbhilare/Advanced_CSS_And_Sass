@@ -1,0 +1,153 @@
+/*
+    The button is a component, because it's certainly a block. So, we can call it the component. 
+    It's reusable across the page, it's independent, it works everywhere 
+    and it's a building block that we can use wherever we want on our page.
+*/
+
+
+.btn {
+
+    /* :link - pseudo class. pseudo-classes are a special state of a selector. 
+        we use pseudo-classes to style elements under a special condition. */
+    
+    &,
+    &:link,
+    &:visited {
+        text-decoration: none;    
+        text-transform: uppercase;
+        padding: 1.5rem 4rem; /* top, bottom => 15px, left, right => 40px */
+        display: inline-block; /* we should always do this if we want to give paddings, heights or width to an element */
+        /* To align this button at the center, we don;t have to use transform and all. that wold be overkill for this
+            That's bcz this is an inline block element and so it's treated as if it was text. 
+            And so we can easily use the text's text-align property and set it to center. 
+            (text-align:center is already done in it's parent element 'text-box' above)*/
+    
+        border-radius: 10rem; /* put higher number 100px +, then will have rounded left and right side.*/
+    
+        /* transition used for animation. Pass the properties that you want to animate on an event. */
+        /* We need to put the transition animation to the initial state only. 
+            So that transforms mentioned in :hover, :active will work. */
+        transition: all 0.2s; /* all: all properties are enabled to be animated. */
+    
+        position: relative; /* this is required for .btn-white::after to work. */
+        font-size: $default-font-size;
+
+        // button doesn't have the link, visited unlike anchor tag so added & in the selector.
+        // change for the <button> element
+        border: none; // buttons by default come with a border. We don't want that.
+        cursor: pointer;
+    }
+    
+    &:hover { 
+        transform: translateY(-3px); /* to move up the element. On Y axis: -ve means up, +ve means down */
+        box-shadow: 0 1rem 2rem rgba($color-black, 0.2); /*offset-x, offset-y, blur-radius, color*/
+
+        /* when we hover the button, we want certain style for the pseudo-element (::after). 
+            Defining pseudo-class for pseudo-element .btn:hover::after */
+        &::after {
+            /* We want the element to grow and to fade out. */
+            transform: scaleX(1.4) scaleY(1.6);
+            opacity: 0;
+            /* transition: all 0.4s; this will have effect on hover-in only not for hover-in and hover-out */
+        }
+    }
+    
+    &:active, /* when we click on the anchor tag button */
+    &:focus {  // focus - in case of <button> element to avoid blue/black border around the button when it is clicked.
+        transform: translateY(-1px); /* to move up the element w.r.t initial state (:link, :visited).*/
+        box-shadow: 0 .5rem 1rem rgba($color-black, 0.2); /*offset-x, offset-y, blur-radius, color*/ /* .5 means 0.5 */
+
+        /* In case of <button> element to avoid blue/black border around the button when it is clicked,
+           we should not really remove simply the focus here for accessibility reasons. 
+           We should say focus outline none. */
+        outline: none;
+    }
+    
+    // .btn--white
+    &--white {
+        background-color: $color-white;
+        color: $color-grey-dark;
+
+        /* pseudo-element for btn-white.  .btn--white::after */
+        &::after {
+            background-color: $color-white;
+        }
+    }
+
+    // .btn--green
+    &--green {
+        background-color: $color-primary;
+        color: $color-white;
+
+        /* pseudo-element for btn-green.  .btn--green::after */
+        &::after {
+            background-color: $color-primary;
+        }
+    }
+    
+    /* pseudo-elements allow us to style certain parts of elements. 
+        the ::after pseudo-element adds like a virtual element right after the element that we're selecting.
+        And we can then style that pseudo-element. */
+    &::after {
+        /* The trick here is to add an element that looks exactly like the button that we already have,
+            but we put it behind the button. And when we hover out of the button, then this hidden pseudo-element
+            amazingly goes back behind the button. */
+        
+        /* First, in order for an after pseudo-element to actually appear on the page,
+            we need to specify its content property. 
+            It doesn't matter what the content is. It can even be empty but we have to specify it.
+            Otherwise it's not going to appear. Same thing with the display property. */
+        content: ""; /* content must be defined */
+        display: inline-block; /* display must be defined */
+        height: 100%; /* must be defined. 100% of the height of the actual/parent button */
+        width: 100%;  /* must be defined. 100% of the width of the actual/parent button */
+        border-radius: 10rem; /* same as parent otherwise we will face issues in differentiating betn actual and pseudo-element*/
+    
+        /* this pseudo element should be (hidden) behind parent element. 
+            absolute positioning needs to have a reference. And the reference is the first element
+            with the relative position that it can find. */
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1; /* z-index defines the position of the elements if they are one on top of another. */
+    
+        transition: all 0.4s;/* We need to put the transition animation to the initial state. 
+                                so that it will apply for the scaling mentioned in .btn:hover::after 
+                                and will have effect on both hover-in and hover-out */
+    }
+        
+    &--animated {
+        animation: moveInBottom 0.5s ease-out 0.75s; /*name, duration, timing-function, delay */
+    
+        /* It will automatically apply the styles up to 0% mentioned in the keyframe (moveInBottom) 
+            BEFORE the animation starts. 
+            If this is not used, then we will see initial position of the button and it doesn't look good. */
+        animation-fill-mode: backwards; 
+    }
+ }
+
+ .btn-text {
+     &:link,
+     &:visited {
+        font-size: $default-font-size;
+        color: $color-primary;
+        display: inline-block;
+        text-decoration: none;
+        border-bottom: 1px solid $color-primary; /* for smaller units we dont have to use rem. We can use px. */
+        padding: 3px;
+        transition: all 0.2s;
+     }
+
+     &:hover {
+        background-color: $color-primary;
+        color: #fff;
+        box-shadow: 0 1rem 2rem rgba($color-black, .15);
+        transform: translateY(-2px);
+     }
+
+     &:active {
+        box-shadow: 0 0.5rem 1rem rgba($color-black, .15);
+        transform: translateY(0);
+     }
+ }
+ 

@@ -1,0 +1,29 @@
+
+.bg-video {
+    position: absolute; // since its absolute, make its parent(section-stories) to relative
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1; // so that it should be always at the background.
+    opacity: .15; // to have low visibility
+
+    // when something overflows our element, we use overflow hidden.
+    overflow: hidden;
+
+    &__content {
+        // to avoid the video from getting expanded horizontally
+        height: 100%;
+        width: 100%;
+
+        /* What we want to do is to actually occupy the entire section which the video is in, 
+           but also while maintaining the aspect ratio.
+           What object-fit:cover will do is that the element, in this case the video,
+           will fill the entire parent while still maintaining its aspect ratio.
+           And the part of the video that don't fit the parent element, will simply be clipped off. 
+           
+           The object-fit CSS property sets how the content of a replaced element, 
+           such as an <img> or <video>, should be resized to fit its container. */
+        object-fit: cover; // this is similar to backgound-size: cover which we use for background images.
+    }
+}

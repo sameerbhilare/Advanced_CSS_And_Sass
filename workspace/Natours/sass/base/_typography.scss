@@ -1,0 +1,103 @@
+/*
+    Typography is the art and technique of arranging type to make written language readable and beautiful.
+*/
+
+
+ /* Project wide definitions */
+ body {
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    /*font-size: 16px;*/
+    line-height: 1.7;
+    color: $color-grey-dark;
+    padding: 3rem; /* to have a feel of showing everything into a box. */
+}
+
+/*
+    You could that this is a component but I think its a part of typography and 
+    so this seems to the most intuitive place for me when I will be looking for the heading.
+*/
+ .heading-primary {
+    color: $color-white;
+    text-transform: uppercase;
+    backface-visibility: hidden; 
+    margin-bottom: 6rem; /* for mergin between header text and button. */
+
+    // .heading-primary--main
+    &--main {
+       display: block;
+       font-size: 6rem;
+       font-weight: 400;
+       letter-spacing: 3.5rem;
+   
+       /* properties for animations */
+       animation-name: moveInLeft;
+       animation-duration: 1s; /* total duration of the animation */
+   
+       /* this is a function which defines how the animation will proceed.     
+          So, how fast or how slow the parameters defined in the keyframes(moveInLeft) happen over time.*/
+       animation-timing-function: ease-out; /*ease-out: faster in the beginning, slower at the end. */ 
+   
+       /* animation-iteration-count: 3; number of times the animatiob should run */
+       /* animation-delay: 3s;  time before starting the animation */
+   }
+   
+   // .heading-primary--sub
+   &--sub {
+       display: block;
+       font-size: 2rem;
+       font-weight: 700; /* available font-weights are - 100;300;400;700;900. 
+                            - as mentioned in the Google Font which we included in our html page. */
+       letter-spacing: 1.75rem;
+   
+       /* properties for animations */
+       animation: moveInRight 1s ease-out; /* shorthand syntax using just animation property. */
+   }
+}
+
+
+.heading-secondary {
+    font-size: 3.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    background-image: linear-gradient(to right, $color-primary-light, $color-primary-dark);
+    display: inline-block; // convert block ele to inline-block to restrict gradient till element's actual width.
+
+    // making the effect happen with the gradient behind the text.
+
+    /* When we set this background-clip property to text, it will clip the background (linear-gradient)
+       to exactly the places where the text sits, so therefore this background image 
+       or this gradient will ONLY be visible where the text is. */
+    -webkit-background-clip: text; // the background gets clipped exactly where the text is.
+    background-clip: text;
+    /* Since the background image or this gradient will only be visible where the text is.
+       Now what we want to see then is not actually the text, but the background image. 
+       You can imagine that right now we have the background image only where the text is, 
+       then on top of that, we have the text. Hence in order to see the background-image instead of the text
+       we should mark the text as transparent.*/
+    color: transparent;
+    letter-spacing: .2rem;
+    transition: all .2s;
+
+    &:hover {
+        /* on transform, we can actually put multiple things at the same time that you want to transform.
+           e.g. translate, translate x and y, scale, rotate, skew
+           Let's skew in the x direction as well as in the y direction. */
+        transform: skewY(2deg) skewX(15deg) scale(1.1);
+        text-shadow: .5rem 1rem 2rem rgba($color-black, .2); /*x, y, blur, color */
+    }
+}
+
+.heading-tertiary {
+    font-size: $default-font-size;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.paragraph {
+    font-size: $default-font-size;
+
+    &:not(:last-child) { // all except last child
+        margin-bottom: 3rem;
+    }
+}

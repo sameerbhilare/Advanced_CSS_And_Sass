@@ -1,0 +1,60 @@
+/*
+    base file for animations.
+*/
+
+ /* with keyframes at-rule, we can control how animation should work at any point of time between start and end. */
+ /* For the browser performance, it's best to only ever animate two different properties. 
+    One is opacity, and the other one is the transform property. 
+    The browsers are optimized for these two properties.*/
+@keyframes moveInLeft {
+    /* what should happen at the start which is 0% */
+    0% {
+        opacity: 0;
+        transform: translateX(-10rem); /* along the X axis, initial position is a lot more to the left */
+    }
+
+    80% {
+        opacity: 1;
+        transform: translateX(1rem);  /* intermediate position is slightly to the right. */
+    }
+
+    /* what should happen at the end which is 100% */
+    100% {
+        opacity: 1;
+        transform: translate(0); /* 0 to look exactly the way it looks without animations. */
+    }
+}
+
+@keyframes moveInRight {
+    /* what should happen at the start which is 0% */
+    0% {
+        opacity: 0;
+        transform: translateX(10rem); /* initial position is a lot more to the right. + means right */
+    }
+
+    80% {
+        opacity: 1;
+        transform: translateX(-1rem);  /* intermediate position is slightly to the left. minus(-) means left */
+    }
+
+    /* what should happen at the end which is 100% */
+    100% {
+        opacity: 1;
+        transform: translate(0); /* 0 to look exactly the way it looks without animations. */
+    }
+}
+
+
+@keyframes moveInBottom {
+    /* what should happen at the start which is 0% */
+    0% {
+        opacity: 0;
+        transform: translateY(1rem); /* initial position is a to the bottom. + means bottom */
+    }
+
+    /* what should happen at the end which is 100% */
+    100% {
+        opacity: 1;
+        transform: translate(0); /* 0 to look exactly the way it looks without animations. */
+    }
+}

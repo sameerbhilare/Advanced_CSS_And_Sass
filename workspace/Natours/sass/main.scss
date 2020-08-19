@@ -1,0 +1,39 @@
+/*
+    We are implementing "The 7-1 Pattern".
+    "The 7-1 Pattern" architecture is really designed to handle large multi-page websites or web apps.
+    So maybe for a small landing page like this project, this might seem like a bit too much, a bit overkill.
+    But once you start working on a huge project then you'll appreciate how this makes things easier, 
+    so it's really important to have an architecture like this in place 
+    especially when we're working on a larger project.
+*/
+
+/*  
+    This main file only serves to import all the other files. 
+    So, there will be no code here in this file except for all these import declarations.
+*/
+
+// importing partial files
+@import "abstracts/functions";
+@import "abstracts/mixins";
+@import "abstracts/variables";
+
+@import "base/animations";
+@import "base/base";    // importing the partial base file (_base.scss)
+@import "base/typography";
+@import "base/utilities";
+
+@import "components/bg-video";
+@import "components/button";
+@import "components/card";
+@import "components/composition";
+@import "components/form";
+@import "components/feature-box";
+@import "components/popup";
+@import "components/story";
+
+@import "layout/footer";
+@import "layout/grid";
+@import "layout/header";
+@import "layout/navigation";
+
+@import "pages/home";

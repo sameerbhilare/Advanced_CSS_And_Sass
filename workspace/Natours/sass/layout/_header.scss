@@ -1,0 +1,59 @@
+/*
+    In the layouts folder we define the overall layout of the project e.g. global footer, header.
+*/
+
+ /* Note this is 'header' class not <header> element */
+ .header {
+    height: 95vh; /* 95% of viewport height bcz we have added padding for body element. */
+    background-image: linear-gradient( 
+                        to right bottom,  /* gradient going from top left to right bottom */
+                        rgba($color-primary-light, 0.8), /* color with opacity in order to see backgound img */
+                        rgba($color-primary-dark, 0.8)), /* color with opacity in order to see backgound img */
+                      url(../img/hero.jpg);
+    background-size: cover; /* to cover whole viewport area so that whole image can be seen */
+    background-position: top; /* ensure that whatever the viewport size is 
+                                 the top of the image always stays at the top of the container. */
+    
+    /* to clip out a part of the image. 
+       There are multiple options but as per our need we need use polygon. 
+       polygon just takes cordinates of how you want to see it.
+         - for triangle - need to pass 3 cordinates,
+         - for rectangle or any shape of 4 points - need to pass 4 cordinates, etc. 
+    */
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); 
+    clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); 
+    
+    position: relative; /* marking it as relative bcz .logo-box & .text-box are marked as absolute. */
+
+   // Nesting: &__logo-box means .header__logo-box
+   &__logo-box {
+       position: absolute;
+       top: 4rem;  /* 40px from top w.r.t it's parent element which is header. so mark header as relative. 
+                   If it's immediate parent is not marked as 'relative', 
+                   then it checks for the reference of the first element with the relative position 
+                   that it can find. If it cant's find any thing, it will take reference 
+                   w.r.t viewport which is top of the window. */
+       left: 4rem; /* 40px from top w.r.t it's parent element which is header. so mark header as relative. */
+   }
+
+   // Nesting: &__logo means .header__logo
+   &__logo {
+       height: 3.5rem;
+       width: auto;
+   }
+
+   // Nesting: &__text-box means .header__text-box
+   &__text-box {
+       /*
+       top 40% and left 50% - are in relation to the parent element. 
+       So 50% of the parent element is where the text box was located to the left side. 
+       But, on the transform, when we use translate, this is in relation to the element itself.
+       And this makes it possible that the element is exactly at the center.
+       */
+       position: absolute;
+       top: 40%;
+       left: 50%;
+       transform: translate(-50%, -50%);
+       text-align: center;
+   }
+}

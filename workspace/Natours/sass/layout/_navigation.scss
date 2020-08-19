@@ -1,0 +1,217 @@
+
+.navigation { 
+
+    &__checkbox {
+        display: none;
+    }
+
+    &__button {
+        background-color: $color-white;
+        height: 7rem; // 1rem greater than &__background size to really coverthe background in the beginning.
+        width: 7rem;
+        border-radius: 50%;
+        position: fixed;
+        /* That's because the button is 1rem wider and higher than the background 
+           And that's why it's then half a rem further to the top and to the right. */
+        top: 6rem;
+        right: 6rem;
+        z-index: 2000;
+        box-shadow: 0 1rem 3rem rgba($color-black ,.1);
+
+        text-align: center; // to center aligned the navigation__icon and its pseudo elements.
+        cursor: pointer;
+    }
+
+    &__background {
+        // circle
+        height: 6rem;
+        width: 6rem;
+        border-radius: 50%;
+
+        position: fixed; // it doesn't change the position as we scroll the page.
+        top: 6.5rem;
+        right: 6.5rem;
+
+        /* linear gradient goes from one side to the other one.
+           while the radial gradient starts in the middle of an element and goes in all the outside directions. */
+        background-image: radial-gradient($color-primary-light, $color-primary-dark);
+
+        z-index: 1000;
+
+        // for testing
+        //transform: scale(80); // so this entire circle will become huge, and it will grow, and animation will create the effect.
+        
+        /* We have many built-in transition timing functions like ease-in, ease-out, ease-in-out,
+           but we can create our own transition timing function using cubic-bezier().
+           An easing function is, basically a function that specifies how much change occurs over time.
+           Some predefined values for cubic-bezier() at https://easings.net */
+        transition: transform .8s cubic-bezier(0.83, 0, 0.17, 1);
+    }
+
+    /* This would be a huge element occupying the entire viewport 
+       so that we can then center the navigation list inside of that, both horizontally and vertically. */
+    &__nav {
+        height: 100vh;
+        /* Because remember that with the navigation open, even if you scroll, 
+           the navigation will stay at the same place. */
+        position: fixed;
+        top: 0;
+        right: 0;   // if we use right, then in transition effect, the list wil come from right. 
+                    // Similarly if we use left, then in transition effect, the list wil come from left. 
+        z-index: 1500; // nav should be on top of the &__background.
+        
+        opacity: 0; // initial state
+        width: 0; // initial state
+
+        transition: all .8s cubic-bezier(0.68, -0.6, 0.32, 1.6); // https://easings.net => easeInOutBack
+    }
+
+    &__list {
+        // The navigation list this is what we're gonna center inside of this nav container.
+        // we could right mixin for this as this is quite repeating in our project.
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        list-style: none;
+        text-align: center;
+
+        /* If width is not specified, then the navigation list is animated in such a way
+           like weirdly moving in from the circle side and moving out from inside the circle. 
+           Try by removing width to see the difference. You can slow down animation to see it closely :) */
+        width: 100%;
+    }
+
+    &__item{
+        margin: 1rem;
+    }
+
+    &__link {
+
+        &:link,
+        &:visited {
+            display: inline-block; // otherwise padding, transiton will not be applied
+            font-size: 3rem;
+            font-weight: 300;
+            padding: 1rem 2rem;
+            color: $color-white;
+            text-decoration: none;
+            text-transform: uppercase;
+    
+            background-image: linear-gradient(120deg, 
+                                             transparent 0%,
+                                             transparent 50%,
+                                             $color-white 50%);
+            
+            /* We're basically increasing the entire thing. But it's not visible because the box ends.
+               only the red part of this gradient is visible. 
+               But we know that the white part is still here on the right side. */
+            background-size: 230%; // big enough to cover entire link
+
+            transition: all .4s;
+
+            span {
+                margin-right: 1.5rem;
+                display: inline-block;
+            }
+        }
+        
+        /* If we shift the background completely to the left side,then we end up with the effect that we want.
+           And we can do that with background-position. */
+        &:hover,
+        &:active {
+            background-position: 100%; // background basically shifts to the left side
+            color: $color-primary;
+            transform: translateX(1rem); // to slightly move a bit to the right side.
+        }
+    }
+
+    // FUNCTIONALITY
+    /* We hit the label and the checkbox becomes checked.
+       Then we want the navigation background to become visible. */
+    &__checkbox:checked ~ &__background {
+        transform: scale(80); // so this entire circle will become huge, and it will grow, and animation will create the effect.
+    }
+
+    /* We hit the label and the checkbox becomes checked.
+       Then we want the navigation to become visible. */
+    &__checkbox:checked ~ &__nav {
+        opacity: 1; // checked state
+        width: 100%; // checked state
+    }
+
+
+    // NAVIGATION ICON
+    &__icon {
+        position: relative; // so that ::before & ::after will be positioned relative to the main span element.
+        margin-top: 3.5rem;
+        
+        // styles common for all the three lines
+        &,
+        &::before,
+        &::after {
+            width: 3rem;
+            height: 2px; // px because irrespective of root font size.
+            background-color: $color-grey-dark-3;
+            display: inline-block;
+        }
+
+        &::before,
+        &::after {
+            /* In order for the before and after pseudo elements to actually appear on the page,                    
+               they need to have their content and display properties defined. */
+            content: "";
+
+            position: absolute;
+            left: 0;
+
+            transition: all .2s;
+        }
+
+        &::before {
+            top: -.8rem;
+            /* transform origin it describes where the transformation happens.
+               So in case of transform, the center of the rotation is at the right side of the element. 
+               Sometimes, when we rotate something, this can be really helpful 
+               in order to rotate it exactly where we want it. 
+               If you don't specify it at all, then it's basically just in the center. */
+            //transform-origin: right; // not required in our case
+        }
+        &::after {
+            top: .8rem;
+        }
+    }
+
+    // when we hover the button, we want to move out the before and after icon lines.
+    &__button:hover &__icon::before {
+        top: -1rem;
+    }
+
+    // when we hover the button, we want to move out the before and after icon lines.
+    &__button:hover &__icon::after {
+        top: 1rem;
+    }
+
+    // THE CHECKBOX HACK - if not this, then we would have to use javascript event handler.
+    /* When the checkbox is selected, then we select its brother, which is called a button.
+       Then, we select the button's child, which is the icon. */
+    &__checkbox:checked + &__button &__icon {
+        background-color: transparent; // basically hide the main middle line.
+    }
+
+    // in order to show a cross (X), we need to rotate the ::before and ::after pseudo elements.
+    &__checkbox:checked + &__button &__icon::before {
+        transform: rotate(135deg); // rotate 45 degrees but to have cool effect lets rotate in opposite direction. 
+                                   // 180 - 45 = 135
+        top: 0; // to move at center in order to show a cross (X)
+    }
+
+    // in order to show a cross (X), we need to rotate the ::before and ::after pseudo elements.
+    &__checkbox:checked + &__button &__icon::after {
+        transform: rotate(-135deg); /* in the opposite direction of ::before so that it will create a cross (X)
+                                       rotate 45 degrees but to have cool effect lets rotate in opposite direction. 
+                                       180 - 45 = 135 */ 
+        top: 0; // to move at center in order to show a cross (X)
+    }
+}

@@ -1,0 +1,84 @@
+
+.popup {
+    position: fixed; // doesn't move as we scroll
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba($color-black, .8);
+    z-index: 9999;
+
+    &__content {
+        @include absCenter;
+        width: 75%;
+        //height: 50rem; // only for testing purpose.
+        background-color: $color-white;
+        border-radius: 3px;
+        box-shadow: 0 2rem 4rem rgba($color-black, .2);
+        overflow: hidden; /* to avoid image overlapping the border, 
+                           so that part of the image which is overflowing this box will not be visible anymore. */
+
+        /* With display: table; popup__content functions as a table. 
+        We are basically faking and saying that this is a table.
+        And then the popup__left and the popup__right they are both table cells.
+        And then the browser will automatically give them the same height. */
+        display: table; // child has display: table-cell;
+    }
+
+    &__left {
+        width: 33.333333%; // 1/3 of 
+        /* We could use float to have popup__left and popup__right element side by side.
+         But there is a problem with that. The popup__left takes the entire height,
+         and then the popup__right one only has less height, of course, 
+         because that's the space that it's content occupies.
+         That's completely normal behavior.
+         Now what we want here is that these boxes(left and right) actually have the SAME height 
+         because then it's easier to center the content in the popup__right vertically in the middle
+         of all of this white space. And so sometimes that's a very useful thing to do.
+
+         There is a very ncie technique to achieve this - Using display:table-cell instead of floats. */
+         //float: left; // so that left and right will be side by side
+
+         display: table-cell; // make parent as display: table;
+    }
+
+    &__right {
+        width: 66.666666%; // 2/3 of 
+        //float: left; // so that left and right will be side by side. We  could also use float:right here.
+        display: table-cell; // make parent as display: table;
+        vertical-align: middle; // We can use this property on table cell, in order to center align the content/
+        padding: 3rem 5rem;
+    }
+
+    &__img {
+        display: block;
+        width: 100%;
+    }
+
+    &__text {
+        font-size: 1.4rem;
+        margin-bottom: 4rem;
+
+        /* Column layout is something really new in CSS, 
+        but we can make it work in most of the modern browsers already.
+        All we have to do is to specify a property called column-count. */
+        -moz-column-count: 2;
+        -moz-column-gap: 4rem; // gap/space between columns.
+        -moz-column-rule: 1px solid $color-grey-light-2;
+
+        column-count: 2;
+        column-gap: 4rem; // gap/space between columns.
+        column-rule: 1px solid $color-grey-light-2; // just like a border which will be exactly in the middle of the two columns
+
+        -moz-hyphens: auto;
+        -ms-hyphens: auto;
+        -webkit-hyphens: auto;
+        hyphens: auto; /*  It will automatically figure out where to place the hyphens.
+                           It also nicely changes the hyphenation as the width changes.
+                           But in order for this to work correctly, 
+                           we have to define the document language e.g. <html lang="en"> */
+        /* BTW These columns and the hyphens properties allows us to get closer 
+           to the traditional print designs like a magazine layout or a real newspaper.
+           That's why these properties were introduced. */
+    }
+}

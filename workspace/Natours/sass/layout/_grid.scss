@@ -1,0 +1,94 @@
+.row {
+    /*
+        max-width means is that if we have enough available space, then it will have the width that we specified
+        but if there is not enough width, so basically if the viewport is smaller than width that we specified,
+        so in this case, if the viewport is smaller than 114 rem, then it will simply fill 100% of the available space.
+    */
+    max-width: $grid-width; // one of the standards is to make it 1140-pixels grid.
+    //background-color: #eee; // set backgtound-color just for testing
+
+    /* 
+        That's the trick to center block elements inside of another block element.
+        When we say that we want the margin to be automatically, this means that the browser, 
+        when rendering the page, will automatically figure out the margin 
+        that we want on the left and on the right side.
+        And since it's both set to auto, it means that left and right will be the same, 
+        and CSS will automatically calculate the left margin and the right margin, 
+        and they will be the same, and so of course, the element will be centered.
+    */
+    margin: 0 auto; // always center this row in the viewport. 
+    
+    /*
+        we should have some space, some gutter between these rows EXCEPT last child. 
+        So imagine we have a layout, and then we have multiple rows, 
+        and we naturally want some space between them.
+    */
+    &:not(:last-child) { // everything except the last child
+        margin-bottom: $gutter-vertical;
+    }
+
+    @include clearfix;
+
+    // attribute selector
+    /*
+        It will select all of the elements in which the class attribute starts with "col-".
+        
+        ^= means starts with
+        *= means contains
+        $= means ends with
+
+        There is a whole lot of applications for this kind of selector. 
+        e.g. we could also select anchor elements, which have the target attribute set to blank, 
+        so these are the links that open in a new tab when we click them, 
+        and we could then style these ones differently than the regular links.
+    */
+    [class^="col-"] {
+        //background-color: orangered; // set backgtound-color just for testing
+        float: left; // since we are using float layout.
+
+        &:not(:last-child) {
+            margin-right: $gutter-horizontal;
+        }
+    }
+
+    .col-1-of-2 {
+        /*
+        native calc() function allows us to make calculations where we can mix units.
+        That's a big difference between doing native CSS calculations or doing them in Sass 
+        because in Sass, we can also do operations of course but we cannot do them with multiple units,
+        so we cannot for example mix rem with pixels, with percentages.
+        That's because we compile our Sass file while we're developing the page, 
+        so even before the page is served of course to the user 
+        but this kind of calculation all depends on the layout, so it has to happen while the website is rendered
+        using the visual formatting model. That's when these calculations can occur 
+        because it's only then when CSS and when the browser knows what the percentage is, what the rem is, 
+        and what all of that stuff is.
+        */
+        // in order to use Sass variables into native calc function, we have to wrap the Sass variable inside #{}.
+        width: calc( (100% - #{$gutter-horizontal}) / 2); 
+    }
+
+    .col-1-of-3 {
+        width: calc( (100% - 2 * #{$gutter-horizontal} ) / 3);
+    }
+
+    .col-2-of-3 {
+        // width of col-2-of-3 is 2 times width of col-1-of-3 + Gutter width. (imagine diagram)
+        width: calc( 2 * ((100% - 2 * #{$gutter-horizontal} ) / 3) + #{$gutter-horizontal} );
+    }
+
+
+    .col-1-of-4 {
+        width: calc( (100% - 3 * #{$gutter-horizontal} ) / 4);
+    }
+
+    .col-2-of-4 {
+        // width of col-2-of-4 is 2 times width of col-1-of-4 + Gutter width. (imagine diagram)
+        width: calc( 2 * ((100% - 3 * #{$gutter-horizontal} ) / 4) + #{$gutter-horizontal} );
+    }
+
+    .col-3-of-4 {
+        // width of col-3-of-4 is 3 times width of col-1-of-4 + 2 times of Gutter width. (imagine diagram)
+        width: calc( 3 * ((100% - 3 * #{$gutter-horizontal} ) / 4) + (2 * #{$gutter-horizontal}) );
+    }
+}

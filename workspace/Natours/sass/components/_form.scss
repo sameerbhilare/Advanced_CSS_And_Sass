@@ -1,0 +1,167 @@
+
+.form {
+    
+    &__group:not(:last-child) {
+        margin-bottom: 2rem;
+    }
+
+    &__input {
+        font-size: 1.5rem;
+        /* Input elements usually don't inherit the font properties like font-family, color, etc. ,
+           inlike other element. So we set it manually to what we have defined for this webpage. */
+        font-family: inherit;
+        color: inherit;
+
+        padding: 1.5rem 2rem; // give little bit more on the sides bcz it makes elements look better, actually.
+        border-radius: 2px;
+        background-color: rgba($color-white, .5);
+        border: none;
+        width: 90%;
+        display: block;
+        transition: all .3s;
+        
+        /* IMPORTANT: 
+           when you click on Full Name textbox, you will see that Email textbox moves down a bit,
+           and that's because of the 3px that are a for the border in :focus selector below, 
+           are being added. So we should actually add that border here in the initial state as well, 
+           but reset it to transparent. 
+           So it will be invisible in the normal state and then as soon as we click it, as it's focused. */
+        border-bottom: 3px solid transparent;
+
+        &:focus {
+            outline: none; // to not show browser defined outline.
+            box-shadow: 0 1rem 2rem rgba($color-black, .1);
+            border-bottom: 3px solid $color-primary;
+        }
+
+        /* To style the input boxes based on the validity of the input value. */
+        &:focus:invalid {
+            border-bottom: 3px solid $color-secondary-dark;
+        }
+
+        /*  pseudo elements represent things that are actually on the webpage.
+            Placeholder text should be light grey and as soon as we start typing, the text should become darker. */
+        &::-webkit-input-placeholder {
+            color: $color-grey-dark-2;
+        }
+        &::-moz-placeholder { /* Firefox 19+ */
+            color: $color-grey-dark-2;
+        }
+        &:-ms-input-placeholder { /* IE 10+ */
+            color: $color-grey-dark-2;
+        }
+        &::placeholder {
+            color: $color-grey-dark-2;
+        }
+    }
+    
+    &__label {
+        font-size: 1.2rem;
+        font-weight: 700;
+        display: block; // in order to box model properties like margin, etc.
+        margin-left: 2rem; // to be positioned exactly on the same position which the text is on top.
+        margin-top: .7rem;
+        transition: all .5s;
+    }
+
+    /* When the placeholder is shown on the input element, then we need to hide the label.
+       And as soon as user types something, the placeholder is gone and hence below styles will also be NOT applied.
+
+       So it's not the input that we want to style, but we want to style the label.
+       We want the label to be hidden and not the input. 
+       But label is not child of input element, but it is a sibling of input element.
+       '+' which means Adjacent sibling.
+           Adjacent sibling is just a sibling that comes immediately AFTER the element that we select in the first place.
+           We just need to make sure that the sibling that we have to select always has to be AFTER the first element.
+           So in this case, the label needs to be AFTER the input element, otherwise it won't work.
+       '~' means any general sibling selector, so this one works if there are more levels in-between those 2 elements.
+    */
+    &__input:placeholder-shown + &__label {
+        /* opacity:0, then the element is basically still be on the page, but only invisible.
+           When we set visibility: hidden, the element is jsut gone. 
+           So why don't we just use the visibility hidden without the opacity?
+           That's because we cannot animate the visibility, That's why we use the opacity to animate this effect. */
+        opacity: 0; 
+        visibility: hidden;
+        transform: translateY(-4rem);
+    }
+
+
+
+    &__radio-group {
+        // to have radio buttons side-by-side. We could also do the same thing using floats as well.
+        width: 49%;
+        display: inline-block;
+    }
+
+    /*  Basically we want to replace the 'actual radio button' with our 'custom radio button'.
+        as our custom radio button has the exact same functionality as that of actual radio button. 
+        So just hide the actual radio button.
+        Btw the same thing actually works for check boxes as well. */
+    &__radio-input {
+        display: none;
+    }
+
+    &__radio-label {
+        font-size: $default-font-size;
+        cursor: pointer;
+        position: relative; // just bcz child &__radio-button is absolute.
+        padding-left: 4.5rem;
+    }
+
+    // custom radio button
+    &__radio-button {
+        // circle - soth both height and width will be same.
+        height: 3rem;
+        width: 3rem;
+        border: 5px solid $color-primary;
+        border-radius: 50%; // to have a circle
+        display: inline-block; // in order for the height and width to work, block or inline-block is needed.
+
+        position: absolute;
+        left: 0;
+        top: -.4rem;
+
+        // filled circle inside outside circle
+        &::after {
+            height: 1.3rem;
+            width: 1.3rem;
+            content: "";
+            display: block;
+            border-radius: 50%; // to have a circle
+            background-color: $color-primary;
+
+            // position the element in the center
+            position: absolute; // parent is marked absolute as well so it works.
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            opacity: 0; // initial position
+            transform: opacity .2s;
+        }
+    }
+
+    /* each time we hit the radio label we have to make the circle (&__radio-button::after) appear in the center.
+       So basically put the opacity of the after pseudo-element to 1.
+       Luckily we have pseudo-class :checked on the radio input element to style our trick.
+       Otherwise we ould have to write event handler for the radio button events. 
+       
+       <input type="radio" class="form__radio-input" id="small" name="groupSize">
+        <label for="small" class="form__radio-label">
+            <span class="form__radio-button"></span>
+            Small tour group
+        </label>
+
+        so when form__radio-input, we want to get sibling form__radio-label and then get child of that
+        which is form__radio-label and then we want to style its ::after pseudo element.
+
+        So as soon as we hit the label element, the radio-input becomes checked.
+        And what we do then is to simply select the sibling of that one, and then the child 
+        because that's the one that we want to change each time that the radio input is selected.
+        And we want to give it an opacity of 1.
+       */
+    &__radio-input:checked ~ &__radio-label &__radio-button::after {
+        opacity: 1;
+    }
+}

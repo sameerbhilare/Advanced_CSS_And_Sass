@@ -1,0 +1,230 @@
+
+.card {
+    /* determines the distance between the z=0 plane and the user 
+       in order to give a 3D-positioned element some perspective.
+       e.g. in case of rotate, the edge kind of rotates towards the user, kind of some 3D effect. */
+    perspective: 150rem;
+    -moz-perspective: 150rem;
+
+    position: relative; // since child is absolute
+    height: 52rem;
+
+    &__side {
+        height: 52rem; // we could also use 'inherit' here bcz we want it to be same as it's parent.
+        transition: all .8s ease;
+
+        /* Note: When we took these cards out of their natural flow (by setting position to absolute),
+                 then the parent(.card) gets collapsed and looses its height.
+                 And so we don't get desired result like 'perspective' doesn't work as intended. 
+                 When this happens with floats, we have a clear fix. 
+                 But with position: absolute there is no such thing. 
+                 The solution in this case is give same height to its parent (.card). */
+        position: absolute; 
+        top: 0;
+        left: 0;
+        width: 100%;
+        border-radius: 3px;
+        box-shadow: 0 1.5rem 4rem rgba($color-black, .15);
+
+        /* The image (card__picture--1) is basically overlapping the parent element, 
+           hence we no longer have rounded corners. But we can fix this by setting overflow to hidden. */
+        overflow: hidden; 
+        
+        /* basically we want to hide the back part of a side bcz we have separate cards for front and back
+           and when we rotate a card, we want to show the other card and not actualy rotate current card. */
+        backface-visibility: hidden;
+
+        &--front {
+            background-color: $color-white;
+        }
+
+        &--back {
+            transform: rotateY(180deg); // initial position of back side should be 180 degrees otherwise we wont see proper text
+
+            &-1 {
+                background-image: linear-gradient(to right bottom, $color-secondary-light, $color-secondary-dark);
+            }
+
+            &-2 {
+                background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary-dark);
+            }
+
+            &-3 {
+                background-image: linear-gradient(to right bottom, $color-tertiary-light, $color-tertiary-dark);
+            }
+        }
+    }
+
+    /*  IMPORTANT CONSIDERATION: 
+        basically when we rotate a card, we want to show the other card and NOT the backside of that specific card.
+        Default behavour of rotate is, it will show the ACTUAL backside of that element only.
+        But what we want is NOT to show the backside of that specific card, but altogether a different card.
+        Hence in order to prevent the default behaviour of rotate, we set backface-visibility to hidden above.
+    */
+    // when we hover on the card, then the front card should rotate by 180deg
+    &:hover &__side--front {
+        transform: rotateY(-180deg); // negative bcz we want to rotate in the correct/same direction.
+    }
+
+    // when we hover on the card, then the back card should rotate by 0deg
+    &:hover &__side--back {
+        transform: rotateY(0deg);
+    }
+
+
+
+
+
+    /**************************
+     * FRONT SIDE STYLING
+     */
+    &__picture {
+        background-size: cover; // comon for all 3 images below so placing this property at parent.
+        height: 23rem;
+
+        /* The background-blend-mode property describes how the element's background image should blend/mix/combine.
+           There are many options/values for this property, which we should try in Chrome DevTools. */
+        background-blend-mode: screen; // currently only works in Chrome, Safari, Firefox, Edge.
+
+        // first browser prefix version followed by unprefixed property.
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); // clockwise starting from left-top.
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); // clockwise starting from left-top.
+
+        /* Currently clip-path in Google Chrome breaks the overflow: hidden. 
+           Hence the card corners are no longer round. Solution is to set them again as below.*/
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        
+        &--1 {
+            /* IMPORTANT:
+                w.r.t this file, the nat-5.jpg image is at ../../img/nat-5.jpg
+                However we need to write the path w.r.t the style.css file, 
+                that's because in the end all the Sass code will go into style.css file only. */
+            background-image: linear-gradient(to right bottom, $color-secondary-light, $color-secondary-dark),
+                              url(../img/nat-5.jpg);
+        }
+
+        &--2 {
+            /* IMPORTANT:
+                w.r.t this file, the nat-6.jpg image is at ../../img/nat-6.jpg
+                However we need to write the path w.r.t the style.css file, 
+                that's because in the end all the Sass code will go into style.css file only. */
+                background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary-dark),
+                url(../img/nat-6.jpg);
+        }
+
+        &--3 {
+            /* IMPORTANT:
+                w.r.t this file, the nat-7.jpg image is at ../../img/nat-7.jpg
+                However we need to write the path w.r.t the style.css file, 
+                that's because in the end all the Sass code will go into style.css file only. */
+                background-image: linear-gradient(to right bottom, $color-tertiary-light, $color-tertiary-dark),
+                url(../img/nat-7.jpg);
+        }
+    }
+
+    &__heading {
+        font-size: 2.8rem;
+        font-weight: 500;
+        color: $color-white;
+        text-transform: uppercase;
+        text-align: right;
+        position: absolute;
+        top: 12rem;
+        right: 2rem;
+        width: 75%; // for line breaks
+    }
+
+    /* This is a whole new element called "heading span." 
+       So it's not a modifier of heading, and it's not an element of heading. */
+    &__heading-span {
+
+        padding: 1rem 1.5rem; // to have proper visual effect of the background gradient.
+
+        /* what box-decoration-break: clone does is to simply apply all the declarations 
+           that we have in this selector (which in this case is only the padding) to all of the boxes
+           that are created by this element. 
+           So basically one element, two boxes, both styled in the same way. i.e. both with same padding. */
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
+
+        &--1 {
+            background-image: linear-gradient(to right bottom, 
+                                              rgba($color-secondary-light, .85), 
+                                              rgba($color-secondary-dark, .85));
+
+        }
+
+        &--2 {
+            background-image: linear-gradient(to right bottom, 
+                                              rgba($color-primary-light, .85), 
+                                              rgba($color-primary-dark, .85));
+
+        }
+
+        &--3 {
+            background-image: linear-gradient(to right bottom, 
+                                              rgba($color-tertiary-light, .85), 
+                                              rgba($color-tertiary-dark, .85));
+
+        }
+    }
+
+
+    &__details {
+        padding: 3rem;
+
+        ul {
+            list-style: none;
+            width: 80%; // to have border bottom only for 80% part, not whole part.
+            margin: 0 auto; // centering a block element inside of a block element.
+
+            li {
+                text-align: center;
+                font-size: 1.5rem;
+                padding: 1rem;
+
+                // for all except last child
+                &:not(:last-child) {
+                    border-bottom: 1px solid $color-grey-light-2;
+                }
+            }
+        }
+    }
+
+
+
+
+
+    /**************************
+     * BACK SIDE STYLING
+     */
+    &__cta {
+        position: absolute;
+
+        // easy method to center our absolute element.
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        
+        width: 90%; // to have 'Book Now!' button text on one line.
+        text-align: center;
+    }
+
+    &__price-box {
+        text-align: center;
+        margin-bottom: 8rem;
+        color: $color-white;
+    }
+
+    &__price-only {
+        font-size: 1.4rem;
+        text-transform: uppercase;
+    }
+    
+    &__price-value {
+        font-size: 6rem;
+        font-weight: 100; // usually when we have really huge text, it looks better when we make it really thin.
+    }
+
+}

@@ -1,0 +1,91 @@
+/*
+    Styles that are only going apply for the home/landing page.
+*/
+.section-about {
+    background-color: $color-grey-light-1;
+    padding: 25em 0;
+    /* header height 95vh and header polygon is 75vh, hence to show above light grey background color
+       until the clipped portion of the polygon we need to provide margin-top = 95-75 = 20
+       But instead of moving the section down, we want to move up so give negative margin of -20vh */
+    margin-top: -20vh; 
+}
+
+
+.section-features {
+    padding: 20rem 0;
+    background-image: linear-gradient( 
+                        to right bottom,  /* gradient going from top left to right bottom */
+                        rgba($color-primary-light, 0.8), /* color with opacity in order to see backgound img */
+                        rgba($color-primary-dark, 0.8)), /* color with opacity in order to see backgound img */
+                      url(../img/nat-4.jpg);
+    background-size: cover; /* to cover whole viewport area so that whole image can be seen */
+    background-position: top; /* ensure that whatever the viewport size is 
+                                 the top of the image always stays at the top of the container. */
+
+    
+    /* To have skewed effect like header. There are 2 ways to do this
+        1. Using clip-path property
+           clip-path: polygon(0 25vh, 100% 0, 100% 75vh, 0 100%); 
+        2. Using transform and skew functions.
+    */
+    transform: skewY(-7deg);    // negative degree
+    margin-top: -10rem; // to cover empty section.
+    // select DIRECT children of this .section-feature (NOT grand or grand-grand children)
+    & > * {
+        transform: skewY(7deg); // positive degree to have exact oposite effect for inner content.
+    }
+    
+}
+
+
+.section-tours {
+    background-color: $color-grey-light-1;
+    padding: 25em 0 15rem 0;
+    margin-top: -10rem;
+}
+
+
+.section-stories {
+    padding: 15rem 0;
+    position: relative; // because its child .bg-video is absolute positioned.
+}
+
+
+.section-book {
+    padding: 15rem 0;
+    background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary-dark);
+}
+
+.book {
+    /*  PROBLEM:
+        What we want is to have a clipped element on top of the background image, 
+        but at some width it should be opaque and after that background image should be visible. 
+        (See Booking form on page to better visualize this.)
+        SOLUTIONS - We can solve this in 2 ways.
+        1. One appraach to add another element and then on that element 
+           we would use clip-path again in order to make for that clipped shape.
+        2. Using solid-color gradient - this is just another background-color that we have on top of the image.
+           It can start from one side, wide all the way till some point and 
+           then all of a sudden we can change it to a transparent color. */
+
+    /*  Solid-color gradient: Very powerful.
+        If we put two different colors at the SAME position/number(%), then what happens is that we get solid line.
+        And, so we have physically a gradient between two solid colors. 
+        And, that's why it is called as the solid-color gradient. */
+    background-image: linear-gradient(105deg, /* instead of direction we pass angle at which we want the clipped shape. */
+                                      rgba($color-white, .9) 0%, /* at 0%, we want this color here to be. */
+                                      rgba($color-white, .9) 50%, /* at 50%, we want this color here to be. */
+                                      transparent 50%),  /* at 50%, we want this color (transparent) here to be. (same position as above in order to have clipped shape effect.) */
+                      url(../img/nat-10.jpg);
+    background-size: cover; /* or we can also set it to 100% (of the width) which also means cover, 
+                            that's because cover stretches the image to occupy the entire container, 
+                            where the background-image is applied. */
+    height: 50rem;
+    border-radius: 3px;
+    box-shadow: 0 2.2rem 4rem rgba($color-black, .15);
+
+    &__form {
+        width: 50%; // to occupy half of this div
+        padding: 6rem;
+    }
+}

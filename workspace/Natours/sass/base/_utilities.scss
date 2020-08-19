@@ -1,0 +1,30 @@
+/*
+    utility classes are very simple reusable classes in CSS, which only have one simple goal 
+    which makes them reusable.
+
+    Having an utility classes allow our main components, or blocks, or elements 
+    to stay independent and reusable across the page. 
+
+    When we add a utility class, we really want to happen whatever we say.
+    And so we actually want this to override everything else.
+    And so we need to use the important keyword.
+    So this is a normal practice to do it like this in the utility classes.
+*/
+
+// goal is to simply to be center text.
+.u-center-text { text-align: center !important; }
+
+// adds margin-bottom big as 8rem or 80px
+.u-margin-bottom-big { margin-bottom: 8rem !important; }
+
+// adds margin-bottom medium
+.u-margin-bottom-medium { margin-bottom: 4rem !important; }
+
+// adds margin-bottom small
+.u-margin-bottom-small { margin-bottom: 1.5rem !important; }
+
+// adds margin-top big as 8rem or 80px
+.u-margin-top-big { margin-top: 8rem !important; }
+
+// adds margin-huge big as 10rem
+.u-margin-huge-big { margin-top: 10rem !important; }
