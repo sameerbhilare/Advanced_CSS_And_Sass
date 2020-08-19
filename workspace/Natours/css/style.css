@@ -143,7 +143,8 @@ html {
   /* ROOT font size. Why 10, bcz 1 rem = root font-size. so here 1 rem = 10px.
                             So now it's easier for us to do calculations (w.r.t 10)
                             while assigning rem based font-sizes/length units. If it were say 16px, 
-                            then we would have to do lot more calculations in each selector. */ }
+                            then we would have to do lot more calculations in each selector. */
+  scroll-behavior: smooth; }
 
 /* Project wide definitions */
 body {
