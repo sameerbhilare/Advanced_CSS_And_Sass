@@ -34,7 +34,7 @@
 
         // button doesn't have the link, visited unlike anchor tag so added & in the selector.
         // change for the <button> element
-        border: none; // buttons by default come with a border. We don't want that.
+        border: none; // <button>s by default come with a border. We don't want that.
         cursor: pointer;
     }
     

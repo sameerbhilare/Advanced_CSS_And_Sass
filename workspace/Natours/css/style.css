@@ -1091,13 +1091,15 @@ body {
     text-align: center; }
 
 .navigation {
+  /* This is basically for showing entire screen gradient background 
+       which we see when we click on the hamburger. */
   /* This would be a huge element occupying the entire viewport 
        so that we can then center the navigation list inside of that, both horizontally and vertically. */
   /* We hit the label and the checkbox becomes checked.
        Then we want the navigation background to become visible. */
   /* We hit the label and the checkbox becomes checked.
        Then we want the navigation to become visible. */
-  /* When the checkbox is selected, then we select its brother, which is called a button.
+  /* When the checkbox is selected, then we select its immediate brother, which is called a button.
        Then, we select the button's child, which is the icon. */ }
   .navigation__checkbox {
     display: none; }
@@ -1107,7 +1109,7 @@ body {
     width: 7rem;
     border-radius: 50%;
     position: fixed;
-    /* That's because the button is 1rem wider and higher than the background 
+    /* That's because the button is 1rem wider and higher than the navigation__background 
            And that's why it's then half a rem further to the top and to the right. */
     top: 6rem;
     right: 6rem;

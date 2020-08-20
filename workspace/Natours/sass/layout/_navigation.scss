@@ -11,19 +11,21 @@
         width: 7rem;
         border-radius: 50%;
         position: fixed;
-        /* That's because the button is 1rem wider and higher than the background 
+        /* That's because the button is 1rem wider and higher than the navigation__background 
            And that's why it's then half a rem further to the top and to the right. */
         top: 6rem;
         right: 6rem;
-        z-index: 2000;
+        z-index: 2000; // on top of all
         box-shadow: 0 1rem 3rem rgba($color-black ,.1);
 
         text-align: center; // to center aligned the navigation__icon and its pseudo elements.
         cursor: pointer;
     }
 
+    /* This is basically for showing entire screen gradient background 
+       which we see when we click on the hamburger. */
     &__background {
-        // circle
+        // circle - initial position
         height: 6rem;
         width: 6rem;
         border-radius: 50%;
@@ -67,8 +69,8 @@
     }
 
     &__list {
-        // The navigation list this is what we're gonna center inside of this nav container.
-        // we could right mixin for this as this is quite repeating in our project.
+        // The navigation list is what we're going to center inside of this nav container.
+        // we could write mixin for this as this is quite repeating in our project.
         position: absolute;
         top: 50%;
         left: 50%;
@@ -194,7 +196,7 @@
     }
 
     // THE CHECKBOX HACK - if not this, then we would have to use javascript event handler.
-    /* When the checkbox is selected, then we select its brother, which is called a button.
+    /* When the checkbox is selected, then we select its immediate brother, which is called a button.
        Then, we select the button's child, which is the icon. */
     &__checkbox:checked + &__button &__icon {
         background-color: transparent; // basically hide the main middle line.
