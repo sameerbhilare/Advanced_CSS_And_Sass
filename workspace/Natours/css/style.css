@@ -1042,6 +1042,75 @@ body {
   .popup__close:hover, .popup__close:active {
     color: #55c57a; }
 
+@media (max-width: 56.25em) {
+  .popup {
+    overflow-y: scroll;
+    /* when we click on the 'Book Now' button on the back cards, then the anchor will basically become this popup,
+        i.e. target, as we have anchored it to #popup div. 
+        
+        We have a pseudo class called target, which applies to an element which is the target 
+        when we click on a button, or basically when the URL changes to having target in it. */
+    /* We want to style the content at the moment where the popup is open. */ }
+    .popup__content {
+      width: 85%; }
+    .popup__left {
+      width: 100%;
+      /* We could use float to have popup__left and popup__right element side by side.
+            But there is a problem with that. The popup__left takes the entire height,
+            and then the popup__right one only has less height, of course, 
+            because that's the space that it's content occupies.
+            That's completely normal behavior.
+            Now what we want here is that these boxes(left and right) actually have the SAME height 
+            because then it's easier to center the content in the popup__right vertically in the middle
+            of all of this white space. And so sometimes that's a very useful thing to do.
+
+            There is a very ncie technique to achieve this - Using display:table-cell instead of floats. */
+      display: table-row; }
+    .popup__right {
+      width: 100%;
+      vertical-align: middle;
+      padding: 3rem 5rem; }
+      .popup__right .heading-secondary {
+        display: block;
+        text-align: center; }
+      .popup__right .heading-tertiary {
+        text-align: center; }
+      .popup__right .btn {
+        display: block;
+        width: 60%;
+        margin: 0 auto;
+        text-align: center; }
+    .popup__img {
+      display: inline-block;
+      width: 50%; }
+    .popup__text {
+      font-size: 1.4rem;
+      margin: 0 1.5rem 2rem 1.5rem;
+      -moz-column-count: unset;
+      -moz-column-gap: unset;
+      -moz-column-rule: unset;
+      column-count: unset;
+      column-gap: unset;
+      column-rule: unset; }
+    .popup:target {
+      opacity: 1;
+      visibility: visible; }
+    .popup:target .popup__content {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1; }
+    .popup__close:link, .popup__close:visited {
+      color: #777;
+      position: absolute;
+      top: .5rem;
+      right: 1.5rem;
+      font-size: 3rem;
+      text-decoration: none;
+      display: inline-block;
+      line-height: 1;
+      transition: all .2s; }
+    .popup__close:hover, .popup__close:active {
+      color: #55c57a; } }
+
 .story {
   width: 75%;
   margin: 0 auto;
