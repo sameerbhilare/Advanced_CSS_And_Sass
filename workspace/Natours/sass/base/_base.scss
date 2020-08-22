@@ -72,20 +72,73 @@
  
          Note: rems are not supported below Internet Explorer 9.
      */
-     font-size: 62.5%; // This defines what one rem is
+     font-size: 62.5%; // This defines what one rem is, 1rem = 10px; (bcz 10/16 = 62.5)
      
      /*font-size: 10px;*/   /* ROOT font size. Why 10, bcz 1 rem = root font-size. so here 1 rem = 10px.
                             So now it's easier for us to do calculations (w.r.t 10)
                             while assigning rem based font-sizes/length units. If it were say 16px, 
                             then we would have to do lot more calculations in each selector. */
      scroll-behavior: smooth;
+
+
+     /*
+        Approach 1: Not efficient
+        // including the mixin and setting its content.
+        @include respond-phone {
+            font-size: 50%;
+        }
+    */     
+
+     /*
+        Approach 2: The better approach
+    */
+    
+    /* SEQUENCE DOES MATTER. BECAUSE ONE MEDIA QUERY CAN BE APPLICABLE TO MORE THAN ONE BREAKPOINTS 
+       SINCE WE ARE ONLY USING max-width, NOT BOTH max-width and min-width. 
+       ALWAYS THE LARGER ONES BEFORE THE SMALLER ONES. */
+
+    // including the mixin and setting its content for breakpoint type 'tab-land'.
+    @include respond(tab-land) {    // width < 1200?
+        /* For Tablet Portrait, We want 1 rem to be 9px, means 9/16 = 56.25% */
+        font-size: 56.25%;
+    }
+
+    // including the mixin and setting its content for breakpoint type 'tab-port'.
+    @include respond(tab-port) {    // width < 900?
+        /* For Tablet Portrait, We want 1 rem to be 8px, means 8/16 = 50% */
+        font-size: 50%;
+    }
+
+    // including the mixin and setting its content for breakpoint type 'phone'.
+    /* commenting this, because font-size for 'phone' and 'tab-port' is same 50%
+       and logically whatever defined for 'tab-port' will apply for 'phone' as well
+       because e.g. if screen size is 500px, then it is less than 600px (phone) but also less than 900px (tab-port)
+       so this code is redundant, hence we can comment it.
+
+       Note- we are only using max-width in one media query, so above logic applies.
+       If we are using both min-width and max-width in one media query, then above logic will fail.
+    @include respond(phone) {   // width < 600?
+        font-size: 50%;
+    } 
+    */
+
+    // including the mixin and setting its content for breakpoint type 'big-desktop'.
+    @include respond(big-desktop) { // width > 1800?
+        /* For Big Desktops, We want 1 rem to be 12px, means 12/16 = 75% */
+        font-size: 75%;
+    }
  }
  
  /* Project wide definitions */
  // some part of body is defined in typography.
  body {
-     box-sizing: border-box; /* width = border + padding + width of the content, and 
+    box-sizing: border-box; /* width = border + padding + width of the content, and 
                                 height = border + padding + height of the content.
                                 Plz note that margin is NOT added bcz it is outside box.
                              */
+    padding: 3rem; /* to have a feel of showing everything into a box. */
+
+    @include respond(tab-port) {    // width < 900?
+        padding: 0; // remove padding for width < 900
+    }
  }

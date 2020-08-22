@@ -8,6 +8,10 @@
        until the clipped portion of the polygon we need to provide margin-top = 95-75 = 20
        But instead of moving the section down, we want to move up so give negative margin of -20vh */
     margin-top: -20vh; 
+
+    @include respond(tab-port) {
+        padding: 20em 0;
+    }
 }
 
 
@@ -34,7 +38,10 @@
     & > * {
         transform: skewY(7deg); // positive degree to have exact oposite effect for inner content.
     }
-    
+
+    @include respond(tab-port) {
+        padding: 10em 0;
+    }
 }
 
 
@@ -42,18 +49,30 @@
     background-color: $color-grey-light-1;
     padding: 25em 0 15rem 0;
     margin-top: -10rem;
+
+    @include respond(tab-port) {
+        padding: 20em 0 10rem 0;
+    }
 }
 
 
 .section-stories {
     padding: 15rem 0;
     position: relative; // because its child .bg-video is absolute positioned.
+
+    @include respond(tab-port) {
+        padding: 10rem 0;
+    }
 }
 
 
 .section-book {
     padding: 15rem 0;
     background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary-dark);
+
+    @include respond(tab-port) {
+        padding: 10rem 0;
+    }
 }
 
 .book {
@@ -77,15 +96,39 @@
                                       rgba($color-white, .9) 50%, /* at 50%, we want this color here to be. */
                                       transparent 50%),  /* at 50%, we want this color (transparent) here to be. (same position as above in order to have clipped shape effect.) */
                       url(../img/nat-10.jpg);
-    background-size: cover; /* or we can also set it to 100% (of the width) which also means cover, 
+    background-size: 100%; /* or we can also set it to 100% (of the width) which also means cover, 
                             that's because cover stretches the image to occupy the entire container, 
-                            where the background-image is applied. */
-    height: 50rem;
+                            where the background-image is applied.
+                            100% what is does is to ensure that the image fits the container, in the "X" direction, basically. */
     border-radius: 3px;
     box-shadow: 0 2.2rem 4rem rgba($color-black, .15);
+
+    @include respond(tab-land) {
+        background-image: linear-gradient(105deg, /* instead of direction we pass angle at which we want the clipped shape. */
+                                      rgba($color-white, .9) 0%, /* at 0%, we want this color here to be. */
+                                      rgba($color-white, .9) 65%, /* increasing to 65% */
+                                      transparent 65%),  /* increasing to 65%. (same position as above in order to have clipped shape effect.) */
+                      url(../img/nat-10.jpg);
+        background-size: cover; // change from 100% to cover
+    }
+
+    @include respond(tab-port) {
+        background-image: linear-gradient(to right, /* no degree */
+                                      rgba($color-white, .9) 0%, /* at 0%, we want this color here to be. */
+                                      rgba($color-white, .9) 100% ), /* increasing to 65% */
+                      url(../img/nat-10.jpg);
+    }
 
     &__form {
         width: 50%; // to occupy half of this div
         padding: 6rem;
+
+        @include respond(tab-land) { 
+            width: 65%; // increase to 65% as liner gradient changes at 65%.
+        }
+
+        @include respond(tab-port) { 
+            width: 100%; // increase to 100% as liner gradient doesn't change.
+        }
     }
 }

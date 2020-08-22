@@ -20,6 +20,16 @@
 
         text-align: center; // to center aligned the navigation__icon and its pseudo elements.
         cursor: pointer;
+
+        @include respond(tab-port) {
+            top: 4rem;
+            right: 4rem;
+        }
+
+        @include respond(phone) {
+            top: 3rem;
+            right: 3rem;
+        }
     }
 
     /* This is basically for showing entire screen gradient background 
@@ -48,6 +58,16 @@
            An easing function is, basically a function that specifies how much change occurs over time.
            Some predefined values for cubic-bezier() at https://easings.net */
         transition: transform .8s cubic-bezier(0.83, 0, 0.17, 1);
+
+        @include respond(tab-port) {
+            top: 4.5rem;
+            right: 4.5rem;
+        }
+
+        @include respond(phone) {
+            top: 3.5rem;
+            right: 3.5rem;
+        }
     }
 
     /* This would be a huge element occupying the entire viewport 

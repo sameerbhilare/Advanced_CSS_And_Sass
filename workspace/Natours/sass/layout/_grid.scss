@@ -25,6 +25,15 @@
     */
     &:not(:last-child) { // everything except the last child
         margin-bottom: $gutter-vertical;
+
+        @include respond(tab-port) {
+            margin-bottom: $gutter-vertical-small; // reducing vertical space
+        }
+    }
+
+    @include respond(tab-port) {
+        max-width: 50rem; // reducing max width
+        padding: 0 3rem;
     }
 
     @include clearfix;
@@ -48,6 +57,19 @@
 
         &:not(:last-child) {
             margin-right: $gutter-horizontal;
+
+            @include respond(tab-port) {
+                margin-right: 0; // bcz they are no longer side by side, but one after another as overwritten below.
+                margin-bottom: $gutter-vertical-small; // setting vertical space
+            }
+        }
+
+        /*  set the width of all the columns to 100%. That's the easiest way to do it,
+            and that's what's usually done on mobile devices. 
+            So all the columns are basically transformed into rows.
+            So the entire mobile webpage will have only one single column, basically. */
+        @include respond(tab-port) {
+            width: 100% !important; // important because we want to ensure that below widths are overwritten.
         }
     }
 

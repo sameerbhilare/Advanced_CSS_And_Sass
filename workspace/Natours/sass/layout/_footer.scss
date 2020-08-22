@@ -5,9 +5,17 @@
     padding: 10rem 0;
     font-size: 1.4rem;
 
+    @include respond(tab-port) {
+        padding: 8rem 0;
+    }
+
     &__logo-box {
         text-align: center; // because the image is in inline element and an inline element behaves just like text.
         margin-bottom: 8rem;
+
+        @include respond(tab-port) {
+            margin-bottom: 6rem;
+        }
     }
 
     &__logo {
@@ -21,6 +29,10 @@
         display: inline-block; /* to avoid border to go out of navigation links. 
                                   inline block does not occupy 100% of its available width, 
                                   only the one that the content needs.*/
+        @include respond(tab-port) {
+            width: 100%;
+            text-align: center;
+        }
     }
 
     &__list {
@@ -61,5 +73,10 @@
         padding-top: 2rem;
         width: 80%;
         float: right;
+
+        @include respond(tab-port) {
+            width: 100%;
+            float: none;
+        }
     }
 }

@@ -227,4 +227,65 @@
         font-weight: 100; // usually when we have really huge text, it looks better when we make it really thin.
     }
 
+
+
+    /*
+    The big problem with our card on mobile devices is that we have to actually touch it, 
+    in order to rotate the cart. Because on touch devices, there's no such thing as a hover,
+    and so, the only way to actually move the cart, is to click it, and that's not practical.
+    So We don't want the price and book button to sit at the back of our cart.
+    So, we basically have to actually, change the entire cart, this will be half a rewrite of this cart.
+    */
+    @include respond(tab-port) {
+
+        height: auto;
+        border-radius: 3px; // to have border radius for both front and back
+        background-color: $color-white;
+        box-shadow: 0 1.5rem 4rem rgba($color-black, .15);
+
+        &__side {
+            height: auto; 
+            box-shadow: none;
+            transition: all .8s ease;
+
+            /* no longer in the absolute position, because we now, no longer have two sides occupying the same space
+               So, first, we will have the front side, and then, after that, the back side.
+            */
+            position: relative; 
+
+            &--back {
+                transform: rotateY(0); // we no longer want the backpart to rotate.
+                clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%); // use a clip path
+            }
+        }
+
+        &:hover &__side--front {
+            transform: rotateY(0); // front side should not rotate at all
+        }
+
+        &_details {
+            padding: 1rem 3rem;
+        }
+
+        /**************************
+        * BACK SIDE STYLING
+        */
+        &__cta {
+            position: relative;
+            top: 0;
+            left: 0;
+            transform: translate(0);
+            width: 100%;
+            padding: 7rem 4rem 4rem 4rem; // add some padding
+        }
+
+        &__price-box {
+            margin-bottom: 3rem; // decrease this margin
+        }
+        
+        &__price-value {
+            font-size: 4rem;
+        }
+    }
+
 }

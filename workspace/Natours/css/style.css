@@ -14,6 +14,63 @@
     What the clearfix does is to append a pseudo element after the element which will then clear these floats.
 */
 /*
+    We ae going to write media queries considering below breakpoints for different devices.
+    0 - 600px       Phone
+    601 - 900px     Tablet Portrait
+    901 - 1200px    Tablet Landscape
+    [1200 - 1800]   Normal styles (of Desktop First approach) apply (basically without any media queries).
+    1800+           Big Desktops
+*/
+/*
+    Approach 1: Not efficient. Not Recommended.
+    content defined from .scss where this mixin respond-phone is included
+    is passed into this mixin and this whole block is then replaced in the .scss
+    where this mixin is included (with @include).
+
+    @mixin respond-phone {
+        @media (max-width: 600px) { @content };
+    }
+*/
+/*
+    Approach 2: The better approach
+    $breakpoint argument choices:
+        - phone
+        - tab-port
+        - tab-land
+        - big-desktop
+    content defined from .scss where this mixin respond is included,
+    is passed into this mixin and this whole block is then replaced in the .scss
+    where this mixin is included (with @include).
+
+    We're actually not going to use pixels in the media queries here.
+    That's because if the user changes the default font size in the browser, 
+    then the media queries would not be affected by that. And we won't get desired results.
+
+
+    Important note about rems and ems in media queries -
+    ems and rems in media queries are NOT affected by a root font size setting.
+    What that means is that 1rem or 1em in a media query is always 
+    just equal to the font size which is coming from the browser.
+    and that's by default 16 pixels, but if the user changes it to 20 pixels, 
+    then it will be 20 pixels no matter what we have in our base/root font definition.
+
+    We're going to use here is ems and not rems, because rems fail to work as intended 
+    in some of the browsers. There's been some experiments done by people who understand 
+    a lot of all of this, and the conclusion basically is that ems are the BEST option for media queries.
+
+    Considering 1em = 16px,
+        600px = 600/16 = 37.5em 
+        900px = 900/16 = 56.25em
+        1200px = 1200/16 = 75em
+        1800px = 1800/16 = 112.5em
+
+    This (ems) will be converted to pixels and will be adopted to the font size that the user set for the browser.
+    So, it's a more accessible and dynamic solution here instead of using the pixels.
+
+    ORDER: base + typography > General Layout + Grid > Page Layout > Components
+
+*/
+/*
     In the abstracts folder we're only going to put code that's not going to output any css.
     e.g. variables, mixins, functions and stuff like that.
 */
@@ -144,7 +201,43 @@ html {
                             So now it's easier for us to do calculations (w.r.t 10)
                             while assigning rem based font-sizes/length units. If it were say 16px, 
                             then we would have to do lot more calculations in each selector. */
-  scroll-behavior: smooth; }
+  scroll-behavior: smooth;
+  /*
+        Approach 1: Not efficient
+        // including the mixin and setting its content.
+        @include respond-phone {
+            font-size: 50%;
+        }
+    */
+  /*
+        Approach 2: The better approach
+    */
+  /* SEQUENCE DOES MATTER. BECAUSE ONE MEDIA QUERY CAN BE APPLICABLE TO MORE THAN ONE BREAKPOINTS 
+       SINCE WE ARE ONLY USING max-width, NOT BOTH max-width and min-width. 
+       ALWAYS THE LARGER ONES BEFORE THE SMALLER ONES. */
+  /* commenting this, because font-size for 'phone' and 'tab-port' is same 50%
+       and logically whatever defined for 'tab-port' will apply for 'phone' as well
+       because e.g. if screen size is 500px, then it is less than 600px (phone) but also less than 900px (tab-port)
+       so this code is redundant, hence we can comment it.
+
+       Note- we are only using max-width in one media query, so above logic applies.
+       If we are using both min-width and max-width in one media query, then above logic will fail.
+    @include respond(phone) {   // width < 600?
+        font-size: 50%;
+    } 
+    */ }
+  @media (max-width: 75em) {
+    html {
+      /* For Tablet Portrait, We want 1 rem to be 9px, means 9/16 = 56.25% */
+      font-size: 56.25%; } }
+  @media (max-width: 56.25em) {
+    html {
+      /* For Tablet Portrait, We want 1 rem to be 8px, means 8/16 = 50% */
+      font-size: 50%; } }
+  @media (min-width: 112.5em) {
+    html {
+      /* For Big Desktops, We want 1 rem to be 12px, means 12/16 = 75% */
+      font-size: 75%; } }
 
 /* Project wide definitions */
 body {
@@ -152,7 +245,12 @@ body {
   /* width = border + padding + width of the content, and 
                                 height = border + padding + height of the content.
                                 Plz note that margin is NOT added bcz it is outside box.
-                             */ }
+                             */
+  padding: 3rem;
+  /* to have a feel of showing everything into a box. */ }
+  @media (max-width: 56.25em) {
+    body {
+      padding: 0; } }
 
 /*
     Typography is the art and technique of arranging type to make written language readable and beautiful.
@@ -163,9 +261,7 @@ body {
   font-weight: 400;
   /*font-size: 16px;*/
   line-height: 1.7;
-  color: #777;
-  padding: 3rem;
-  /* to have a feel of showing everything into a box. */ }
+  color: #777; }
 
 /*
     You could that this is a component but I think its a part of typography and 
@@ -192,6 +288,10 @@ body {
     /*ease-out: faster in the beginning, slower at the end. */
     /* animation-iteration-count: 3; number of times the animatiob should run */
     /* animation-delay: 3s;  time before starting the animation */ }
+    @media (max-width: 37.5em) {
+      .heading-primary--main {
+        letter-spacing: 1rem;
+        font-size: 5rem; } }
   .heading-primary--sub {
     display: block;
     font-size: 2rem;
@@ -202,6 +302,9 @@ body {
     /* properties for animations */
     animation: moveInRight 1s ease-out;
     /* shorthand syntax using just animation property. */ }
+    @media (max-width: 37.5em) {
+      .heading-primary--sub {
+        letter-spacing: .5rem; } }
 
 .heading-secondary {
   font-size: 3.5rem;
@@ -222,6 +325,12 @@ body {
   color: transparent;
   letter-spacing: .2rem;
   transition: all .2s; }
+  @media (max-width: 56.25em) {
+    .heading-secondary {
+      font-size: 3rem; } }
+  @media (max-width: 37.5em) {
+    .heading-secondary {
+      font-size: 2.5rem; } }
   .heading-secondary:hover {
     /* on transform, we can actually put multiple things at the same time that you want to transform.
            e.g. translate, translate x and y, scale, rotate, skew
@@ -257,9 +366,15 @@ body {
 
 .u-margin-bottom-big {
   margin-bottom: 8rem !important; }
+  @media (max-width: 56.25em) {
+    .u-margin-bottom-big {
+      margin-bottom: 5rem !important; } }
 
 .u-margin-bottom-medium {
   margin-bottom: 4rem !important; }
+  @media (max-width: 56.25em) {
+    .u-margin-bottom-medium {
+      margin-bottom: 3rem !important; } }
 
 .u-margin-bottom-small {
   margin-bottom: 1.5rem !important; }
@@ -439,7 +554,14 @@ body {
        So it's not a modifier of heading, and it's not an element of heading. */
   /**************************
      * BACK SIDE STYLING
-     */ }
+     */
+  /*
+    The big problem with our card on mobile devices is that we have to actually touch it, 
+    in order to rotate the cart. Because on touch devices, there's no such thing as a hover,
+    and so, the only way to actually move the cart, is to click it, and that's not practical.
+    So We don't want the price and book button to sit at the back of our cart.
+    So, we basically have to actually, change the entire cart, this will be half a rewrite of this cart.
+    */ }
   .card__side {
     height: 52rem;
     transition: all .8s ease;
@@ -558,6 +680,41 @@ body {
   .card__price-value {
     font-size: 6rem;
     font-weight: 100; }
+  @media (max-width: 56.25em) {
+    .card {
+      height: auto;
+      border-radius: 3px;
+      background-color: #fff;
+      box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+      /**************************
+        * BACK SIDE STYLING
+        */ }
+      .card__side {
+        height: auto;
+        box-shadow: none;
+        transition: all .8s ease;
+        /* no longer in the absolute position, because we now, no longer have two sides occupying the same space
+               So, first, we will have the front side, and then, after that, the back side.
+            */
+        position: relative; }
+        .card__side--back {
+          transform: rotateY(0);
+          clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%); }
+      .card:hover .card__side--front {
+        transform: rotateY(0); }
+      .card_details {
+        padding: 1rem 3rem; }
+      .card__cta {
+        position: relative;
+        top: 0;
+        left: 0;
+        transform: translate(0);
+        width: 100%;
+        padding: 7rem 4rem 4rem 4rem; }
+      .card__price-box {
+        margin-bottom: 3rem; }
+      .card__price-value {
+        font-size: 4rem; } }
 
 .composition {
   position: relative;
@@ -573,15 +730,35 @@ body {
     z-index: 10;
     transition: all .2s;
     outline-offset: 2rem; }
+    @media (max-width: 56.25em) {
+      .composition__photo {
+        float: left;
+        position: relative;
+        width: 33.3333333%;
+        box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.2); } }
     .composition__photo--p1 {
       top: -2rem;
       left: 0; }
+      @media (max-width: 56.25em) {
+        .composition__photo--p1 {
+          top: 0;
+          transform: scale(1.2); } }
     .composition__photo--p2 {
       top: 2rem;
       right: 0; }
+      @media (max-width: 56.25em) {
+        .composition__photo--p2 {
+          top: -1rem;
+          transform: scale(1.3);
+          z-index: 100; } }
     .composition__photo--p3 {
       top: 10rem;
       left: 20%; }
+      @media (max-width: 56.25em) {
+        .composition__photo--p3 {
+          top: 1rem;
+          left: 0;
+          transform: scale(1.1); } }
     .composition__photo:hover {
       /* Outline is similar to border.
                But with the outline, we can set outline offset.
@@ -658,6 +835,9 @@ body {
     /*  pseudo elements represent things that are actually on the webpage.
             ::placeholder pseudo-element represents the placeholder text in an <input> or <textarea> element.
             Placeholder text should be light grey and as soon as we start typing, the text should become darker. */ }
+    @media (max-width: 56.25em) {
+      .form__input {
+        width: 100%; } }
     .form__input:focus {
       outline: none;
       box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
@@ -692,6 +872,10 @@ body {
   .form__radio-group {
     width: 49%;
     display: inline-block; }
+    @media (max-width: 56.25em) {
+      .form__radio-group {
+        width: 100%;
+        margin-bottom: 2rem; } }
   .form__radio-input {
     display: none; }
   .form__radio-label {
@@ -734,6 +918,9 @@ body {
   border-radius: 3px;
   box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
   transition: transform .3s; }
+  @media (max-width: 56.25em) {
+    .feature-box {
+      padding: 2rem; } }
   .feature-box__icon {
     /* Remember that an icon is effectively a font. 
            And so we can use font-size, in order to change the size of the icon. */
@@ -744,6 +931,9 @@ body {
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent; }
+    @media (max-width: 56.25em) {
+      .feature-box__icon {
+        margin-bottom: 0; } }
   .feature-box:hover {
     transform: translateY(-1.5rem) scale(1.03); }
 
@@ -862,6 +1052,14 @@ body {
   padding-left: 9rem;
   font-size: 1.6rem;
   transform: skewX(-12deg); }
+  @media (max-width: 56.25em) {
+    .story {
+      width: 100%;
+      padding: 4rem;
+      padding-left: 7rem; } }
+  @media (max-width: 37.5em) {
+    .story {
+      transform: skewX(0); } }
   .story__shape {
     width: 15rem;
     height: 15rem;
@@ -886,6 +1084,9 @@ body {
     position: relative;
     /* since &__img scales the image, that adds horizontal/vertical scroll which we don't want. */
     overflow: hidden; }
+    @media (max-width: 37.5em) {
+      .story__shape {
+        transform: translateX(-3rem) skewX(0); } }
   .story__img {
     /* Flexible images for responsive web design always need a width. Always, without any exception! */
     /* Here we have to use height: 100% instead of width: 100% 
@@ -900,6 +1101,9 @@ body {
     transition: all .5s; }
   .story__text {
     transform: skewX(12deg); }
+    @media (max-width: 37.5em) {
+      .story__text {
+        transform: skewX(0); } }
   .story__caption {
     position: absolute;
     top: 50%;
@@ -932,9 +1136,15 @@ body {
   color: #f7f7f7;
   padding: 10rem 0;
   font-size: 1.4rem; }
+  @media (max-width: 56.25em) {
+    .footer {
+      padding: 8rem 0; } }
   .footer__logo-box {
     text-align: center;
     margin-bottom: 8rem; }
+    @media (max-width: 56.25em) {
+      .footer__logo-box {
+        margin-bottom: 6rem; } }
   .footer__logo {
     width: 15rem;
     height: auto; }
@@ -945,6 +1155,10 @@ body {
     /* to avoid border to go out of navigation links. 
                                   inline block does not occupy 100% of its available width, 
                                   only the one that the content needs.*/ }
+    @media (max-width: 56.25em) {
+      .footer__navigation {
+        width: 100%;
+        text-align: center; } }
   .footer__list {
     list-style: none; }
   .footer__item {
@@ -967,6 +1181,10 @@ body {
     padding-top: 2rem;
     width: 80%;
     float: right; }
+    @media (max-width: 56.25em) {
+      .footer__copyright {
+        width: 100%;
+        float: none; } }
 
 .row {
   /*
@@ -1004,6 +1222,13 @@ body {
     */ }
   .row:not(:last-child) {
     margin-bottom: 8rem; }
+    @media (max-width: 56.25em) {
+      .row:not(:last-child) {
+        margin-bottom: 6rem; } }
+  @media (max-width: 56.25em) {
+    .row {
+      max-width: 50rem;
+      padding: 0 3rem; } }
   .row::after {
     /*  we always need to specify the content property, otherwise a pseudo element will not appear on the page, 
             and we want it empty because we don't want to see this element on the page. */
@@ -1013,9 +1238,20 @@ body {
     /* the property that actually performs this clearfix is the clear property.        
                         This would clear both floats, so float left and float right */ }
   .row [class^="col-"] {
-    float: left; }
+    float: left;
+    /*  set the width of all the columns to 100%. That's the easiest way to do it,
+            and that's what's usually done on mobile devices. 
+            So all the columns are basically transformed into rows.
+            So the entire mobile webpage will have only one single column, basically. */ }
     .row [class^="col-"]:not(:last-child) {
       margin-right: 6rem; }
+      @media (max-width: 56.25em) {
+        .row [class^="col-"]:not(:last-child) {
+          margin-right: 0;
+          margin-bottom: 6rem; } }
+    @media (max-width: 56.25em) {
+      .row [class^="col-"] {
+        width: 100% !important; } }
   .row .col-1-of-2 {
     /*
         native calc() function allows us to make calculations where we can mix units.
@@ -1054,6 +1290,8 @@ body {
   background-position: top;
   /* ensure that whatever the viewport size is 
                                  the top of the image always stays at the top of the container. */
+  position: relative;
+  /* marking it as relative bcz .logo-box & .text-box are marked as absolute. */
   /* to clip out a part of the image. 
        There are multiple options but as per our need we need use polygon. 
        polygon just takes cordinates of how you want to see it.
@@ -1061,9 +1299,11 @@ body {
          - for rectangle or any shape of 4 points - need to pass 4 cordinates, etc. 
     */
   -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
-  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
-  position: relative;
-  /* marking it as relative bcz .logo-box & .text-box are marked as absolute. */ }
+  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); }
+  @media (max-width: 37.5em) {
+    .header {
+      -webkit-clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+      clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%); } }
   .header__logo-box {
     position: absolute;
     top: 4rem;
@@ -1117,6 +1357,14 @@ body {
     box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
     text-align: center;
     cursor: pointer; }
+    @media (max-width: 56.25em) {
+      .navigation__button {
+        top: 4rem;
+        right: 4rem; } }
+    @media (max-width: 37.5em) {
+      .navigation__button {
+        top: 3rem;
+        right: 3rem; } }
   .navigation__background {
     height: 6rem;
     width: 6rem;
@@ -1133,6 +1381,14 @@ body {
            An easing function is, basically a function that specifies how much change occurs over time.
            Some predefined values for cubic-bezier() at https://easings.net */
     transition: transform 0.8s cubic-bezier(0.83, 0, 0.17, 1); }
+    @media (max-width: 56.25em) {
+      .navigation__background {
+        top: 4.5rem;
+        right: 4.5rem; } }
+    @media (max-width: 37.5em) {
+      .navigation__background {
+        top: 3.5rem;
+        right: 3.5rem; } }
   .navigation__nav {
     height: 100vh;
     /* Because remember that with the navigation open, even if you scroll, 
@@ -1236,6 +1492,9 @@ body {
        until the clipped portion of the polygon we need to provide margin-top = 95-75 = 20
        But instead of moving the section down, we want to move up so give negative margin of -20vh */
   margin-top: -20vh; }
+  @media (max-width: 56.25em) {
+    .section-about {
+      padding: 20em 0; } }
 
 .section-features {
   padding: 20rem 0;
@@ -1254,19 +1513,31 @@ body {
   margin-top: -10rem; }
   .section-features > * {
     transform: skewY(7deg); }
+  @media (max-width: 56.25em) {
+    .section-features {
+      padding: 10em 0; } }
 
 .section-tours {
   background-color: #f7f7f7;
   padding: 25em 0 15rem 0;
   margin-top: -10rem; }
+  @media (max-width: 56.25em) {
+    .section-tours {
+      padding: 20em 0 10rem 0; } }
 
 .section-stories {
   padding: 15rem 0;
   position: relative; }
+  @media (max-width: 56.25em) {
+    .section-stories {
+      padding: 10rem 0; } }
 
 .section-book {
   padding: 15rem 0;
   background-image: linear-gradient(to right bottom, #7ed56f, #28b485); }
+  @media (max-width: 56.25em) {
+    .section-book {
+      padding: 10rem 0; } }
 
 .book {
   /*  PROBLEM:
@@ -1284,13 +1555,26 @@ body {
         And, so we have physically a gradient between two solid colors. 
         And, that's why it is called as the solid-color gradient. */
   background-image: linear-gradient(105deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 50%, transparent 50%), url(../img/nat-10.jpg);
-  background-size: cover;
+  background-size: 100%;
   /* or we can also set it to 100% (of the width) which also means cover, 
                             that's because cover stretches the image to occupy the entire container, 
-                            where the background-image is applied. */
-  height: 50rem;
+                            where the background-image is applied.
+                            100% what is does is to ensure that the image fits the container, in the "X" direction, basically. */
   border-radius: 3px;
   box-shadow: 0 2.2rem 4rem rgba(0, 0, 0, 0.15); }
+  @media (max-width: 75em) {
+    .book {
+      background-image: linear-gradient(105deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 65%, transparent 65%), url(../img/nat-10.jpg);
+      background-size: cover; } }
+  @media (max-width: 56.25em) {
+    .book {
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 100%), url(../img/nat-10.jpg); } }
   .book__form {
     width: 50%;
     padding: 6rem; }
+    @media (max-width: 75em) {
+      .book__form {
+        width: 65%; } }
+    @media (max-width: 56.25em) {
+      .book__form {
+        width: 100%; } }

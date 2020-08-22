@@ -8,6 +8,10 @@
     box-shadow: 0 1.5rem 4rem rgba($color-black, 0.15);
     transition: transform .3s; // transform is the property we want to animate
 
+    @include respond(tab-port) {
+        padding: 2rem;
+    }
+
     &__icon {
         /* Remember that an icon is effectively a font. 
            And so we can use font-size, in order to change the size of the icon. */
@@ -20,6 +24,10 @@
         -webkit-background-clip: text; // we can do this bcz the icon font is text, in fact.
         color: transparent;
         // ------------------------
+
+        @include respond(tab-port) {
+            margin-bottom: 0;
+        }
     }
 
     &:hover {

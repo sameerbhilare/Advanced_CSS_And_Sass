@@ -22,3 +22,91 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+
+
+
+
+// MEDIA QUERY MANAGER
+/*
+    We ae going to write media queries considering below breakpoints for different devices.
+    0 - 600px       Phone
+    601 - 900px     Tablet Portrait
+    901 - 1200px    Tablet Landscape
+    [1200 - 1800]   Normal styles (of Desktop First approach) apply (basically without any media queries).
+    1800+           Big Desktops
+*/
+
+
+/*
+    Approach 1: Not efficient. Not Recommended.
+    content defined from .scss where this mixin respond-phone is included
+    is passed into this mixin and this whole block is then replaced in the .scss
+    where this mixin is included (with @include).
+
+    @mixin respond-phone {
+        @media (max-width: 600px) { @content };
+    }
+*/
+
+
+
+/*
+    Approach 2: The better approach
+    $breakpoint argument choices:
+        - phone
+        - tab-port
+        - tab-land
+        - big-desktop
+    content defined from .scss where this mixin respond is included,
+    is passed into this mixin and this whole block is then replaced in the .scss
+    where this mixin is included (with @include).
+
+    We're actually not going to use pixels in the media queries here.
+    That's because if the user changes the default font size in the browser, 
+    then the media queries would not be affected by that. And we won't get desired results.
+
+
+    Important note about rems and ems in media queries -
+    ems and rems in media queries are NOT affected by a root font size setting.
+    What that means is that 1rem or 1em in a media query is always 
+    just equal to the font size which is coming from the browser.
+    and that's by default 16 pixels, but if the user changes it to 20 pixels, 
+    then it will be 20 pixels no matter what we have in our base/root font definition.
+
+    We're going to use here is ems and not rems, because rems fail to work as intended 
+    in some of the browsers. There's been some experiments done by people who understand 
+    a lot of all of this, and the conclusion basically is that ems are the BEST option for media queries.
+
+    Considering 1em = 16px,
+        600px = 600/16 = 37.5em 
+        900px = 900/16 = 56.25em
+        1200px = 1200/16 = 75em
+        1800px = 1800/16 = 112.5em
+
+    This (ems) will be converted to pixels and will be adopted to the font size that the user set for the browser.
+    So, it's a more accessible and dynamic solution here instead of using the pixels.
+
+    ORDER: base + typography > General Layout + Grid > Page Layout > Components
+
+*/
+@mixin respond($breakpoint) {
+    
+    @if $breakpoint == phone {
+        @media (max-width: 37.5em) { @content };    // 600px
+    }
+
+    @if $breakpoint == tab-port {
+        @media (max-width: 56.25em) { @content };     // 900px
+    }
+
+    @if $breakpoint == tab-land {
+        @media (max-width: 75em) { @content };    // 1200px
+    }
+
+    @if $breakpoint == big-desktop {
+        // note it's min-width, not max-width because these styles should ONLY apply for size >= 1800px
+        @media (min-width: 112.5em) { @content };    // 1800px
+    }
+    
+}

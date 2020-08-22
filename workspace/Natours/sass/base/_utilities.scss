@@ -15,10 +15,22 @@
 .u-center-text { text-align: center !important; }
 
 // adds margin-bottom big as 8rem or 80px
-.u-margin-bottom-big { margin-bottom: 8rem !important; }
+.u-margin-bottom-big { 
+    margin-bottom: 8rem !important; 
+
+    @include respond(tab-port) {
+        margin-bottom: 5rem !important; 
+    }
+}
 
 // adds margin-bottom medium
-.u-margin-bottom-medium { margin-bottom: 4rem !important; }
+.u-margin-bottom-medium { 
+    margin-bottom: 4rem !important; 
+
+    @include respond(tab-port) {
+        margin-bottom: 3rem !important; 
+    }
+}
 
 // adds margin-bottom small
 .u-margin-bottom-small { margin-bottom: 1.5rem !important; }

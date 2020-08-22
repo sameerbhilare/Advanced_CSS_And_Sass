@@ -14,6 +14,8 @@
     background-position: top; /* ensure that whatever the viewport size is 
                                  the top of the image always stays at the top of the container. */
     
+    position: relative; /* marking it as relative bcz .logo-box & .text-box are marked as absolute. */
+
     /* to clip out a part of the image. 
        There are multiple options but as per our need we need use polygon. 
        polygon just takes cordinates of how you want to see it.
@@ -23,7 +25,11 @@
     -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); 
     clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); 
     
-    position: relative; /* marking it as relative bcz .logo-box & .text-box are marked as absolute. */
+    @include respond(phone) {
+        // for mobile, the clip-path is too steep. 
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%); 
+        clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+    }
 
    // Nesting: &__logo-box means .header__logo-box
    &__logo-box {
