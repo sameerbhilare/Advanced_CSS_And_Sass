@@ -141,36 +141,22 @@
 }
 
 @include respond(tab-port) {
+
     .popup {
         
-        overflow-y: scroll;
         &__content {
             width: 85%;
         }
 
         &__left {
-            width: 100%; // 1/3 of 
-            /* We could use float to have popup__left and popup__right element side by side.
-            But there is a problem with that. The popup__left takes the entire height,
-            and then the popup__right one only has less height, of course, 
-            because that's the space that it's content occupies.
-            That's completely normal behavior.
-            Now what we want here is that these boxes(left and right) actually have the SAME height 
-            because then it's easier to center the content in the popup__right vertically in the middle
-            of all of this white space. And so sometimes that's a very useful thing to do.
-
-            There is a very ncie technique to achieve this - Using display:table-cell instead of floats. */
-            //float: left; // so that left and right will be side by side
-
+            width: 100%; 
             display: table-row; // make parent as display: table;
         }
 
         &__right {
-            width: 100%; // 2/3 of 
-            //float: left; // so that left and right will be side by side. We  could also use float:right here.
-            //display: table-row; // make parent as display: table;
+            width: 100%; 
             vertical-align: middle; // We can use this property on table cell, in order to center align the content/
-            padding: 3rem 5rem;
+            padding: 2rem 3rem;
 
             .heading-secondary {
                 display: block;
@@ -195,7 +181,6 @@
         }
 
         &__text {
-            font-size: 1.4rem;
             margin: 0 1.5rem 2rem 1.5rem;
 
             -moz-column-count: unset;
@@ -205,47 +190,7 @@
             column-count: unset;
             column-gap: unset; // gap/space between columns.
             column-rule: unset; // just like a border which will be exactly in the middle of the two columns
-
         }
 
-
-        // POPUP OPEN STATES
-        /* when we click on the 'Book Now' button on the back cards, then the anchor will basically become this popup,
-        i.e. target, as we have anchored it to #popup div. 
-        
-        We have a pseudo class called target, which applies to an element which is the target 
-        when we click on a button, or basically when the URL changes to having target in it. */
-        &:target {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        // POPUP OPEN STATES
-        /* We want to style the content at the moment where the popup is open. */
-        // .popup__content is child element of .popup
-        &:target &__content {
-            transform: translate(-50%, -50%) scale(1); // repeating translate(-50%, -50%) from absCenter mixin code.
-            opacity: 1; // initial position
-        }
-
-        &__close {
-            &:link,
-            &:visited {
-                color: $color-grey-dark;
-                position: absolute;
-                top: .5rem;
-                right: 1.5rem;
-                font-size: 3rem;
-                text-decoration: none;
-                display: inline-block;
-                line-height: 1;
-                transition: all .2s;
-            }
-
-            &:hover,
-            &:active {
-                color: $color-primary;
-            }
-        }
     }
 }
