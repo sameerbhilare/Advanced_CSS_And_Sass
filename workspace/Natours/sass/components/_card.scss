@@ -32,6 +32,7 @@
         
         /* basically we want to hide the back part of a side bcz we have separate cards for front and back
            and when we rotate a card, we want to show the other card and not actualy rotate current card. */
+        -webkit-backface-visibility: hidden;
         backface-visibility: hidden;
 
         &--front {
@@ -107,6 +108,7 @@
                 1. high resolution display(192dpi) with 2x screen and min width is 600px OR
                 2. for really big screens (2000px = 125em) even if they are 1x screens. */
             @media (min-resolution: 192dpi) and (min-width: 37.5em), // 192 dots per inch, 37.5em = 600px
+                   (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), // for safari, 2 means at least 2x
                    (min-width: 125em) {
                 background-image: linear-gradient(to right bottom, $color-secondary-light, $color-secondary-dark),
                               url(../img/nat-5.jpg); // high resolution image
@@ -125,6 +127,7 @@
                 1. high resolution display(192dpi) with 2x screen and min width is 600px OR
                 2. for really big screens (2000px = 125em) even if they are 1x screens. */
             @media (min-resolution: 192dpi) and (min-width: 37.5em), // 192 dots per inch, 37.5em = 600px
+                   (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), // for safari, 2 means at least 2x
                    (min-width: 125em) {
                 background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary-dark),
                                 url(../img/nat-6.jpg); // high resolution image
@@ -143,6 +146,7 @@
                 1. high resolution display(192dpi) with 2x screen and min width is 600px OR
                 2. for really big screens (2000px = 125em) even if they are 1x screens. */
             @media (min-resolution: 192dpi) and (min-width: 37.5em), // 192 dots per inch, 37.5em = 600px
+                   (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), // for safari, 2 means at least 2x
                    (min-width: 125em) {
                 background-image: linear-gradient(to right bottom, $color-tertiary-light, $color-tertiary-dark),
                             url(../img/nat-7.jpg); // high resolution image

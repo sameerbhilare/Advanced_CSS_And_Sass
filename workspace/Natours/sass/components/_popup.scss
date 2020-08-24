@@ -13,6 +13,17 @@
     visibility: hidden;
     transition: all .3s;
 
+    // GRACEFUL DEGRADATION using @supports feature query
+    // asks the browser if it supports a certain property along with a value (it could be any value. e.g. blur(0).
+    @supports ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))) {
+        /* backdrop filter - to apply a filter to what's behind the selected element.
+        So here we will apply a backdrop filter to this background here with a blur.
+        So basically blurring the background instead of making it dark as we have it here. */
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        background-color: rgba($color-black, .3);
+    }
+
     &__content {
         @include absCenter;
         width: 75%;

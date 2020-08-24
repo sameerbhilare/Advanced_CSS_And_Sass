@@ -119,6 +119,7 @@
         1. high resolution display(192dpi) with 2x screen and min width is 600px OR
         2. for really big screens (2000px = 125em) even if they are 1x screens. */
     @media (min-resolution: 192dpi) and (min-width: 37.5em), // 192 dots per inch, 37.5em = 600px
+           (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), // for safari, 2 means at least 2x
            (min-width: 125em) {
             background-image: linear-gradient(105deg, /* instead of direction we pass angle at which we want the clipped shape. */
                     rgba($color-white, .9) 0%, /* at 0%, we want this color here to be. */

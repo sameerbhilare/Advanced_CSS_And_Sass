@@ -26,23 +26,30 @@
         width: 15rem;
         height: 15rem;
         float: left; // in order to make rest of the content float around it.
+        border-radius: 50%; // to have circular effect if clip-path is not supported.
 
-        /* 
-           shape-outside only works when you have specified width, height and float.
-           shape outside - all it does is to define where the content floats around the element 
-           in this case, a circle.
-           And if we actually want the element to look like a circle, we need to use clip-path property.
+        // asks the browser if it supports a certain property along with a value (it could be any value. e.g. polygon(0 0)
+        @supports ((clip-path: circle(50% at 50% 50%)) or (-webkit-clip-path: circle(50% at 50% 50%)) ) {
+            // to clip the photo in circular shape
+            -webkit-clip-path: circle(50% at 50% 50%);
+            clip-path: circle(50% at 50% 50%);
 
-           Circle radius to be 50% of the height and width specified. 
-           bcz we want circle diameter to be equal to height and width of the this element.
-           at 50% 50% means that the center of the circle to be exactly the center horizontally and vertically.
-        */
-        -webkit-shape-outside: circle(50% at 50% 50%);
-        shape-outside: circle(50% at 50% 50%);
+            /* 
+            shape-outside only works when you have specified width, height and float.
+            shape outside - all it does is to define where the content floats around the element 
+            in this case, a circle.
+            And if we actually want the element to look like a circle, we need to use clip-path property.
 
-        // to clip the photo in circular shape
-        -webkit-clip-path: circle(50% at 50% 50%);
-        clip-path: circle(50% at 50% 50%);
+            Circle radius to be 50% of the height and width specified. 
+            bcz we want circle diameter to be equal to height and width of the this element.
+            at 50% 50% means that the center of the circle to be exactly the center horizontally and vertically.
+            */
+            -webkit-shape-outside: circle(50% at 50% 50%);
+            shape-outside: circle(50% at 50% 50%);
+
+            // if clip-path is supported, the border-radius should not be set to 50%;
+            border-radius: none; // otherwise shape-outside might not have the circular effect.
+        }
 
         /* best way to move around an element that is floated is to actually not mess with margins 
            or anything like that, but we should just use a transform. */
@@ -51,7 +58,7 @@
         position: relative; // bcz child &__caption is absolute
 
         /* since &__img scales the image, that adds horizontal/vertical scroll which we don't want. */
-        overflow: hidden;
+        overflow: hidden; // cuts out the part of the image which is overflowing, which is bigger than the element.
 
         @include respond(phone) {
             transform: translateX(-3rem) skewX(0);    // no longer need skewed shape

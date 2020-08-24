@@ -4,7 +4,7 @@
 
  /* Note this is 'header' class not <header> element */
  .header {
-    height: 95vh; /* 95% of viewport height bcz we have added padding for body element. */
+    height: 85vh;
     background-image: linear-gradient( 
                 to right bottom,  /* gradient going from top left to right bottom */
                 rgba($color-primary-light, 0.8), /* color with opacity in order to see backgound img */
@@ -16,14 +16,18 @@
     
     position: relative; /* marking it as relative bcz .logo-box & .text-box are marked as absolute. */
 
-    /* to clip out a part of the image. 
-       There are multiple options but as per our need we need use polygon. 
-       polygon just takes cordinates of how you want to see it.
-         - for triangle - need to pass 3 cordinates,
-         - for rectangle or any shape of 4 points - need to pass 4 cordinates, etc. 
-    */
-    -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); 
-    clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); 
+    // asks the browser if it supports a certain property along with a value (it could be any value. e.g. polygon(0 0)
+    @supports ((clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) ) {
+        /* to clip out a part of the image. 
+        There are multiple options but as per our need we need use polygon. 
+        polygon just takes cordinates of how you want to see it.
+            - for triangle - need to pass 3 cordinates,
+            - for rectangle or any shape of 4 points - need to pass 4 cordinates, etc. 
+        */
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); 
+        clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); 
+        height: 95vh; /* 95% of viewport height bcz we have added padding for body element. */
+    }
 
     /*
         RESPONSIVE IMAGES IN CSS:
@@ -48,6 +52,7 @@
         even if they are 1x screens. (OR condition)
     */
     @media (min-resolution: 192dpi) and (min-width: 37.5em), // 192 dots per inch, 37.5em = 600px
+           (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), // for safari, 2 means at least 2x
            (min-width: 125em) { // to show high resolution image for really big screens even if they are 1x screens.
         background-image: linear-gradient( 
                         to right bottom,  /* gradient going from top left to right bottom */

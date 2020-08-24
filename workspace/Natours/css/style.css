@@ -582,6 +582,7 @@ body {
     overflow: hidden;
     /* basically we want to hide the back part of a side bcz we have separate cards for front and back
            and when we rotate a card, we want to show the other card and not actualy rotate current card. */
+    -webkit-backface-visibility: hidden;
     backface-visibility: hidden; }
     .card__side--front {
       background-color: #fff; }
@@ -618,7 +619,7 @@ body {
       /*  Show high resolution image if either
                 1. high resolution display(192dpi) with 2x screen and min width is 600px OR
                 2. for really big screens (2000px = 125em) even if they are 1x screens. */ }
-      @media (min-resolution: 192dpi) and (min-width: 37.5em), (min-width: 125em) {
+      @media (min-resolution: 192dpi) and (min-width: 37.5em), (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), (min-width: 125em) {
         .card__picture--1 {
           background-image: linear-gradient(to right bottom, #ffb900, #ff7730), url(../img/nat-5.jpg); } }
     .card__picture--2 {
@@ -630,7 +631,7 @@ body {
       /*  Show high resolution image if either
                 1. high resolution display(192dpi) with 2x screen and min width is 600px OR
                 2. for really big screens (2000px = 125em) even if they are 1x screens. */ }
-      @media (min-resolution: 192dpi) and (min-width: 37.5em), (min-width: 125em) {
+      @media (min-resolution: 192dpi) and (min-width: 37.5em), (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), (min-width: 125em) {
         .card__picture--2 {
           background-image: linear-gradient(to right bottom, #7ed56f, #28b485), url(../img/nat-6.jpg); } }
     .card__picture--3 {
@@ -642,7 +643,7 @@ body {
       /*  Show high resolution image if either
                 1. high resolution display(192dpi) with 2x screen and min width is 600px OR
                 2. for really big screens (2000px = 125em) even if they are 1x screens. */ }
-      @media (min-resolution: 192dpi) and (min-width: 37.5em), (min-width: 125em) {
+      @media (min-resolution: 192dpi) and (min-width: 37.5em), (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), (min-width: 125em) {
         .card__picture--3 {
           background-image: linear-gradient(to right bottom, #2998ff, #5643fa), url(../img/nat-7.jpg); } }
   .card__heading {
@@ -972,6 +973,14 @@ body {
        We have a pseudo class called target, which applies to an element which is the target 
        when we click on a button, or basically when the URL changes to having target in it. */
   /* We want to style the content at the moment where the popup is open. */ }
+  @supports (-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px)) {
+    .popup {
+      /* backdrop filter - to apply a filter to what's behind the selected element.
+        So here we will apply a backdrop filter to this background here with a blur.
+        So basically blurring the background instead of making it dark as we have it here. */
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      background-color: rgba(0, 0, 0, 0.3); } }
   .popup__content {
     position: absolute;
     top: 50%;
@@ -1114,26 +1123,30 @@ body {
     width: 15rem;
     height: 15rem;
     float: left;
-    /* 
-           shape-outside only works when you have specified width, height and float.
-           shape outside - all it does is to define where the content floats around the element 
-           in this case, a circle.
-           And if we actually want the element to look like a circle, we need to use clip-path property.
-
-           Circle radius to be 50% of the height and width specified. 
-           bcz we want circle diameter to be equal to height and width of the this element.
-           at 50% 50% means that the center of the circle to be exactly the center horizontally and vertically.
-        */
-    -webkit-shape-outside: circle(50% at 50% 50%);
-    shape-outside: circle(50% at 50% 50%);
-    -webkit-clip-path: circle(50% at 50% 50%);
-    clip-path: circle(50% at 50% 50%);
+    border-radius: 50%;
     /* best way to move around an element that is floated is to actually not mess with margins 
            or anything like that, but we should just use a transform. */
     transform: translateX(-3rem) skewX(12deg);
     position: relative;
     /* since &__img scales the image, that adds horizontal/vertical scroll which we don't want. */
     overflow: hidden; }
+    @supports (clip-path: circle(50% at 50% 50%)) or (-webkit-clip-path: circle(50% at 50% 50%)) {
+      .story__shape {
+        -webkit-clip-path: circle(50% at 50% 50%);
+        clip-path: circle(50% at 50% 50%);
+        /* 
+            shape-outside only works when you have specified width, height and float.
+            shape outside - all it does is to define where the content floats around the element 
+            in this case, a circle.
+            And if we actually want the element to look like a circle, we need to use clip-path property.
+
+            Circle radius to be 50% of the height and width specified. 
+            bcz we want circle diameter to be equal to height and width of the this element.
+            at 50% 50% means that the center of the circle to be exactly the center horizontally and vertically.
+            */
+        -webkit-shape-outside: circle(50% at 50% 50%);
+        shape-outside: circle(50% at 50% 50%);
+        border-radius: none; } }
     @media (max-width: 37.5em) {
       .story__shape {
         transform: translateX(-3rem) skewX(0); } }
@@ -1332,8 +1345,7 @@ body {
 */
 /* Note this is 'header' class not <header> element */
 .header {
-  height: 95vh;
-  /* 95% of viewport height bcz we have added padding for body element. */
+  height: 85vh;
   background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.8), rgba(40, 180, 133, 0.8)), url(../img/hero-small.jpg);
   background-size: cover;
   /* to cover whole viewport area so that whole image can be seen */
@@ -1342,14 +1354,6 @@ body {
                                  the top of the image always stays at the top of the container. */
   position: relative;
   /* marking it as relative bcz .logo-box & .text-box are marked as absolute. */
-  /* to clip out a part of the image. 
-       There are multiple options but as per our need we need use polygon. 
-       polygon just takes cordinates of how you want to see it.
-         - for triangle - need to pass 3 cordinates,
-         - for rectangle or any shape of 4 points - need to pass 4 cordinates, etc. 
-    */
-  -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
-  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
   /*
         RESPONSIVE IMAGES IN CSS:
         All we have to do is to write media queries, in order to load different images, for different situations.
@@ -1371,7 +1375,19 @@ body {
         Also we want to show high resolution image for really big screens (2000px = 125em)
         even if they are 1x screens. (OR condition)
     */ }
-  @media (min-resolution: 192dpi) and (min-width: 37.5em), (min-width: 125em) {
+  @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
+    .header {
+      /* to clip out a part of the image. 
+        There are multiple options but as per our need we need use polygon. 
+        polygon just takes cordinates of how you want to see it.
+            - for triangle - need to pass 3 cordinates,
+            - for rectangle or any shape of 4 points - need to pass 4 cordinates, etc. 
+        */
+      -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+      clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+      height: 95vh;
+      /* 95% of viewport height bcz we have added padding for body element. */ } }
+  @media (min-resolution: 192dpi) and (min-width: 37.5em), (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), (min-width: 125em) {
     .header {
       background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.8), rgba(40, 180, 133, 0.8)), url(../img/hero.jpg); } }
   @media (max-width: 37.5em) {
@@ -1645,7 +1661,7 @@ body {
   /*  Show high resolution image if either
         1. high resolution display(192dpi) with 2x screen and min width is 600px OR
         2. for really big screens (2000px = 125em) even if they are 1x screens. */ }
-  @media (min-resolution: 192dpi) and (min-width: 37.5em), (min-width: 125em) {
+  @media (min-resolution: 192dpi) and (min-width: 37.5em), (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), (min-width: 125em) {
     .book {
       background-image: linear-gradient(105deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 50%, transparent 50%), url(../img/nat-10.jpg); } }
   @media (max-width: 75em) {
