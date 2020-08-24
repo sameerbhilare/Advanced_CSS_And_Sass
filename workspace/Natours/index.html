@@ -98,9 +98,70 @@
                     </div>
                     <div class="col-1-of-2">
                         <div class="composition">
+                            <!--
+                                RESPONSIVE IMAGES: RESOLUTION SWITCHING & DENSITY SWITCHING
+                                For Resolution Switching, we will be anyway using the srcset attribute, 
+                                but along with that we will be using the width descriptor.
+                                By using these width descriptors, we basically inform the browser of the width
+                                of each of these images without the browser having to download them 
+                                to get access to that information.
+
+                                Syntax: <img srcset="<image_path> <width_descriptor>, ..."
+                                E.g.    <img srcset="img/nat-1.jpg 300w, img/nat-1-large.jpg 1000w">
+                                        nat-1.jpg jas a width of 300px, and nat-1-large.jpg has 1000px width.
+
+                                But that alone is not enough for the browser to figure out which image to download,
+                                because what the browser knows is its view port width and its display density.
+                                But that alone is again not enough to decide which of these two images to choose.
+                                So we have to give it something else which is the 'sizes' attribute.
+
+                                We use 'sizes' to inform the browser about the approximate width of the image
+                                at different view port width. And so, with that information, together with 
+                                the width descriptor, the browser can then figure out which is the perfect image 
+                                to use for the current view port width and the current display resolution.
+
+                                Basically for 'sizes' we pass a list of a couple of break points 
+                                that we define and that which we know approximately what 
+                                the width of the image will be.
+
+                                E.g. For breakpoint 900px, considering the image width is 171px (use devtools at 900px),
+                                        hence 171/900 = 0.19 = approx 20%, so 20vw 
+                                     For breakpoint 600px, considering the image width is 171px,
+                                        hence 171/600 = 0.285 = approx 30%, so 30vw
+                                     Then default size (desktop version), considering image width is 291px
+                                        so using 300px (approx). This is used when none of previous breakpoints apply.
+                            -->
+
+                            <!--
+                                This entire img element will take care of actually 
+                                both resolution switching and density switching.
+                                Because we gave the browser enough information to figure out exactly what to do
+                                depending on both the view port width and the pixel density, so the screen resolution.
+                            -->
+                            <!-- 900px = 900/16 = 56.25em, 600px = 600/16 = 37.5em -->
+                            <img srcset="img/nat-1.jpg 300w, img/nat-1-large.jpg 1000w"
+                                 sizes="(max-width: 56.25em) 20vw, (max-width: 37.5em) 30vw, 300px"
+                                 alt="Photo 1" 
+                                 class="composition__photo composition__photo--p1"
+                                 src="img/nat-1-large.jpg"> <!-- include src tag as well in case user using older browser which does not support srcset, sizes -->
+
+                            <img srcset="img/nat-2.jpg 300w, img/nat-2-large.jpg 1000w"
+                                 sizes="(max-width: 56.25em) 20vw, (max-width: 37.5em) 30vw, 300px"
+                                 alt="Photo 2" 
+                                 class="composition__photo composition__photo--p2"
+                                 src="img/nat-2-large.jpg"> <!-- include src tag as well in case user using older browser which does not support srcset, sizes -->
+                            
+                            <img srcset="img/nat-3.jpg 300w, img/nat-3-large.jpg 1000w"
+                                 sizes="(max-width: 56.25em) 20vw, (max-width: 37.5em) 30vw, 300px"
+                                 alt="Photo 3" 
+                                 class="composition__photo composition__photo--p3"
+                                 src="img/nat-3-large.jpg"> <!-- include src tag as well in case user using older browser which does not support srcset, sizes -->
+                            
+                            <!--
                             <img src="img/nat-1-large.jpg" alt="Photo 1" class="composition__photo composition__photo--p1">
                             <img src="img/nat-2-large.jpg" alt="Photo 2" class="composition__photo composition__photo--p2">
                             <img src="img/nat-3-large.jpg" alt="Photo 3" class="composition__photo composition__photo--p3">
+                            -->
                         </div>
                     </div>
                 </div>
@@ -289,7 +350,27 @@
                 <div class="row">
                     <div class="story">
                         <figure class="story__shape">
-                            <img src="img/nat-8.jpg" alt="Person on a tour" class="story__img">
+                            <!--
+                                srcset =>
+                                    nat-8-extrasmall.jpg has width of 400px, 
+                                    nat-8-small.jpg has width of 1000px
+
+                                sizes =>
+                                    For breakpoint 900px, considering the image width is 180px (use devtools at 900px),
+                                        hence 180/900 = 0.2 = approx 20%, so 20vw 
+                                    For breakpoint 600px, considering the image width is 180px,
+                                        hence 180/600 = 0.3 = approx 30%, so 30vw
+                                    Then default size (desktop version), considering image width is 291px
+                                        so using 300px (approx). This is used when none of previous breakpoints apply.
+                            -->
+                            <img srcset="img/nat-8-extrasmall.jpg 400w, 
+                                         img/nat-8-small.jpg 1000w"
+                                 sizes="(max-width: 56.25em) 20vw, (max-width: 37.5em) 10vw, 300px"
+                                 alt="Person on a tour" 
+                                 class="story__img"
+                                 src="img/nat-8-small.jpg"> <!-- include src tag as well in case user using older browser which does not support srcset, sizes -->
+                            
+                            <!-- <img src="img/nat-8.jpg" alt="Person on a tour" class="story__img"> -->
                             <figcaption class="story__caption">Mary Smith</figcaption>
                         </figure>
                         <div class="story__text">
@@ -306,7 +387,27 @@
                 <div class="row">
                     <div class="story">
                         <figure class="story__shape">
-                            <img src="img/nat-9.jpg" alt="Person on a tour" class="story__img">
+                            <!--
+                                srcset =>
+                                    nat-8-extrasmall.jpg has width of 400px, 
+                                    nat-8-small.jpg has width of 1000px
+
+                                sizes =>
+                                    For breakpoint 900px, considering the image width is 180px (use devtools at 900px),
+                                        hence 180/900 = 0.2 = approx 20%, so 20vw 
+                                    For breakpoint 600px, considering the image width is 180px,
+                                        hence 180/600 = 0.3 = approx 30%, so 30vw
+                                    Then default size (desktop version), considering image width is 291px
+                                        so using 300px (approx). This is used when none of previous breakpoints apply.
+                            -->
+                            <img srcset="img/nat-9-extrasmall.jpg 400w, 
+                                         img/nat-9-small.jpg 1000w"
+                                 sizes="(max-width: 56.25em) 20vw, (max-width: 37.5em) 10vw, 300px"
+                                 alt="Person on a tour" 
+                                 class="story__img"
+                                 src="img/nat-9-small.jpg"> <!-- include src tag as well in case user using older browser which does not support srcset, sizes -->
+                            
+                            <!-- <img src="img/nat-9.jpg" alt="Person on a tour" class="story__img"> -->
                             <figcaption class="story__caption">Jack Willson</figcaption>
                         </figure>
                         <div class="story__text">
@@ -391,7 +492,49 @@
 
         <footer class="footer">
             <div class="footer__logo-box">
-                <img src="img/logo-green-2x.png" alt="Full Logo" class="footer__logo">
+                
+                <!-- 
+                    RESPONSIVE IMAGES: ART DIRECTION
+                    It tells the browser to use one image on one screen width and another image on another screen width.
+                    So we want to make images depend on the screen width. 
+                    And the solution for that is to use an HTML element - <picture>
+                -->
+                <picture class="footer__logo">
+                    <!-- we can specify multiple sources for one image and in the source element we can write a media query. 
+                        so with this we force the browser to use the image from source elements source set 
+                        in case that max width is less than 600 pixels,
+                        and in case it's not, so if it's larger than 600 pixels, then the browser is 
+                        forced to use the image from img element's source set. 
+                        This is called art direction - Different images for different viewport width.
+                    -->
+                    <source srcset="img/logo-green-small-1x.png 1x, img/logo-green-small-2x.png 2x," 
+                            media="(max-width: 37.5em)">
+
+                    <!-- Now inside each of these sources, we then do density switching and 
+                         that's why we're using the source set attribute instead of the source attribute. -->
+                    <!-- 
+                        RESPONSIVE IMAGES: DENSITY SWITCHING
+                        Serve a larger version of the same image for high resolution screens and 
+                        serve a smaller version of the same image for a low density screen.
+
+                        srcset attribute allows the browser to choose the best of these two images
+                        according to the screen that is used by the user to display the webpage.
+                        Syntax for srcset => "<image_path> <density_descriptor>, ..." e.g. img/logo-green-1x.png 1x
+
+                        So if it's a low density screen, the browser will use the image with 1x density descriptor
+                        and when a device has a high resolution screen, then it will use the image with 2x density descriptor
+                        as described in the srcset attribute.
+                    -->
+                    <img srcset="img/logo-green-1x.png 1x, img/logo-green-2x.png 2x" 
+                         alt="Full Logo"
+                         src="img/logo-green-2x.png"> <!-- include src tag as well in case user using older browser which does not support srcset, sizes -->
+
+                    <!--
+                        We could now of course go ahead and add another source element with another media query 
+                        here and then add more and more different versions of the image.
+                    -->
+                </picture>
+
             </div>
             <div class="row">
                 <div class="col-1-of-2">
@@ -419,8 +562,8 @@
         <div class="popup" id="popup">
             <div class="popup__content">
                 <div class="popup__left">
-                    <img src="img/nat-8.jpg" alt="Tour Photo" class="popup__img">
-                    <img src="img/nat-9.jpg" alt="Tour Photo" class="popup__img">
+                    <img src="img/nat-8-small.jpg" alt="Tour Photo" class="popup__img">
+                    <img src="img/nat-9-small.jpg" alt="Tour Photo" class="popup__img">
                 </div>
                 <div class="popup__right">
                     <!-- on close, go back to the section-tours.

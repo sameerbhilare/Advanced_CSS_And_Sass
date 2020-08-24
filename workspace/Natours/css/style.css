@@ -614,19 +614,37 @@ body {
                 w.r.t this file, the nat-5.jpg image is at ../../img/nat-5.jpg
                 However we need to write the path w.r.t the style.css file, 
                 that's because in the end all the Sass code will go into style.css file only. */
-      background-image: linear-gradient(to right bottom, #ffb900, #ff7730), url(../img/nat-5.jpg); }
+      background-image: linear-gradient(to right bottom, #ffb900, #ff7730), url(../img/nat-5-small.jpg);
+      /*  Show high resolution image if either
+                1. high resolution display(192dpi) with 2x screen and min width is 600px OR
+                2. for really big screens (2000px = 125em) even if they are 1x screens. */ }
+      @media (min-resolution: 192dpi) and (min-width: 37.5em), (min-width: 125em) {
+        .card__picture--1 {
+          background-image: linear-gradient(to right bottom, #ffb900, #ff7730), url(../img/nat-5.jpg); } }
     .card__picture--2 {
       /* IMPORTANT:
                 w.r.t this file, the nat-6.jpg image is at ../../img/nat-6.jpg
                 However we need to write the path w.r.t the style.css file, 
                 that's because in the end all the Sass code will go into style.css file only. */
-      background-image: linear-gradient(to right bottom, #7ed56f, #28b485), url(../img/nat-6.jpg); }
+      background-image: linear-gradient(to right bottom, #7ed56f, #28b485), url(../img/nat-6-small.jpg);
+      /*  Show high resolution image if either
+                1. high resolution display(192dpi) with 2x screen and min width is 600px OR
+                2. for really big screens (2000px = 125em) even if they are 1x screens. */ }
+      @media (min-resolution: 192dpi) and (min-width: 37.5em), (min-width: 125em) {
+        .card__picture--2 {
+          background-image: linear-gradient(to right bottom, #7ed56f, #28b485), url(../img/nat-6.jpg); } }
     .card__picture--3 {
       /* IMPORTANT:
                 w.r.t this file, the nat-7.jpg image is at ../../img/nat-7.jpg
                 However we need to write the path w.r.t the style.css file, 
                 that's because in the end all the Sass code will go into style.css file only. */
-      background-image: linear-gradient(to right bottom, #2998ff, #5643fa), url(../img/nat-7.jpg); }
+      background-image: linear-gradient(to right bottom, #2998ff, #5643fa), url(../img/nat-7-small.jpg);
+      /*  Show high resolution image if either
+                1. high resolution display(192dpi) with 2x screen and min width is 600px OR
+                2. for really big screens (2000px = 125em) even if they are 1x screens. */ }
+      @media (min-resolution: 192dpi) and (min-width: 37.5em), (min-width: 125em) {
+        .card__picture--3 {
+          background-image: linear-gradient(to right bottom, #2998ff, #5643fa), url(../img/nat-7.jpg); } }
   .card__heading {
     font-size: 2.8rem;
     font-weight: 500;
@@ -1316,7 +1334,7 @@ body {
 .header {
   height: 95vh;
   /* 95% of viewport height bcz we have added padding for body element. */
-  background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.8), rgba(40, 180, 133, 0.8)), url(../img/hero.jpg);
+  background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.8), rgba(40, 180, 133, 0.8)), url(../img/hero-small.jpg);
   background-size: cover;
   /* to cover whole viewport area so that whole image can be seen */
   background-position: top;
@@ -1331,7 +1349,31 @@ body {
          - for rectangle or any shape of 4 points - need to pass 4 cordinates, etc. 
     */
   -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
-  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); }
+  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+  /*
+        RESPONSIVE IMAGES IN CSS:
+        All we have to do is to write media queries, in order to load different images, for different situations.
+        We can not only use Media queries to target just screen or viewport width, 
+        but also we can write media queries depending on other things, such as the device resolution.
+        
+        So to write media query for device resolution, we can use min-resolution/max-resolution.
+        Let's set to 192dpi (dots per inch).
+        Why 192dpi? Bcz that's the resolution of the Apple retina screen. 
+        And that's a high resolution screen that's usually used as a reference.
+    */
+  /* 
+        Large version of the hero image, is shown when the resolution is higher than 192, so when we have 2x screen,
+        and at the same time, whenever the width is larger than 600 pixels (37.5em).
+        Because If the screen is below 600 and if the pixel density is 2, well then the image that we need 
+        at this size doesn't have to be larger than 1200 pixels. So 600 times 2 is 1200, and 
+        so an image, which has 1200 pixels of width, is more than enough to display on a high density screen like this.
+
+        Also we want to show high resolution image for really big screens (2000px = 125em)
+        even if they are 1x screens. (OR condition)
+    */ }
+  @media (min-resolution: 192dpi) and (min-width: 37.5em), (min-width: 125em) {
+    .header {
+      background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.8), rgba(40, 180, 133, 0.8)), url(../img/hero.jpg); } }
   @media (max-width: 37.5em) {
     .header {
       -webkit-clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
@@ -1530,7 +1572,7 @@ body {
 
 .section-features {
   padding: 20rem 0;
-  background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.8), rgba(40, 180, 133, 0.8)), url(../img/nat-4.jpg);
+  background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.8), rgba(40, 180, 133, 0.8)), url(../img/nat-4-small.jpg);
   background-size: cover;
   /* to cover whole viewport area so that whole image can be seen */
   background-position: top;
@@ -1542,9 +1584,15 @@ body {
         2. Using transform and skew functions.
     */
   transform: skewY(-7deg);
-  margin-top: -10rem; }
+  margin-top: -10rem;
+  /*  Show high resolution image if either
+        1. high resolution display(192dpi) with 2x screen and min width is 600px OR
+        2. for really big screens (2000px = 125em) even if they are 1x screens. */ }
   .section-features > * {
     transform: skewY(7deg); }
+  @media (min-resolution: 192dpi) and (min-width: 37.5em), (min-width: 125em) {
+    .section-features {
+      background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.8), rgba(40, 180, 133, 0.8)), url(../img/nat-4.jpg); } }
   @media (max-width: 56.25em) {
     .section-features {
       padding: 10em 0; } }
@@ -1586,21 +1634,27 @@ body {
         If we put two different colors at the SAME position/number(%), then what happens is that we get solid line.
         And, so we have physically a gradient between two solid colors. 
         And, that's why it is called as the solid-color gradient. */
-  background-image: linear-gradient(105deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 50%, transparent 50%), url(../img/nat-10.jpg);
+  background-image: linear-gradient(105deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 50%, transparent 50%), url(../img/nat-10-small.jpg);
   background-size: 100%;
   /* or we can also set it to 100% (of the width) which also means cover, 
                             that's because cover stretches the image to occupy the entire container, 
                             where the background-image is applied.
                             100% what is does is to ensure that the image fits the container, in the "X" direction, basically. */
   border-radius: 3px;
-  box-shadow: 0 2.2rem 4rem rgba(0, 0, 0, 0.15); }
+  box-shadow: 0 2.2rem 4rem rgba(0, 0, 0, 0.15);
+  /*  Show high resolution image if either
+        1. high resolution display(192dpi) with 2x screen and min width is 600px OR
+        2. for really big screens (2000px = 125em) even if they are 1x screens. */ }
+  @media (min-resolution: 192dpi) and (min-width: 37.5em), (min-width: 125em) {
+    .book {
+      background-image: linear-gradient(105deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 50%, transparent 50%), url(../img/nat-10.jpg); } }
   @media (max-width: 75em) {
     .book {
-      background-image: linear-gradient(105deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 65%, transparent 65%), url(../img/nat-10.jpg);
+      background-image: linear-gradient(105deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 65%, transparent 65%), url(../img/nat-10-small.jpg);
       background-size: cover; } }
   @media (max-width: 56.25em) {
     .book {
-      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 100%), url(../img/nat-10.jpg); } }
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 100%), url(../img/nat-10-small.jpg); } }
   .book__form {
     width: 50%;
     padding: 6rem; }

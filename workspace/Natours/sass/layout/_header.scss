@@ -6,10 +6,10 @@
  .header {
     height: 95vh; /* 95% of viewport height bcz we have added padding for body element. */
     background-image: linear-gradient( 
-                        to right bottom,  /* gradient going from top left to right bottom */
-                        rgba($color-primary-light, 0.8), /* color with opacity in order to see backgound img */
-                        rgba($color-primary-dark, 0.8)), /* color with opacity in order to see backgound img */
-                      url(../img/hero.jpg);
+                to right bottom,  /* gradient going from top left to right bottom */
+                rgba($color-primary-light, 0.8), /* color with opacity in order to see backgound img */
+                rgba($color-primary-dark, 0.8)), /* color with opacity in order to see backgound img */
+            url(../img/hero-small.jpg); // normal state background image for normal or low resolution displays.
     background-size: cover; /* to cover whole viewport area so that whole image can be seen */
     background-position: top; /* ensure that whatever the viewport size is 
                                  the top of the image always stays at the top of the container. */
@@ -24,7 +24,38 @@
     */
     -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); 
     clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); 
-    
+
+    /*
+        RESPONSIVE IMAGES IN CSS:
+        All we have to do is to write media queries, in order to load different images, for different situations.
+        We can not only use Media queries to target just screen or viewport width, 
+        but also we can write media queries depending on other things, such as the device resolution.
+        
+        So to write media query for device resolution, we can use min-resolution/max-resolution.
+        Let's set to 192dpi (dots per inch).
+        Why 192dpi? Bcz that's the resolution of the Apple retina screen. 
+        And that's a high resolution screen that's usually used as a reference.
+    */
+
+    /* 
+        Large version of the hero image, is shown when the resolution is higher than 192, so when we have 2x screen,
+        and at the same time, whenever the width is larger than 600 pixels (37.5em).
+        Because If the screen is below 600 and if the pixel density is 2, well then the image that we need 
+        at this size doesn't have to be larger than 1200 pixels. So 600 times 2 is 1200, and 
+        so an image, which has 1200 pixels of width, is more than enough to display on a high density screen like this.
+
+        Also we want to show high resolution image for really big screens (2000px = 125em)
+        even if they are 1x screens. (OR condition)
+    */
+    @media (min-resolution: 192dpi) and (min-width: 37.5em), // 192 dots per inch, 37.5em = 600px
+           (min-width: 125em) { // to show high resolution image for really big screens even if they are 1x screens.
+        background-image: linear-gradient( 
+                        to right bottom,  /* gradient going from top left to right bottom */
+                        rgba($color-primary-light, 0.8), /* color with opacity in order to see backgound img */
+                        rgba($color-primary-dark, 0.8)), /* color with opacity in order to see backgound img */
+                      url(../img/hero.jpg); // high resolution background image ****************
+    }
+
     @include respond(phone) {
         // for mobile, the clip-path is too steep. 
         -webkit-clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%); 

@@ -21,7 +21,7 @@
                         to right bottom,  /* gradient going from top left to right bottom */
                         rgba($color-primary-light, 0.8), /* color with opacity in order to see backgound img */
                         rgba($color-primary-dark, 0.8)), /* color with opacity in order to see backgound img */
-                      url(../img/nat-4.jpg);
+                      url(../img/nat-4-small.jpg);
     background-size: cover; /* to cover whole viewport area so that whole image can be seen */
     background-position: top; /* ensure that whatever the viewport size is 
                                  the top of the image always stays at the top of the container. */
@@ -37,6 +37,18 @@
     // select DIRECT children of this .section-feature (NOT grand or grand-grand children)
     & > * {
         transform: skewY(7deg); // positive degree to have exact oposite effect for inner content.
+    }
+
+    /*  Show high resolution image if either
+        1. high resolution display(192dpi) with 2x screen and min width is 600px OR
+        2. for really big screens (2000px = 125em) even if they are 1x screens. */
+    @media (min-resolution: 192dpi) and (min-width: 37.5em), // 192 dots per inch, 37.5em = 600px
+           (min-width: 125em) {
+        background-image: linear-gradient( 
+                        to right bottom,  /* gradient going from top left to right bottom */
+                        rgba($color-primary-light, 0.8), /* color with opacity in order to see backgound img */
+                        rgba($color-primary-dark, 0.8)), /* color with opacity in order to see backgound img */
+                      url(../img/nat-4.jpg); // high resolution image
     }
 
     @include respond(tab-port) {
@@ -95,7 +107,7 @@
                                       rgba($color-white, .9) 0%, /* at 0%, we want this color here to be. */
                                       rgba($color-white, .9) 50%, /* at 50%, we want this color here to be. */
                                       transparent 50%),  /* at 50%, we want this color (transparent) here to be. (same position as above in order to have clipped shape effect.) */
-                      url(../img/nat-10.jpg);
+                      url(../img/nat-10-small.jpg);
     background-size: 100%; /* or we can also set it to 100% (of the width) which also means cover, 
                             that's because cover stretches the image to occupy the entire container, 
                             where the background-image is applied.
@@ -103,12 +115,24 @@
     border-radius: 3px;
     box-shadow: 0 2.2rem 4rem rgba($color-black, .15);
 
+    /*  Show high resolution image if either
+        1. high resolution display(192dpi) with 2x screen and min width is 600px OR
+        2. for really big screens (2000px = 125em) even if they are 1x screens. */
+    @media (min-resolution: 192dpi) and (min-width: 37.5em), // 192 dots per inch, 37.5em = 600px
+           (min-width: 125em) {
+            background-image: linear-gradient(105deg, /* instead of direction we pass angle at which we want the clipped shape. */
+                    rgba($color-white, .9) 0%, /* at 0%, we want this color here to be. */
+                    rgba($color-white, .9) 50%, /* at 50%, we want this color here to be. */
+                    transparent 50%),  /* at 50%, we want this color (transparent) here to be. (same position as above in order to have clipped shape effect.) */
+                url(../img/nat-10.jpg); // high resolution image
+    }
+
     @include respond(tab-land) {
         background-image: linear-gradient(105deg, /* instead of direction we pass angle at which we want the clipped shape. */
                                       rgba($color-white, .9) 0%, /* at 0%, we want this color here to be. */
                                       rgba($color-white, .9) 65%, /* increasing to 65% */
                                       transparent 65%),  /* increasing to 65%. (same position as above in order to have clipped shape effect.) */
-                      url(../img/nat-10.jpg);
+                      url(../img/nat-10-small.jpg);
         background-size: cover; // change from 100% to cover
     }
 
@@ -116,7 +140,7 @@
         background-image: linear-gradient(to right, /* no degree */
                                       rgba($color-white, .9) 0%, /* at 0%, we want this color here to be. */
                                       rgba($color-white, .9) 100% ), /* increasing to 65% */
-                      url(../img/nat-10.jpg);
+                      url(../img/nat-10-small.jpg);
     }
 
     &__form {

@@ -101,7 +101,16 @@
                 However we need to write the path w.r.t the style.css file, 
                 that's because in the end all the Sass code will go into style.css file only. */
             background-image: linear-gradient(to right bottom, $color-secondary-light, $color-secondary-dark),
-                              url(../img/nat-5.jpg);
+                              url(../img/nat-5-small.jpg); // low resolution image
+             
+            /*  Show high resolution image if either
+                1. high resolution display(192dpi) with 2x screen and min width is 600px OR
+                2. for really big screens (2000px = 125em) even if they are 1x screens. */
+            @media (min-resolution: 192dpi) and (min-width: 37.5em), // 192 dots per inch, 37.5em = 600px
+                   (min-width: 125em) {
+                background-image: linear-gradient(to right bottom, $color-secondary-light, $color-secondary-dark),
+                              url(../img/nat-5.jpg); // high resolution image
+            }
         }
 
         &--2 {
@@ -110,7 +119,16 @@
                 However we need to write the path w.r.t the style.css file, 
                 that's because in the end all the Sass code will go into style.css file only. */
                 background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary-dark),
-                url(../img/nat-6.jpg);
+                url(../img/nat-6-small.jpg); // low resolution image
+            
+            /*  Show high resolution image if either
+                1. high resolution display(192dpi) with 2x screen and min width is 600px OR
+                2. for really big screens (2000px = 125em) even if they are 1x screens. */
+            @media (min-resolution: 192dpi) and (min-width: 37.5em), // 192 dots per inch, 37.5em = 600px
+                   (min-width: 125em) {
+                background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary-dark),
+                                url(../img/nat-6.jpg); // high resolution image
+            }
         }
 
         &--3 {
@@ -119,7 +137,16 @@
                 However we need to write the path w.r.t the style.css file, 
                 that's because in the end all the Sass code will go into style.css file only. */
                 background-image: linear-gradient(to right bottom, $color-tertiary-light, $color-tertiary-dark),
-                url(../img/nat-7.jpg);
+                url(../img/nat-7-small.jpg); // low resolution image
+            
+            /*  Show high resolution image if either
+                1. high resolution display(192dpi) with 2x screen and min width is 600px OR
+                2. for really big screens (2000px = 125em) even if they are 1x screens. */
+            @media (min-resolution: 192dpi) and (min-width: 37.5em), // 192 dots per inch, 37.5em = 600px
+                   (min-width: 125em) {
+                background-image: linear-gradient(to right bottom, $color-tertiary-light, $color-tertiary-dark),
+                            url(../img/nat-7.jpg); // high resolution image
+            }
         }
     }
 
