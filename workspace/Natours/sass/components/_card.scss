@@ -107,9 +107,9 @@
             /*  Show high resolution image if either
                 1. high resolution display(192dpi) with 2x screen and min width is 600px OR
                 2. for really big screens (2000px = 125em) even if they are 1x screens. */
-            @media (min-resolution: 192dpi) and (min-width: 37.5em), // 192 dots per inch, 37.5em = 600px
-                   (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), // for safari, 2 means at least 2x
-                   (min-width: 125em) {
+            @media only screen and (min-resolution: 192dpi) and (min-width: 37.5em), // 192 dots per inch, 37.5em = 600px
+                   only screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), // for safari, 2 means at least 2x
+                   only screen and (min-width: 125em) {
                 background-image: linear-gradient(to right bottom, $color-secondary-light, $color-secondary-dark),
                               url(../img/nat-5.jpg); // high resolution image
             }
@@ -126,9 +126,9 @@
             /*  Show high resolution image if either
                 1. high resolution display(192dpi) with 2x screen and min width is 600px OR
                 2. for really big screens (2000px = 125em) even if they are 1x screens. */
-            @media (min-resolution: 192dpi) and (min-width: 37.5em), // 192 dots per inch, 37.5em = 600px
-                   (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), // for safari, 2 means at least 2x
-                   (min-width: 125em) {
+            @media only screen and (min-resolution: 192dpi) and (min-width: 37.5em), // 192 dots per inch, 37.5em = 600px
+                   only screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), // for safari, 2 means at least 2x
+                   only screen and (min-width: 125em) {
                 background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary-dark),
                                 url(../img/nat-6.jpg); // high resolution image
             }
@@ -145,9 +145,9 @@
             /*  Show high resolution image if either
                 1. high resolution display(192dpi) with 2x screen and min width is 600px OR
                 2. for really big screens (2000px = 125em) even if they are 1x screens. */
-            @media (min-resolution: 192dpi) and (min-width: 37.5em), // 192 dots per inch, 37.5em = 600px
-                   (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), // for safari, 2 means at least 2x
-                   (min-width: 125em) {
+            @media only screen and (min-resolution: 192dpi) and (min-width: 37.5em), // 192 dots per inch, 37.5em = 600px
+                   only screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), // for safari, 2 means at least 2x
+                   only screen and (min-width: 125em) {
                 background-image: linear-gradient(to right bottom, $color-tertiary-light, $color-tertiary-dark),
                             url(../img/nat-7.jpg); // high resolution image
             }
@@ -266,8 +266,20 @@
     and so, the only way to actually move the cart, is to click it, and that's not practical.
     So We don't want the price and book button to sit at the back of our cart.
     So, we basically have to actually, change the entire cart, this will be half a rewrite of this cart.
+
+    We cannot use @include respond(tab-port) here because we want to put additional condition for touch devices.
+    
+    only screen and (max-width: 56.25em),
+    only screen and (hover: none) =>
+        So the card should be displayed with the back part visible when the screen is smaller than 56.25em.
+        OR whenever we're using a device where we can not hover, which basically means, 
+        whenever we have a device which uses touch as the primary input.
+    
+    Opposite of (hover:none) is (hover:hover).
     */
-    @include respond(tab-port) {
+    //@include respond(tab-port) {
+    @media only screen and (max-width: 56.25em),
+           only screen and (hover: none) {
 
         height: auto;
         border-radius: 3px; // to have border radius for both front and back

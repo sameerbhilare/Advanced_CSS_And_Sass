@@ -142,3 +142,12 @@
         padding: 0; // remove padding for width < 900
     }
  }
+
+
+/*
+    Whenever the user selects text, he can see our own personal style applied to that selection.
+*/
+ ::selection {
+     background-color: $color-primary;
+     color: $color-white;
+ }
