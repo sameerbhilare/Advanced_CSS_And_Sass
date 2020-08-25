@@ -43,11 +43,22 @@
 
             <nav class="navigation__nav">
                 <ul class="navigation__list">
-                    <li class="navigation__item"><a href="#" class="navigation__link"><span>01</span>About Natours</a></li>
-                    <li class="navigation__item"><a href="#" class="navigation__link"><span>02</span>Your benefits</a></li>
-                    <li class="navigation__item"><a href="#" class="navigation__link"><span>03</span>Popular tours</a></li>
-                    <li class="navigation__item"><a href="#" class="navigation__link"><span>04</span>Stories</a></li>
-                    <li class="navigation__item"><a href="#" class="navigation__link"><span>05</span>Book Now</a></li>
+                    <!-- handler for these click events is written at the end of this html in the <script> tag -->
+                    <li class="navigation__item">
+                        <a href="#section-about" class="navigation__link"><span>01</span>About Natours</a>
+                    </li>
+                    <li class="navigation__item">
+                        <a href="#section-features" class="navigation__link"><span>02</span>Your benefits</a>
+                    </li>
+                    <li class="navigation__item">
+                        <a href="#section-tours" class="navigation__link"><span>03</span>Popular tours</a>
+                    </li>
+                    <li class="navigation__item">
+                        <a href="#section-stories" class="navigation__link"><span>04</span>Stories</a>
+                    </li>
+                    <li class="navigation__item">
+                        <a href="#section-book" class="navigation__link"><span>05</span>Book Now</a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -74,7 +85,7 @@
 
         <!-- Main content of our website. It helps Search Engines to know that. -->
         <main>
-            <section class="section-about">
+            <section class="section-about" id="section-about">
                 <div class="u-center-text u-margin-bottom-big"> <!-- utility class -->
                     <h2 class="heading-secondary">
                         Exciting tours for adventurous people
@@ -169,7 +180,7 @@
                 </div>
             </section>
 
-            <section class="section-features">
+            <section class="section-features" id="section-features">
                 <!-- To demonstrate how we can use the icons that we just included. 
                      We need to add one of the classes from icon-font.css to an element.
                      And it doesn't really matter what element it is. but its a convention to use the i element. 
@@ -326,7 +337,7 @@
                 </div>
             </section>
 
-            <section class="section-stories">
+            <section class="section-stories" id="section-stories">
 
                 <!-- div for background video -->
                 <div class="bg-video">
@@ -429,7 +440,7 @@
 
             </section>
 
-            <section class="section-book">
+            <section class="section-book" id="section-book">
                 <div class="row">
                     <div class="book">
                         <div class="book__form">
@@ -652,6 +663,19 @@
             </div>
 
         </section>  -->
+
+        <script>
+            // handlers for Navigation links
+            window.onload = function() {
+                var navigationLinks = document.getElementsByClassName('navigation__link');
+                for(var i = 0; i < navigationLinks.length; i++) {
+                    var nav = navigationLinks[i];
+                    nav.onclick = function() {
+                        document.getElementById('navi-toggle').checked = false;
+                    }
+                }
+            }
+        </script>
 
     </body>
 </html>
