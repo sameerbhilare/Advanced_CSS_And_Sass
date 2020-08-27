@@ -1,1 +1,289 @@
-*{margin:0;padding:0}body{background-color:#eb2f64}
+:root {
+  --color-primary: #eb2f64;
+  --color-primary-light: #FF3366;
+  --color-primary-dark: #BA265D;
+  --color-grey-light-1: #faf9f9;
+  --color-grey-light-2: #f4f2f2;
+  --color-grey-light-3: #f0eeee;
+  --color-grey-light-4: #ccc;
+  --color-grey-dark-1: #333;
+  --color-grey-dark-2: #777;
+  --color-grey-dark-3: #999;
+  --shadow-dark: 0 2rem 6rem rgba(0,0,0,.3); }
+
+* {
+  margin: 0;
+  padding: 0; }
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit; }
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%; }
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  line-height: 1.6rem;
+  color: var(--color-grey-dark-2);
+  background-image: linear-gradient(to right bottom, var(--color-primary-light), var(--color-primary-dark));
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh; }
+
+.container {
+  /* The container can decrease if there is not enough space to display 120rem 
+       If it's not enough space,i.e. if the view port is less that 1200 pixels, 
+       then we simply occupy 100% of the available view port width.*/
+  max-width: 120rem;
+  margin: 8rem auto;
+  background-color: var(--color-grey-light-2);
+  box-shadow: var(--shadow-dark);
+  min-height: 50rem; }
+
+.header {
+  font-size: 1.4rem;
+  height: 7rem;
+  background-color: #fff;
+  border-bottom: var(--color-grey-light-2);
+  /* In order to put the three elements (logo, search box, user navigation) in the header side by side.
+       So the flex container in this case should simply be the parent element of the elements */
+  display: flex;
+  /* We want the user navigation all the way to the right side, And then search box in the middle. */
+  justify-content: space-between;
+  /*  We want to align each flex item nicely centered vertically in the header.
+        So, if we didn't have Flexbox, we could use like margin-top 
+        and would then have to experiment which is the perfect margin.
+        But Flexbox makes our lives so much easier and all we have to do is 
+        to use the align-items property, which is center the items vertically, i.e. along the cross axis */
+  align-items: center; }
+
+.content {
+  display: flex; }
+
+.sidebar {
+  background-color: var(--color-grey-dark-1);
+  /* The property that we use to flexbox to define width is the flex-basis,
+       but we should always use it in the shortened flex property. 
+       flex-grow: 0; - we don't want the elements to grow even  if there's some space available. 
+       flex-shrink: 0; - also we don't want the elements to shrink if there's not enough space.
+       flex-basis:18%; - width of the flex item. */
+  flex: 0 0 18%;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between
+       This divides all the available wide space between the elements 
+       and in this case, there are only two elements (.side-nav and .legal) 
+       and so, therefore, one is pushed to one side(here top), and other is pushed to the other side (here bottom).*/
+  justify-content: space-between; }
+
+.hotel-view {
+  background-color: #fff;
+  /* We want it to grow as much as it can to over all the available space that it has (100-18% = 82%).
+       flex-grow: 1; 
+       flex-shrink and flex-basis will be default. */
+  flex: 1;
+  background-color: orangered;
+  height: 80rem; }
+
+/*
+    We will write all the code for all the smaller components into this file.
+    These are not really components in the meaning that they're not necessarily really reusable across projects
+    but I'm still calling them simply components here because that's the easiest way to do it here.
+*/
+/*************************************
+ LOGO
+*/
+.logo {
+  height: 3.25rem;
+  margin-left: 2rem; }
+
+/*************************************
+ SEARCH BOX
+*/
+.search {
+  flex: 0 0 40%;
+  /* when the input field is not active, we want search button to be at the center of search input element.
+      So, of the parent element. The best solution is, once again, to use Flexbox.
+      And so you see, each time we want to center something, or to align something, we can always use Flexbox.
+      For Flexbox is perfect for all of these small situations where we need to align or center some elements.
+
+      this element is basically a flex-item. And it is becoming a flex container. Nested Flexbox. :)
+    */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* set the background color of the button to the same color of when the input is focused, 
+       + adjacent sibling. */ }
+  .search__input {
+    /* An input element doesn't inherit the font related proeprties of the global document.
+           And so we have to automatically set it to inherit here. */
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    background-color: var(--color-grey-light-2);
+    border: none;
+    padding: .7rem 2rem;
+    border-radius: 100px;
+    width: 90%;
+    transition: all .2s;
+    /* In order to have button on top of input box, 
+           we should give the input some negative margin on the right side. 
+           This way, the button will move on top of the input. */
+    margin-right: -3.25rem;
+    /* Basically the placeholder should have lighter text. 
+           And when we start typing, it becomes the dark text. */ }
+    .search__input:focus {
+      outline: none;
+      width: 100%;
+      background-color: var(--color-grey-light-3); }
+    .search__input::-webkit-input-placeholder {
+      font-weight: 100;
+      color: var(--color-grey-light-4); }
+    .search__input::placeholder {
+      font-weight: 100;
+      color: var(--color-grey-light-4); }
+  .search__input:focus + .search__button {
+    background-color: var(--color-grey-light-3); }
+  .search__button {
+    border: none;
+    /* the same background color as the input because we basically want it to be like on top of the input.
+           in order for that to happen, we should give the input here some negative margin on the right side. */
+    background-color: var(--color-grey-light-2); }
+    .search__button:focus {
+      outline: none; }
+    .search__button:active {
+      transform: translateY(2px); }
+  .search__icon {
+    height: 2rem;
+    width: 2rem;
+    fill: var(--color-grey-dark-3); }
+
+/*************************************
+ USER NAVigation
+*/
+.user-nav {
+  /*  user-nav is itself a flex item. 
+        All flex items are center aligned as defined in .header's align-items property.
+        But we want to override specifically this flex-item. Hence we need o use align-self flex-item property.
+        We want to stretch it bcz on hover we want to show grey color for whole box
+    */
+  align-self: stretch;
+  display: flex;
+  align-items: center; }
+  .user-nav > * {
+    padding: 0 2rem;
+    cursor: pointer;
+    height: 100%;
+    /* This is 3rd level of nested flex container.
+           header is a flex container, then the user-nav is a flex container,
+           and now the icon-box and user as flex containers. */
+    display: flex;
+    align-items: center; }
+  .user-nav > *:hover {
+    background-color: var(--color-grey-light-2); }
+  .user-nav__icon-box {
+    position: relative; }
+  .user-nav__icon {
+    height: 2.25rem;
+    width: 2.25rem;
+    fill: var(--color-grey-dark-2); }
+  .user-nav__notification {
+    font-size: .8rem;
+    height: 1.75rem;
+    width: 1.75rem;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    color: #fff;
+    position: absolute;
+    top: 1.5rem;
+    right: 1.1rem;
+    /* This is an amazing trick. Flexbox also works with text element.
+           Here basically we want to center the text in the rounded pink circle. */
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+  .user-nav__user-photo {
+    height: 3.75rem;
+    border-radius: 50%;
+    margin-right: 1rem; }
+
+/*************************************
+ SIDE NAVIGATION
+*/
+.side-nav {
+  font-size: 1.4rem;
+  list-style: none;
+  margin-top: 3.5rem;
+  /*  In order to have the animation effect of showing pink box from left to right, 
+        we're going to use a before pseudo element, which we basically place before this list item
+        and that is the one that will show as soon as we hover on this item.
+        so that it will show and then grow to the right side. */
+  /* On hovering the mail nav item, the pseudo element should transform and scale on Y direction.
+       Also the active state should be exactly the same as the hover state. */
+  /* when we click on the item, the color should get a little bit brighter.
+       So that at least we have some small active state to show the user that he clicked on the item. */ }
+  .side-nav__item {
+    position: relative; }
+    .side-nav__item:not(:last-child) {
+      margin-bottom: .5rem; }
+  .side-nav__item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 3px;
+    background-color: var(--color-primary);
+    transform: scaleY(0);
+    /* basically it starts in the middle and then it grows to the sides, 
+           and so it grows in the Y direction because we're using scale Y.
+           That's because the transform-origin is by default set to center. 
+           
+           We need to add a delay to the width becausee if we don't, it will simply
+           expand immediately and then you'll see it's scaling, but that's not what we want. 
+
+           There's an ability in the transition property to add different settings for different properties.
+           i.e. we can have different durations and also different animation timing functions, differemt delays
+           for different proeprties.
+           So for width proprety - 
+                transition of .4s and
+                delay of .2s (which is exactly the time it takes for the first 'transform' transition. )
+            
+           This way we can have like the staged animations, where first the transform happens 
+           and then the width with the delay. */
+    transition: transform 0.2s, width 0.4s cubic-bezier(1, 0, 0, 1) 0.2s, background-color 0.1s;
+    /* */ }
+  .side-nav__item:hover::before, .side-nav__item--active::before {
+    transform: scaleY(1);
+    width: 100%; }
+  .side-nav__item:active::before {
+    background-color: var(--color-primary-light); }
+  .side-nav__link:link, .side-nav__link:visited {
+    color: var(--color-grey-light-1);
+    text-decoration: none;
+    text-transform: uppercase;
+    display: block;
+    padding: 1.5rem 3rem;
+    z-index: 10;
+    position: relative;
+    /* side-nav__link and thesvg icon are not aligned properly. so use flexbox. */
+    display: flex;
+    align-items: center; }
+  .side-nav__icon {
+    width: 1.75rem;
+    height: 1.75rem;
+    margin-right: 2rem;
+    fill: currentColor; }
+
+/*************************************
+ LEGAL TEXT
+*/
+.legal {
+  font-size: 1.2rem;
+  text-align-last: center;
+  padding: 2.5rem;
+  color: var(--color-grey-light-4); }

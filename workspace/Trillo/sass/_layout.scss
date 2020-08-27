@@ -1,0 +1,69 @@
+
+.container {
+    /* The container can decrease if there is not enough space to display 120rem 
+       If it's not enough space,i.e. if the view port is less that 1200 pixels, 
+       then we simply occupy 100% of the available view port width.*/
+    max-width: 120rem; 
+    margin: 8rem auto; // to center the container
+    background-color: var(--color-grey-light-2);
+    box-shadow: var(--shadow-dark);
+
+    min-height: 50rem;
+}
+
+.header {
+    font-size: 1.4rem; // so that child elements can inherit this font-size
+    height: 7rem;
+    background-color: #fff;
+    border-bottom: var(--color-grey-light-2);
+
+    /* In order to put the three elements (logo, search box, user navigation) in the header side by side.
+       So the flex container in this case should simply be the parent element of the elements */
+    display: flex;
+
+    /* We want the user navigation all the way to the right side, And then search box in the middle. */
+    justify-content: space-between;
+
+    /*  We want to align each flex item nicely centered vertically in the header.
+        So, if we didn't have Flexbox, we could use like margin-top 
+        and would then have to experiment which is the perfect margin.
+        But Flexbox makes our lives so much easier and all we have to do is 
+        to use the align-items property, which is center the items vertically, i.e. along the cross axis */
+    align-items: center;
+}
+
+.content {
+    display: flex;
+}
+
+.sidebar {
+    background-color: var(--color-grey-dark-1);
+
+    /* The property that we use to flexbox to define width is the flex-basis,
+       but we should always use it in the shortened flex property. 
+       flex-grow: 0; - we don't want the elements to grow even  if there's some space available. 
+       flex-shrink: 0; - also we don't want the elements to shrink if there's not enough space.
+       flex-basis:18%; - width of the flex item. */
+    flex: 0 0 18%;
+
+    display: flex;
+    flex-direction: column; // note the direction, Here the main-axis is top to down.
+
+    /* justify-content: space-between
+       This divides all the available wide space between the elements 
+       and in this case, there are only two elements (.side-nav and .legal) 
+       and so, therefore, one is pushed to one side(here top), and other is pushed to the other side (here bottom).*/
+    justify-content: space-between;
+}
+
+.hotel-view {
+    background-color: #fff;
+
+    /* We want it to grow as much as it can to over all the available space that it has (100-18% = 82%).
+       flex-grow: 1; 
+       flex-shrink and flex-basis will be default. */
+    flex: 1; 
+
+    background-color: orangered; // for testing
+    height: 80rem; // for testing
+}

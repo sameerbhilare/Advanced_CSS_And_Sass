@@ -1,0 +1,277 @@
+/*
+    We will write all the code for all the smaller components into this file.
+    These are not really components in the meaning that they're not necessarily really reusable across projects
+    but I'm still calling them simply components here because that's the easiest way to do it here.
+*/
+
+/*************************************
+ LOGO
+*/
+.logo {
+    height: 3.25rem;
+    margin-left: 2rem;
+}
+
+
+/*************************************
+ SEARCH BOX
+*/
+.search {
+
+    flex: 0 0 40%; // to give width to the flex item
+
+    /* when the input field is not active, we want search button to be at the center of search input element.
+      So, of the parent element. The best solution is, once again, to use Flexbox.
+      And so you see, each time we want to center something, or to align something, we can always use Flexbox.
+      For Flexbox is perfect for all of these small situations where we need to align or center some elements.
+
+      this element is basically a flex-item. And it is becoming a flex container. Nested Flexbox. :)
+    */
+    display: flex;
+    align-items: center; // to center centers the elements along the cross axis
+    justify-content: center; // centers the elements along the main axis.
+
+    &__input {
+        /* An input element doesn't inherit the font related proeprties of the global document.
+           And so we have to automatically set it to inherit here. */
+        font-family: inherit;
+        font-size: inherit;
+        color: inherit;
+
+        background-color: var(--color-grey-light-2);
+        border: none;
+        padding: .7rem 2rem;
+        border-radius: 100px; // so that it has these rounded edges.
+        width: 90%; // initial width
+        transition: all .2s;
+
+        /* In order to have button on top of input box, 
+           we should give the input some negative margin on the right side. 
+           This way, the button will move on top of the input. */
+        margin-right: -3.25rem;
+
+        &:focus {
+            outline: none; // we don't want browser specific outline around the focused element.
+            width: 100%;
+            background-color: var(--color-grey-light-3);
+        }
+
+        /* Basically the placeholder should have lighter text. 
+           And when we start typing, it becomes the dark text. */
+        &::-webkit-input-placeholder {
+            font-weight: 100;
+            color: var(--color-grey-light-4);
+        }
+        
+        &::placeholder {
+            font-weight: 100;
+            color: var(--color-grey-light-4);
+        }
+    }
+
+    /* set the background color of the button to the same color of when the input is focused, 
+       + adjacent sibling. */
+    &__input:focus + &__button {
+        background-color: var(--color-grey-light-3);
+    }
+
+    &__button {
+        border: none;
+        /* the same background color as the input because we basically want it to be like on top of the input.
+           in order for that to happen, we should give the input here some negative margin on the right side. */
+        background-color: var(--color-grey-light-2); 
+
+        &:focus {
+            outline: none; // we don't want browser specific outline around the focused element.
+        }
+
+        &:active {
+            // basically when we click the button, we just want it to move a bit down.
+            transform: translateY(2px);
+        }
+    }
+
+    &__icon {
+        height: 2rem;
+        width: 2rem;
+        fill: var(--color-grey-dark-3); // to change the svg color
+    }
+}
+
+
+
+/*************************************
+ USER NAVigation
+*/
+.user-nav {
+
+    /*  user-nav is itself a flex item. 
+        All flex items are center aligned as defined in .header's align-items property.
+        But we want to override specifically this flex-item. Hence we need o use align-self flex-item property.
+        We want to stretch it bcz on hover we want to show grey color for whole box
+    */
+    align-self: stretch;
+
+    // Nested Flexbox
+    display: flex;
+    align-items: center;
+
+    // usr-nav and all of its direct children
+    & > * {
+        padding: 0 2rem;
+        cursor: pointer;
+        height: 100%; // bcz on hover we want to show grey color for whole box
+
+        /* This is 3rd level of nested flex container.
+           header is a flex container, then the user-nav is a flex container,
+           and now the icon-box and user as flex containers. */
+        display: flex; 
+        align-items: center; // aligns the flex items along the cross axis, so usually vertically.
+    }
+
+    // usr-nav and all of its direct children - on hover should have grey background
+    & > *:hover {
+        background-color: var(--color-grey-light-2);
+    }
+
+    &__icon-box {
+        position: relative; // bcz child &_notification is absolute positioned
+    }
+
+    &__icon {
+        height: 2.25rem;
+        width: 2.25rem;
+        fill: var(--color-grey-dark-2); // changing color of the svg icon
+    }
+
+    &__notification {
+        font-size: .8rem;
+
+        // create a circle
+        height: 1.75rem;
+        width: 1.75rem;
+        border-radius: 50%;
+        background-color: var(--color-primary);
+        color: #fff;
+
+        position: absolute; // it's parent should be se to relative
+        top: 1.5rem;
+        right: 1.1rem;
+
+        /* This is an amazing trick. Flexbox also works with text element.
+           Here basically we want to center the text in the rounded pink circle. */
+        display: flex;  // 4th level of nested flexbox.
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__user-photo {
+        height: 3.75rem;
+        border-radius: 50%;
+        margin-right: 1rem;
+    }
+
+}
+
+
+
+/*************************************
+ SIDE NAVIGATION
+*/
+.side-nav {
+
+    font-size: 1.4rem;
+    list-style: none;
+    margin-top: 3.5rem;
+
+    &__item {
+        position: relative; // bcz child pseudo element(::before) is absolute
+
+        &:not(:last-child) {
+            margin-bottom: .5rem; // for space between navigation items
+        }
+    }
+
+    /*  In order to have the animation effect of showing pink box from left to right, 
+        we're going to use a before pseudo element, which we basically place before this list item
+        and that is the one that will show as soon as we hover on this item.
+        so that it will show and then grow to the right side. */
+    &__item::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%; // to have exactly the same height as the list item
+        width: 3px;
+        background-color: var(--color-primary);
+        transform: scaleY(0);
+
+        /* basically it starts in the middle and then it grows to the sides, 
+           and so it grows in the Y direction because we're using scale Y.
+           That's because the transform-origin is by default set to center. 
+           
+           We need to add a delay to the width becausee if we don't, it will simply
+           expand immediately and then you'll see it's scaling, but that's not what we want. 
+
+           There's an ability in the transition property to add different settings for different properties.
+           i.e. we can have different durations and also different animation timing functions, differemt delays
+           for different proeprties.
+           So for width proprety - 
+                transition of .4s and
+                delay of .2s (which is exactly the time it takes for the first 'transform' transition. )
+            
+           This way we can have like the staged animations, where first the transform happens 
+           and then the width with the delay. */
+        transition: transform .2s,
+                    width .4s cubic-bezier(1, 0, 0, 1) .2s, // timing function - cubic-bezier()
+                    background-color .1s;
+
+        /* */
+    }
+
+    /* On hovering the mail nav item, the pseudo element should transform and scale on Y direction.
+       Also the active state should be exactly the same as the hover state. */
+    &__item:hover::before,
+    &__item--active::before {
+        transform: scaleY(1); // to scale only occurs in the Y direction
+        width: 100%;
+    }
+
+    /* when we click on the item, the color should get a little bit brighter.
+       So that at least we have some small active state to show the user that he clicked on the item. */
+    &__item:active::before {
+        background-color: var(--color-primary-light);
+    }
+
+    &__link:link,
+    &__link:visited {
+        color: var(--color-grey-light-1);
+        text-decoration: none;
+        text-transform: uppercase;
+        display: block;
+        padding: 1.5rem 3rem;
+        z-index: 10; // to have the link on top o that ::before transform won't overshadow the link
+        position: relative; // z-index only works if we have position specified.
+
+        /* side-nav__link and thesvg icon are not aligned properly. so use flexbox. */
+        display: flex;
+        align-items: center;
+    }
+
+    &__icon {
+        width: 1.75rem;
+        height: 1.75rem;
+        margin-right: 2rem;
+        fill: currentColor; // currentColor is just the color of the current element or the parent element.
+    }
+}
+
+/*************************************
+ LEGAL TEXT
+*/
+.legal {
+    font-size: 1.2rem;
+    text-align-last: center;
+    padding: 2.5rem;
+    color: var(--color-grey-light-4);
+}
