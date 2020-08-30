@@ -215,7 +215,7 @@
 
            There's an ability in the transition property to add different settings for different properties.
            i.e. we can have different durations and also different animation timing functions, differemt delays
-           for different proeprties.
+           for different properties.
            So for width proprety - 
                 transition of .4s and
                 delay of .2s (which is exactly the time it takes for the first 'transform' transition. )
@@ -274,4 +274,439 @@
     text-align-last: center;
     padding: 2.5rem;
     color: var(--color-grey-light-4);
+}
+
+
+
+/*************************************
+ GALLERY
+*/
+.gallery {
+
+    /* 
+    MODERN WAY -
+        To put the figure elements side by side is once again to use flexbox.
+    OLD WAY -
+        We could also set these images to 1/3, so like to 33.333%, and then use float on these figures here.
+        So that would produce the same effect. And then we would have to use a clear fix on the parent(.gallery), 
+        and all of that is a bunch of work.
+    so, once again, we just use flexbox in order to achieve the same result, 
+    So put these images side by side without any clear fix hack or anything like that.
+    */
+    display: flex;
+
+    &__photo {
+        /*  In responsive design, we also want flexible images.
+            And so, we always have to define a width or a height in percentages so that the image stays fluid.
+            Also this is required so that it occupies only the width of it's flex-item, oterwise it will overflow. */
+        width: 100%;
+        display: block;
+    }
+}
+
+
+/*************************************
+ HOTEL OVERVIEW
+*/
+.overview {
+
+    // to all child elements side by side
+    display: flex;
+    align-items: center;
+    border-bottom: var(--line);;
+    
+    &__heading {
+        font-size: 2.25rem;
+        font-weight: 300;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 1.5rem 3rem; // 1.5rem top and bottom, 3rem left and right
+    }
+
+    &__stars {
+        /*
+        THE PROBLEM:
+        With justify-content different options, we will get even or predefined spacing, 
+        however sometimes we want uneven or custom alignment of the flex items along the main axis. 
+        So in such case, we can’t use justify-content.
+
+        SOLUTION 1:
+        We may use flex: 1 for the element which we want to occupy say uneven or custom space. 
+        So with flex: 1, that flex item should grow and occupy all the available space.
+
+        PROBLEM WITH SOLUTION 1 (USING flex: 1): 
+        This is not ideal, because that flex-item/element should only be the size of its content. We don't want that element to have all of the size (actual size required by the element + All the whitespaces. This can be easily visualized in devtools).
+        Imagine that we would have a hover effect on this and then all of that entire element would be hovered. So what we want is a way to create the space on right side of actual stars without actually stretching out that entire element/flex-item. And that is where the power of margin auto comes in.
+        
+        PROPER SOLUTION (USING margin auto): 
+        Use margin: auto (or margin-left: auto or margin-right: auto whichever applicable depending on situation) instead of flex: 1.
+        So, the same result, but with our element actually only occupying the space that it needs and then all of the white space is the automatically calculated margin.
+
+        */
+        //flex: 1; // this flex item should grow and occupy all the available space.
+
+        margin-right: auto;
+
+        /* Note: svg icons are sometimes really not 100 percent vertically aligned, 
+           if you open devtools and see the svg element and the container in which the svg item is placed,  
+           you see that there is like, a small space below each of the svg icon. 
+           And that happens because these SVG elements behave like in-line elements, 
+           and so it's a bit like text that produces that small white space that we see. 
+           We can remove that by setting the line height and the font size to zero for example, 
+           but we have a simpler way of doing that by setting their parent element to Flexbox */
+        display: flex;
+
+    }
+
+    &__icon-star,
+    &__icon-location {
+        width: 1.75rem;
+        height: 1.75rem;
+        fill: var(--color-primary);
+    }
+
+    &__location {
+        font-size: 1.2rem;
+        // we want to vertically align the icon and the button.
+        display: flex;
+        align-items: center;
+    }
+
+    &__icon-location {
+        margin-right: .5rem; // for some spacing between the icon and the button
+    }
+
+    &__rating {
+        background-color: var(--color-primary);
+        color: #fff;
+        margin-left: 3rem;
+        padding: 0 2.25rem;
+        align-self: stretch; // We want this particular flex-item to stretch all the way from the top to the bottom,
+
+        // to rating-average and rating-count one below each other
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__rating-average {
+        font-size: 2.25rem; // big font
+        font-weight: 300; // small weight
+        //margin-bottom: -3px;
+    }
+
+    &__rating-count {
+        font-size: .8rem;
+        text-transform: uppercase;
+    }
+}
+
+
+
+/*************************************
+ BUTTON INLINE
+*/
+.btn-inline {
+    border: none; // buttons by default always come with this border and we don't want that of course.
+    color: var(--color-primary);
+    font-size: inherit;
+    border-bottom: 1px solid currentColor; // currentColor: the border will have the exact same color as the text. 
+                                           // very useful in case of hover effect as well, we don;t have to explicity specify border color again in case of hover
+    padding-bottom: 2px;
+    display: inline-block;
+    background-color: transparent; // imp
+    cursor: pointer;
+    transition: all .2s;
+
+    & span {
+        margin-left: 3px;
+        transition: margin-left .2s; // if we use 'all', it will mess up with transition mentioned in .btn-inline
+    }
+
+    &:hover {
+        color: var(--color-grey-dark-1);
+
+        span {
+            margin-left: 8px;
+        }
+    }
+
+    &:focus {
+        outline: none;
+        animation: pulsate 1s infinite; // to have infinite animation till the element is focused
+    }
+}
+
+/* basically in the beginning nothing happens, 
+   then in the middle it is scaled up a little bit, and it has this shadow going on,
+   and then in the end it goes back to the normal.*/
+@keyframes pulsate {
+    0% {
+        transform: scale(1);
+        box-shadow: none;
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 1rem 4rem rgba(0,0,0,.25);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: none;
+    }
+}
+
+
+
+/*************************************
+ PARAGRAPH
+*/
+.paragraph:not(:last-of-type) { // give margin to all P elements except last p element.
+    margin-bottom: 2rem;
+}
+
+
+/*************************************
+ LIST
+*/
+.list {
+    list-style: none;
+    margin: 3rem 0;
+    padding: 3rem 0;
+    border-top: var(--line);
+    border-bottom: var(--line);
+
+    display: flex; // to put list items side by side
+    flex-wrap: wrap; // without wrap the flex items won't remain contained within the container
+
+    &__item {
+        flex: 0 0 50%; // 50% width for each flex item (50% bcz we want 2 elements to be side by side)
+        margin-bottom: .7rem;
+    }
+
+    /* 
+        Using SVG directly in CSS 
+        In CSS, it's really difficult to use a sprite image like we could in the HTML.
+        But in CSS, it's actually much easier to use single icon itself.
+        
+        How do we actually include an SVG file in our CSS?
+        The easiest way is to use a background-image (also the only approach for older browsers). 
+        But there is actually a problem with this approach – 
+        If we include it as a background image, then we have no way of actually changing the color. But if that's not a problem for your situation, then we can of course go ahead and make it like this.
+        
+        Another approach - is to use masks (works only in modern browsers)
+        Basically a mask defines an area where we can look through the element and see what's behind that element.
+        So, basically, what we're going do is to set the background-color of this element to a solid color, and then use the icon as the mask (by putting our mask on top of this, and only in the positions where the icon is).  And so we can then look through that mask, basically, and see the background color in the area where the icon is and everything else is covered,
+        So it's basically a bit like clipping (background-clip).
+    */
+    &__item::before {
+        /* in order to actually show that svg icon on page, we must provide these properties for the pseudo element
+           content, display, height, width. Otherwise the svg will not be shown. */
+        content: '';
+        display: inline-block;
+        height: 1rem;
+        width: 1rem;
+
+        margin-right: .7rem;
+
+        // older browsers
+        //background-image: url(../img/chevron-thin-right.svg);
+        //background-size: cover;
+
+        // Newer browsers - Use Masks
+        background-color: var(--color-primary); // set the background-color of this element to a solid color.
+        -webkit-mask-image: url(../img/chevron-thin-right.svg);
+        mask-image: url(../img/chevron-thin-right.svg);
+        -webkit-mask-size: cover; // similar to background-size, cover - so that the icon covers the entire element. 
+        mask-size: cover;
+    }
+}
+
+
+/*************************************
+ RECOMMEND
+*/
+.recommend {
+    font-size: 1.3rem;
+    color: var(--color-grey-dark-3);
+
+    display: flex;
+    align-items: center;
+
+    &__count {
+        /* same trick as we used for '&__stars' 
+        So the margin which was automatically calculated 
+        to push the recommend__friends box all the way to the right side. */
+        margin-right: auto; // to have space between flex-items
+    }
+
+    &__friends{
+
+    }
+
+    &__photo {
+        height: 4rem;
+        width: 4rem;
+        border-radius: 50%;
+        border: 3px solid #fff;
+        /* Since we have added the border, the border actually goes into these images and the image shrinks.
+        we have now two options to fix that, 
+            1. We could either add these three pixels on the height and width, 
+            2. or we can do it automatically by setting box-sizing: border-box
+        For HTML selector, we have set box-sizing to border-box, which includes the padding and the border into the width and height of the element.
+        which is usually what we want. 
+        However in this particular situation, we want the border to be added on top of our height and the width,
+        so we need to set it to content-box (which is the default) */
+        box-sizing: content-box;
+
+        /* These images are like on top of each other, like slightly overlapping.
+        And we can simply do that by giving them a negative right margin except for the last one.*/
+        &:not(:last-child) {
+            margin-right: -1.5rem;
+        }
+    }
+}
+
+
+
+/*************************************
+ REVIEWS
+*/
+.review {
+    background-color: #fff;
+    box-shadow: var(--shadow-light);
+    padding: 3rem;
+    margin-bottom: 3.5rem;
+    position: relative; // bcz ::before is absolute
+    overflow: hidden; // quote element in ::before was overflowing
+
+    &__text {
+        margin-bottom: 2rem;
+        z-index: 10;
+        position: relative; // never forget the Z index only works if you set the position (no matter what it is)
+    }
+
+    &__user {
+        display: flex;
+        align-items: center;
+    }
+
+    &__photo {
+        height: 4.5rem;
+        width: 4.5rem;
+        border-radius: 50%;
+        margin-right: 1.5rem;
+    }
+
+    &__user-box {
+        //flex: 0 0 60%; // no need to write this as margin auto fixes that.
+        margin-right: auto;
+    }
+
+    &__user-name {
+        text-transform: uppercase;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: .4rem;
+    }
+
+    &__user-date {
+        font-size: 1rem;
+        color: var(--color-grey-dark-3);
+    }
+
+    &__rating {
+        color: var(--color-primary);
+        font-size: 2.2rem;
+        font-weight: 300;
+    }
+
+    // to have quote marks before this review box.
+    &::before {
+        content: "\201C";
+        position: absolute;
+        top: -2.75rem;
+        left: -1rem;
+        line-height: 1; // since it was occupying too much space
+        font-size: 20rem;
+        color: var(--color-grey-light-2);
+        font-family: sans-serif; // though it inherits Open Sans, but that is not looking good so using sans-serif
+        z-index: 1;
+    }
+}
+
+
+
+
+/*************************************
+ CALL TO ACTION (CTA)
+*/
+.cta {
+    padding: 3.5rem;
+    text-align: center; // it will align both h2 element and the button.
+
+    &__book-now {
+        text-transform: uppercase;
+        font-size: 2rem;
+        font-weight: 300;
+        margin-bottom: 2.5rem;
+    }
+}
+
+
+/*************************************
+ BUTTON - CALL TO ACTION (CTA)
+*/
+.btn {
+    font-size: 1.5rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 100px; // to have rounded corners
+    background-image: linear-gradient(to right, var(--color-primary-light), var(--color-primary)); // from left to right
+    color: #fff;
+    position: relative; // bcz btn__invisible is absolute
+    overflow: hidden; // bcz btn__invisible element is outside of the button, so it's an overflow element
+    cursor: pointer;
+
+    // all of the child elements
+    & > * {
+        display: inline-block; // so that we could use padding
+        height: 100%; // so that it has the height and the width of the parent element.
+        width: 100%;
+        transition: all .2s;
+    }
+
+    &__visible {
+        padding: 2rem 7.5rem;
+    }
+
+    &__invisible {
+        position: absolute; //  initial position: to put it outside of the button
+        padding: 2rem 0; // same as btn__visible, but not left and right padding
+        left: 0;
+
+        /* to move up exactly the size of the element. So basically if this element is like 50 pixels high,
+           it will move up 100% of that. And so 50 pixels. */
+        top: -100%;
+    }
+
+    &:hover {
+        background-image: linear-gradient(to left, var(--color-primary-light), var(--color-primary)); // from right to left
+    }
+
+    &:hover &__visible {
+        transform: translateY(100%); // should transform in Y direction to 100% of it's height
+    }
+
+    &:hover &__invisible {
+        top: 0;
+    }
+
+    &:focus {
+        outline: none;
+        animation: pulsate 1s infinite;
+    }
 }
