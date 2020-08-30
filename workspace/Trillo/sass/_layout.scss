@@ -9,6 +9,12 @@
     box-shadow: var(--shadow-dark);
 
     min-height: 50rem;
+
+    @media only screen and (max-width: $bp-largest) {
+        margin: 0; // removing margin
+        max-width: 100%; // setting current width as max-width
+        width: 100%;
+    }
 }
 
 .header {
@@ -30,10 +36,23 @@
         But Flexbox makes our lives so much easier and all we have to do is 
         to use the align-items property, which is center the items vertically, i.e. along the cross axis */
     align-items: center;
+
+    /* we want to move the search bar to the last position and on the next line 
+    Setting flex-wrap: wrap, now we are allowing the flex items to wrap into a new line 
+    if they don't have enough space in the flex container. */
+    @media only screen and (max-width: $bp-smallest ) {
+        flex-wrap: wrap;
+        align-content: space-around; // control the space between the rows of the flex container
+        height: 11rem;
+    }
 }
 
 .content {
     display: flex;
+
+    @media only screen and (max-width: $bp-medium) {
+        flex-direction: column; // so that sidebar and hotel view will be on top of each other
+    }
 }
 
 .sidebar {
@@ -72,6 +91,16 @@
     padding: 4.5rem; // set to same as mergin-right below, so that this distance on top, and on left side, and between the two boxes, is always the same
     background-color: var(--color-grey-light-1);
     border-bottom: var(--line);
+
+    // first media query for larger screen (Order of media queries is important)
+    @media only screen and (max-width: $bp-medium) {
+        padding: 3rem; // reducing from 4.5 to 3rem, to get rid of excessive white space that we really don't have space for at this view port width.
+    }
+
+    // last media query for smallest screen (Order of media queries is important)
+    @media only screen and (max-width: $bp-small) {
+        flex-direction: column;
+    }
 }
 
 .description {
@@ -80,6 +109,17 @@
     padding: 3rem;
     flex: 0 0 60%; // no grow, no shrink, flex-basis/width 60%, usually when flex-basis is in percentage, flex-shrink and flex-grow: are 0.
     margin-right: 4.5rem; // margin between 2 flex items
+
+    @media only screen and (max-width: $bp-medium) {
+        padding: 2rem; // reducing to 2rem
+        margin-right: 3rem; // margin between 2 flex items
+    }
+
+    @media only screen and (max-width: $bp-small) {
+        // remove margin right and add some margin at the bottom so to create some space
+        margin-right: 0;
+        margin-bottom: 3rem;
+    }
 }
 
 .user-reviews {

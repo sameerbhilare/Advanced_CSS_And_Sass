@@ -26,6 +26,14 @@
 html {
   box-sizing: border-box;
   font-size: 62.5%; }
+  @media only screen and (max-width: 68.75em) {
+    html {
+      font-size: 50%;
+      /* But now we have another problem, 
+        which is that we can now see the pink space, and that's because the 120 rem that we defined for 
+        the width of the container are now no longer 1200 pixels, But instead, they are, 120* 8 = 960px
+        So that's now only 960 pixels, no longer 1200 pixels. 
+        This can be fixed by setting max-width to 100% in the layout for .container */ } }
 
 body {
   font-family: 'Open Sans', sans-serif;
@@ -46,6 +54,11 @@ body {
   background-color: var(--color-grey-light-2);
   box-shadow: var(--shadow-dark);
   min-height: 50rem; }
+  @media only screen and (max-width: 75em) {
+    .container {
+      margin: 0;
+      max-width: 100%;
+      width: 100%; } }
 
 .header {
   font-size: 1.4rem;
@@ -62,10 +75,21 @@ body {
         and would then have to experiment which is the perfect margin.
         But Flexbox makes our lives so much easier and all we have to do is 
         to use the align-items property, which is center the items vertically, i.e. along the cross axis */
-  align-items: center; }
+  align-items: center;
+  /* we want to move the search bar to the last position and on the next line 
+    Setting flex-wrap: wrap, now we are allowing the flex items to wrap into a new line 
+    if they don't have enough space in the flex container. */ }
+  @media only screen and (max-width: 31.25em) {
+    .header {
+      flex-wrap: wrap;
+      align-content: space-around;
+      height: 11rem; } }
 
 .content {
   display: flex; }
+  @media only screen and (max-width: 56.25em) {
+    .content {
+      flex-direction: column; } }
 
 .sidebar {
   background-color: var(--color-grey-dark-1);
@@ -96,6 +120,12 @@ body {
   padding: 4.5rem;
   background-color: var(--color-grey-light-1);
   border-bottom: var(--line); }
+  @media only screen and (max-width: 56.25em) {
+    .detail {
+      padding: 3rem; } }
+  @media only screen and (max-width: 37.5em) {
+    .detail {
+      flex-direction: column; } }
 
 .description {
   background-color: #fff;
@@ -103,6 +133,14 @@ body {
   padding: 3rem;
   flex: 0 0 60%;
   margin-right: 4.5rem; }
+  @media only screen and (max-width: 56.25em) {
+    .description {
+      padding: 2rem;
+      margin-right: 3rem; } }
+  @media only screen and (max-width: 37.5em) {
+    .description {
+      margin-right: 0;
+      margin-bottom: 3rem; } }
 
 .user-reviews {
   flex: 1;
@@ -137,8 +175,17 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* we want to move the search bar to the third position, so to the last position and on the next line .
+    Now, the default value for the order is 0. And that means that right now the logo and the search
+    and the user nav all have a order of zero. 
+    So if I set the search to order of 1, then it will be the last one. */
   /* set the background color of the button to the same color of when the input is focused, 
        + adjacent sibling. */ }
+  @media only screen and (max-width: 31.25em) {
+    .search {
+      order: 1;
+      flex: 0 0 100%;
+      background-color: var(--color-grey-light-2); } }
   .search__input {
     /* An input element doesn't inherit the font related proeprties of the global document.
            And so we have to automatically set it to inherit here. */
@@ -247,10 +294,20 @@ body {
        Also the active state should be exactly the same as the hover state. */
   /* when we click on the item, the color should get a little bit brighter.
        So that at least we have some small active state to show the user that he clicked on the item. */ }
+  @media only screen and (max-width: 56.25em) {
+    .side-nav {
+      display: flex;
+      margin: 0; } }
   .side-nav__item {
     position: relative; }
     .side-nav__item:not(:last-child) {
       margin-bottom: .5rem; }
+      @media only screen and (max-width: 56.25em) {
+        .side-nav__item:not(:last-child) {
+          margin-bottom: 0; } }
+    @media only screen and (max-width: 56.25em) {
+      .side-nav__item {
+        flex: 1; } }
   .side-nav__item::before {
     content: "";
     position: absolute;
@@ -294,11 +351,25 @@ body {
     /* side-nav__link and thesvg icon are not aligned properly. so use flexbox. */
     display: flex;
     align-items: center; }
+    @media only screen and (max-width: 56.25em) {
+      .side-nav__link:link, .side-nav__link:visited {
+        justify-content: center;
+        padding: 2rem; } }
+    @media only screen and (max-width: 37.5em) {
+      .side-nav__link:link, .side-nav__link:visited {
+        flex-direction: column;
+        padding: 1.5rem .5rem; } }
   .side-nav__icon {
     width: 1.75rem;
     height: 1.75rem;
     margin-right: 2rem;
     fill: currentColor; }
+    @media only screen and (max-width: 37.5em) {
+      .side-nav__icon {
+        margin-right: 0;
+        margin-bottom: .7rem;
+        width: 1.5rem;
+        height: 1.5rem; } }
 
 /*************************************
  LEGAL TEXT
@@ -308,6 +379,9 @@ body {
   text-align-last: center;
   padding: 2.5rem;
   color: var(--color-grey-light-4); }
+  @media only screen and (max-width: 56.25em) {
+    .legal {
+      display: none; } }
 
 /*************************************
  GALLERY
@@ -344,6 +418,10 @@ body {
     text-transform: uppercase;
     letter-spacing: 1px;
     padding: 1.5rem 3rem; }
+    @media only screen and (max-width: 37.5em) {
+      .overview__heading {
+        font-size: 1.8rem;
+        padding: 1.25rem 2rem; } }
   .overview__stars {
     /*
         THE PROBLEM:
@@ -393,12 +471,21 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center; }
+    @media only screen and (max-width: 37.5em) {
+      .overview__rating {
+        padding: 0 1.5rem; } }
   .overview__rating-average {
     font-size: 2.25rem;
     font-weight: 300; }
+    @media only screen and (max-width: 37.5em) {
+      .overview__rating-average {
+        font-size: 1.8rem; } }
   .overview__rating-count {
     font-size: .8rem;
     text-transform: uppercase; }
+    @media only screen and (max-width: 37.5em) {
+      .overview__rating-count {
+        font-size: .5rem; } }
 
 /*************************************
  BUTTON INLINE
@@ -500,6 +587,8 @@ body {
         So the margin which was automatically calculated 
         to push the recommend__friends box all the way to the right side. */
     margin-right: auto; }
+  .recommend__friends {
+    display: flex; }
   .recommend__photo {
     height: 4rem;
     width: 4rem;
@@ -517,7 +606,7 @@ body {
     /* These images are like on top of each other, like slightly overlapping.
         And we can simply do that by giving them a negative right margin except for the last one.*/ }
     .recommend__photo:not(:last-child) {
-      margin-right: -1.5rem; }
+      margin-right: -2rem; }
 
 /*************************************
  REVIEWS
@@ -529,6 +618,10 @@ body {
   margin-bottom: 3.5rem;
   position: relative;
   overflow: hidden; }
+  @media only screen and (max-width: 56.25em) {
+    .review {
+      padding: 2rem;
+      margin-bottom: 3rem; } }
   .review__text {
     margin-bottom: 2rem;
     z-index: 10;
@@ -570,8 +663,11 @@ body {
  CALL TO ACTION (CTA)
 */
 .cta {
-  padding: 3.5rem;
+  padding: 3.5rem 0;
   text-align: center; }
+  @media only screen and (max-width: 56.25em) {
+    .cta {
+      padding: 2.5rem 0; } }
   .cta__book-now {
     text-transform: uppercase;
     font-size: 2rem;

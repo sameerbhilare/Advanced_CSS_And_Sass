@@ -31,6 +31,16 @@
     align-items: center; // to center centers the elements along the cross axis
     justify-content: center; // centers the elements along the main axis.
 
+    /* we want to move the search bar to the third position, so to the last position and on the next line .
+    Now, the default value for the order is 0. And that means that right now the logo and the search
+    and the user nav all have a order of zero. 
+    So if I set the search to order of 1, then it will be the last one. */
+    @media only screen and (max-width: $bp-smallest ) {
+        order: 1;
+        flex: 0 0 100%;
+        background-color: var(--color-grey-light-2);
+    }
+
     &__input {
         /* An input element doesn't inherit the font related proeprties of the global document.
            And so we have to automatically set it to inherit here. */
@@ -184,11 +194,24 @@
     list-style: none;
     margin-top: 3.5rem;
 
+    @media only screen and (max-width: $bp-medium) {
+        display: flex; // so that the navigation menu wil be side by side
+        margin: 0;
+    }
+
     &__item {
         position: relative; // bcz child pseudo element(::before) is absolute
 
         &:not(:last-child) {
             margin-bottom: .5rem; // for space between navigation items
+
+            @media only screen and (max-width: $bp-medium) {
+                margin-bottom: 0;
+            }
+        }
+
+        @media only screen and (max-width: $bp-medium) {
+            flex: 1; // so that all the four flex items ill grow as much as they can.
         }
     }
 
@@ -256,6 +279,16 @@
         /* side-nav__link and thesvg icon are not aligned properly. so use flexbox. */
         display: flex;
         align-items: center;
+
+        @media only screen and (max-width: $bp-medium) {
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        @media only screen and (max-width: $bp-small) {
+            flex-direction: column;
+            padding: 1.5rem .5rem; // reduce left and right side padding
+        }
     }
 
     &__icon {
@@ -263,6 +296,13 @@
         height: 1.75rem;
         margin-right: 2rem;
         fill: currentColor; // currentColor is just the color of the current element or the parent element.
+
+        @media only screen and (max-width: $bp-small) {
+            margin-right: 0;
+            margin-bottom: .7rem;
+            width: 1.5rem;
+            height: 1.5rem;
+        }
     }
 }
 
@@ -274,6 +314,10 @@
     text-align-last: center;
     padding: 2.5rem;
     color: var(--color-grey-light-4);
+
+    @media only screen and (max-width: $bp-medium) {
+        display: none; // not shwoing legal text for smaller screens
+    }
 }
 
 
@@ -321,6 +365,11 @@
         text-transform: uppercase;
         letter-spacing: 1px;
         padding: 1.5rem 3rem; // 1.5rem top and bottom, 3rem left and right
+
+        @media only screen and (max-width: $bp-small) {
+            font-size: 1.8rem;
+            padding: 1.25rem 2rem;
+        }
     }
 
     &__stars {
@@ -388,17 +437,28 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+
+        @media only screen and (max-width: $bp-small) {
+            padding: 0 1.5rem;
+        }
     }
 
     &__rating-average {
         font-size: 2.25rem; // big font
         font-weight: 300; // small weight
-        //margin-bottom: -3px;
+        
+        @media only screen and (max-width: $bp-small) {
+            font-size: 1.8rem;
+        }
     }
 
     &__rating-count {
         font-size: .8rem;
         text-transform: uppercase;
+
+        @media only screen and (max-width: $bp-small) {
+            font-size: .5rem;
+        }
     }
 }
 
@@ -543,7 +603,7 @@
     }
 
     &__friends{
-
+        display: flex;
     }
 
     &__photo {
@@ -564,7 +624,7 @@
         /* These images are like on top of each other, like slightly overlapping.
         And we can simply do that by giving them a negative right margin except for the last one.*/
         &:not(:last-child) {
-            margin-right: -1.5rem;
+            margin-right: -2rem;
         }
     }
 }
@@ -581,6 +641,11 @@
     margin-bottom: 3.5rem;
     position: relative; // bcz ::before is absolute
     overflow: hidden; // quote element in ::before was overflowing
+
+    @media only screen and (max-width: $bp-medium) {
+        padding: 2rem;
+        margin-bottom: 3rem
+    }
 
     &__text {
         margin-bottom: 2rem;
@@ -644,8 +709,12 @@
  CALL TO ACTION (CTA)
 */
 .cta {
-    padding: 3.5rem;
+    padding: 3.5rem 0;
     text-align: center; // it will align both h2 element and the button.
+
+    @media only screen and (max-width: $bp-medium) {
+        padding: 2.5rem 0;
+    }
 
     &__book-now {
         text-transform: uppercase;

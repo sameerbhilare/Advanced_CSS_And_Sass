@@ -20,6 +20,13 @@
     --line: 1px solid var(--color-grey-light-2);
 }
 
+// Sass variables for screen breakpoints
+$bp-largest: 75em; // 1200px / 16 = 75
+$bp-large: 68.75em; // 1000 / 16 = 68.75
+$bp-medium: 56.25em; // 900 / 16 = 56.25
+$bp-small: 37.5em; // 600 / 16 = 37.5
+$bp-smallest: 31.25em; // 500 / 16 = 31.25
+
 // global reset
 * {
     margin: 0;
@@ -35,6 +42,15 @@
 html {
     box-sizing: border-box;
     font-size: 62.5%;   // 1rem = 10px; We want 10px, but browser default is 16px, so 10/226 = 62.5%
+
+    @media only screen and (max-width: $bp-large ) {
+        font-size: 50%; // 8/16 // decreasing overall font-size
+        /* But now we have another problem, 
+        which is that we can now see the pink space, and that's because the 120 rem that we defined for 
+        the width of the container are now no longer 1200 pixels, But instead, they are, 120* 8 = 960px
+        So that's now only 960 pixels, no longer 1200 pixels. 
+        This can be fixed by setting max-width to 100% in the layout for .container */
+    }
 }
 
 body {
