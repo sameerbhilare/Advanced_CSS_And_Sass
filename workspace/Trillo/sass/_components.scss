@@ -572,15 +572,19 @@
         margin-right: .7rem;
 
         // older browsers
-        //background-image: url(../img/chevron-thin-right.svg);
-        //background-size: cover;
+        background-image: url(../img/chevron-thin-right.svg);
+        background-size: cover;
 
         // Newer browsers - Use Masks
-        background-color: var(--color-primary); // set the background-color of this element to a solid color.
-        -webkit-mask-image: url(../img/chevron-thin-right.svg);
-        mask-image: url(../img/chevron-thin-right.svg);
-        -webkit-mask-size: cover; // similar to background-size, cover - so that the icon covers the entire element. 
-        mask-size: cover;
+        @supports (-webkit-mask-image: url()) or (mask-image: url()) {
+            background-color: var(--color-primary); // set the background-color of this element to a solid color.
+            -webkit-mask-image: url(../img/chevron-thin-right.svg);
+            mask-image: url(../img/chevron-thin-right.svg);
+            -webkit-mask-size: cover; // similar to background-size, cover - so that the icon covers the entire element. 
+            mask-size: cover;
+
+            background-image: none ; // otherwise on supported browsers as well we will not see colored icon.
+        }
     }
 }
 
