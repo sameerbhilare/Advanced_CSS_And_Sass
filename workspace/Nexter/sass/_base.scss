@@ -1,0 +1,61 @@
+// COLOR VARIABLES
+$color-primary: #c69963;
+$color-primary-dark: #B28451;
+
+$color-secondary: #101d2c;
+
+$color-grey-light-1: #f9f7f6;
+$color-grey-light-2: #aaa;
+
+$color-grey-dark-1: #54483A;
+$color-grey-dark-2: #6D5D4B;
+
+// FONT VARIABLES
+$font-primary: 'Nunito', sans-serif;
+$font-display: 'Josefin Sans', sans-serif;
+
+
+// UNIVERSAL RESET 
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html {
+    box-sizing: border-box;
+    font-size: 62.5%; // 10px/16px = 62.5%, so 1rem = 10px now
+}
+
+body {
+    font-family: $font-primary;
+    color: $color-grey-dark-2;
+    font-weight: 300;
+    line-height: 1.6;
+}
+
+// CSS GRID
+.container {
+    display: grid;
+
+    /*
+        With CSS Grid, we really need to think about responsiveness,
+        right from the beginning of defining our Grid tracks (rows/columns).
+        Hence we are not using pixels, but the real units.
+
+        1st row - Header - 80vh because we want it to be 80% of viewport height.
+        2nd row - Features - min-content because we want the row to grow based on content.
+                  We could also use 'auto' instead of 'min-content'. It means the same.
+                  auto is actually the default if you do not specify anything, 
+                  auto basically, also means that it adapts to the content.
+        3rd row - Story - 40vw means 40% of viewport width. Here we have used width instead of height
+                  that's bcz as we descrease the viewport width, the size of the boxes on this row descrease,
+                  i.e. content is adapting based in the viewport WIDTH.
+        4th,5th,5th row - Homes, Gallery, Footer - min-content because we want the row to grow based on content.
+
+    */
+    grid-template-rows: 80vh min-content 40vw repeat(3, min-content); 
+
+}

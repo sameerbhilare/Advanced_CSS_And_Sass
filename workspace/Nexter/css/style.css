@@ -1,0 +1,63 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit; }
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%; }
+
+body {
+  font-family: "Nunito", sans-serif;
+  color: #6D5D4B;
+  font-weight: 300;
+  line-height: 1.6; }
+
+.container {
+  display: grid;
+  /*
+        With CSS Grid, we really need to think about responsiveness,
+        right from the beginning of defining our Grid tracks (rows/columns).
+        Hence we are not using pixels, but the real units.
+
+        1st row - Header - 80vh because we want it to be 80% of viewport height.
+        2nd row - Features - min-content because we want the row to grow based on content.
+                  We could also use 'auto' instead of 'min-content'. It means the same.
+                  auto is actually the default if you do not specify anything, 
+                  auto basically, also means that it adapts to the content.
+        3rd row - Story - 40vw means 40% of viewport width. Here we have used width instead of height
+                  that's bcz as we descrease the viewport width, the size of the boxes on this row descrease,
+                  i.e. content is adapting based in the viewport WIDTH.
+        4th,5th,5th row - Homes, Gallery, Footer - min-content because we want the row to grow based on content.
+
+    */
+  grid-template-rows: 80vh min-content 40vw repeat(3, min-content); }
+
+.sidebar {
+  background-color: #c69963; }
+
+.header {
+  background-color: #54483A; }
+
+.realtors {
+  background-color: #101d2c; }
+
+.features {
+  background-color: #aaa; }
+
+.story__pictures {
+  background-color: #c69963; }
+
+.story__content {
+  background-color: #f9f7f6; }
+
+.homes {
+  background-color: #101d2c; }
+
+.gallery {
+  background-color: #54483A; }
+
+.footer {
+  background-color: #101d2c; }
