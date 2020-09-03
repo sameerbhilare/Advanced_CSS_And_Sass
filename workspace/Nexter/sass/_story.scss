@@ -1,10 +1,20 @@
 .story {
 
+    /*
+        Story section is divided into 2 parts, Story Picture and Story Content.
+        Of the total 8 columns, We want the Picture to span 4 columns and realtors to have 4 columns.
+        However this section is going to be full-bleed section, so we can make use of the additional 2 columns.
+        Hence the first part (Picture) will span from full-start till end of column 4 (which is also start of column 5)
+        And the 2nd part (Content) will span from end of column 4 (which is also start of column 5) till full-end.
+    */
+
     &__pictures {
         background-color: $color-primary;
+        grid-column: full-start / col-end 4;
     }
 
     &__content {
         background-color: $color-grey-light-1;
+        grid-column: col-start 5 / full-end;
     }
 }

@@ -33,31 +33,122 @@ body {
         4th,5th,5th row - Homes, Gallery, Footer - min-content because we want the row to grow based on content.
 
     */
-  grid-template-rows: 80vh min-content 40vw repeat(3, min-content); }
+  grid-template-rows: 80vh min-content 40vw repeat(3, min-content);
+  /*
+        It's very common in web design to use a design grid, with like 8 or 12 or 16 predefined columns.
+        Grid systems like this are widely used in web design.
+        For example, Bootstrap has a 12 column grid.
+        
+        Here we will 'start' with 8 column layout.
+        Amd considering 1140px width, each column will have 1140/8 = 142.5 => aprox. 140px
+        However when we resize the viewport, we want the content to adapt accordingly.
+        So we need to use minmax() function with min width as min-content and max width as 140px.
+
+        Let's add one more column(1st column) for sidebar as 8rem.
+
+        Now the last step is to basically center last eight columns between end of the viewport and the sidebar.
+        How can we easily achieve this?
+        We could simply add two more columns, one to each side of these eight columns. 
+        So one here on the left side, and then one on the right side.
+        And we want both of them to occupy the remaining of the space (i.e. 1fr each).
+        If we now decrease the viewport, you will see that these ones are the ones that start to shrink first.
+        So this last one and this one after sidebar. So they start to shrink first because the are the ones
+        that occupy the fractional space (the remaining space).
+        Having 1fr will add reamining space available, however if viewport is decreased, we may not have remaining space
+        but we should have some minimum margin between sidebar and the section/content, 
+        so instead of just using 1fr, we can use minmax(6rem, 1fr). 
+        This will ensure at least 60px margin between sidebar and the content.
+        And so that is kind of what we wanted, having our eight columns centered right in the viewport.
+
+        ( If we hadn't the sidebar at first column, then we could've used the margin: auto,  trick.
+        Or we could also have used, the justify content property of the grid. But because we want the sidebar
+        exactly t the left side first row, we cannot use these 2 options.)
+
+        Another important reason why we want to do it like this is - 
+        For instance some sections like gallery, footer and even header sections that go from one side to the other 
+        and actually break out of the 8 columns. That's what we call the "full-bleed sections".
+        So we then need these 2 columns on the left side and on the right side 
+        to basically break out of our predefined eight column grid that we have in the middle of the page.
+        And so that's another thing that this layout allows us to do perfectly.
+
+        So this is perfect for having full-bleed sections in the middle of some eight column sections.
+        And actually this is a trend that we've been seeing more and more in web design - 
+        So having a couple of design elements which are centered in the viewport 
+        like we have here with these eight columns, but then sometimes we have some full-bleed sections
+        in the middle of that. And so grid layout is perfect for doing exactly that.
+
+        Summary - 
+        1. So we started with an eight column layout, 
+        2. Then on the left side we added the sidebar,
+        3. Then we added a column on the left side and one on the right side, 
+           which both occupy the remaining, in order to center these eight columns in the middle of the page.
+           And if we then want a full-bleed section, we can occupy the contents 
+           and have a section that goes all the way from the left side to the right side, for example.
+           And with that, we can kind of break the inner eight column layout.
+
+        Now let's name the column grid lines - sidebar-start, sidebar-end, full-start, full-end, center-sart, center-end
+        col-start 1 tot8, col-end 1 to 8.
+        We generally do not name rows, because for the overall layout the focus is mostly on the columns due to responsive design
+    */
+  grid-template-columns: [sidebar-start] 8rem [sidebar-end full-start] minmax(6rem, 1fr) [center-start] repeat(8, [col-start] minmax(min-content, 14rem) [col-end]) [center-end] minmax(6rem, 1fr) [full-end]; }
+  .container > * {
+    padding: 40px;
+    font-size: 3rem; }
 
 .sidebar {
-  background-color: #c69963; }
+  background-color: #c69963;
+  grid-column: sidebar-start / sidebar-end;
+  grid-row: 1 / -1; }
 
 .header {
-  background-color: #54483A; }
+  background-color: #54483A;
+  /*
+        Header-Row section is divided into 2 parts, header and realtors.
+        Of the total 8 columns, We want the header to span 6 columns and realtors to have 2 columns.
+        However this section is going to be full-bleed section, so we can make use of the additional 2 columns.
+        Hence the first part (header) will span from full-start till end of column 6 (which is also start of column 7)
+        And the 2nd part (realtors) will span from end of column 6 (which is also start of column 7) till full-end.
+    */
+  grid-column: full-start / col-end 6; }
 
 .realtors {
-  background-color: #101d2c; }
+  background-color: #101d2c;
+  /*
+        Header-Row section is divided into 2 parts, header and realtors.
+        Of the total 8 columns, We want the header to span 6 columns and realtors to have 2 columns.
+        However this section is going to be full-bleed section, so we can make use of the additional 2 columns.
+        Hence the first part (header) will span from full-start till end of column 6 (which is also start of column 7)
+        And the 2nd part (realtors) will span from end of column 6 (which is also start of column 7) till full-end.
+    */
+  grid-column: col-start 7 / full-end; }
 
 .features {
-  background-color: #aaa; }
+  background-color: #aaa;
+  grid-column: center-start / center-end; }
 
-.story__pictures {
-  background-color: #c69963; }
-
-.story__content {
-  background-color: #f9f7f6; }
+.story {
+  /*
+        Story section is divided into 2 parts, Story Picture and Story Content.
+        Of the total 8 columns, We want the Picture to span 4 columns and realtors to have 4 columns.
+        However this section is going to be full-bleed section, so we can make use of the additional 2 columns.
+        Hence the first part (Picture) will span from full-start till end of column 4 (which is also start of column 5)
+        And the 2nd part (Content) will span from end of column 4 (which is also start of column 5) till full-end.
+    */ }
+  .story__pictures {
+    background-color: #c69963;
+    grid-column: full-start / col-end 4; }
+  .story__content {
+    background-color: #f9f7f6;
+    grid-column: col-start 5 / full-end; }
 
 .homes {
-  background-color: #101d2c; }
+  background-color: #101d2c;
+  grid-column: center-start / center-end; }
 
 .gallery {
-  background-color: #54483A; }
+  background-color: #54483A;
+  grid-column: full-start / full-end; }
 
 .footer {
-  background-color: #101d2c; }
+  background-color: #101d2c;
+  grid-column: full-start / full-end; }

@@ -1,3 +1,12 @@
 .header {
     background-color: $color-grey-dark-1;
+
+    /*
+        Header-Row section is divided into 2 parts, header and realtors.
+        Of the total 8 columns, We want the header to span 6 columns and realtors to have 2 columns.
+        However this section is going to be full-bleed section, so we can make use of the additional 2 columns.
+        Hence the first part (header) will span from full-start till end of column 6 (which is also start of column 7)
+        And the 2nd part (realtors) will span from end of column 6 (which is also start of column 7) till full-end.
+    */
+    grid-column: full-start / col-end 6;
 }
