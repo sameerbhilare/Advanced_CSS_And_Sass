@@ -1,3 +1,4 @@
+@charset "UTF-8";
 *,
 *::before,
 *::after {
@@ -337,16 +338,23 @@ body {
 .features {
   grid-column: center-start / center-end;
   margin: 15rem 0;
-  display: grid;
-  /*
-        We basically want 3 columns and 2 rows. So this will do - 
-        grid-template-columns: repeat(3, 1fr);
-        However for responsive design this will not look properly on small devices.
-        What we want is the width of the column track should be between 250px and 1 fractional unit.
-        and CSS should add as many tracks as it can fit in the container based on the viewport width. */
-  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
-  gap: 6rem;
-  align-items: start; }
+  /* PROGRESSIVE ENHANCEMENTS -
+        With this we build a page with old CSS methods pretending that new CSS methods 
+            like Flexbox, Grid doesn’t even exist. 
+        And on top of top, we build the layout with modern CSS methods (Flexbox, Grids) if the browser supports it.
+    */ }
+  @supports (display: grid) {
+    .features {
+      display: grid;
+      /*
+            We basically want 3 columns and 2 rows. So this will do - 
+            grid-template-columns: repeat(3, 1fr);
+            However for responsive design this will not look properly on small devices.
+            What we want is the width of the column track should be between 250px and 1 fractional unit.
+            and CSS should add as many tracks as it can fit in the container based on the viewport width. */
+      grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+      gap: 6rem;
+      align-items: start; } }
   @media only screen and (max-width: 50em) {
     .features {
       margin: 10rem 0; } }
@@ -355,10 +363,28 @@ body {
       margin: 7rem 0; } }
 
 .feature {
+  /* PROGRESSIVE ENHANCEMENTS -
+        With this we build a page with old CSS methods pretending that new CSS methods 
+            like Flexbox, Grid doesn’t even exist. 
+        And on top of top, we build the layout with modern CSS methods (Flexbox, Grids) if the browser supports it.
+    */
+  float: left;
+  width: 33.3333%;
+  margin-bottom: 6rem;
   display: grid;
   grid-template-columns: min-content 1fr;
   row-gap: 1.5rem;
   column-gap: 2.5rem; }
+  @supports (display: grid) {
+    .feature {
+      /* If browser supports grid, then we don't want the float CSS methods to be applied
+           otherwise it will mess up with grid methods and may produce incorrect results.
+           We don't have to reset all these old CSS methods which we wanted for older browsers
+           because certain things are ignored by CSS Grid containers and items and also by Flex container and items.
+           So the things which are ignored by Grid and Flexbox are - floats, display:inline-block,
+            display:table-cell, vertical-align */
+      width: auto;
+      margin-bottom: 0; } }
   .feature__icon {
     fill: #c69963;
     width: 4.5rem;

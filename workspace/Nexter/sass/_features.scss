@@ -3,20 +3,27 @@
 
     margin: 15rem 0;
 
-    display: grid; // nested grid
-    /*
-        We basically want 3 columns and 2 rows. So this will do - 
-        grid-template-columns: repeat(3, 1fr);
-        However for responsive design this will not look properly on small devices.
-        What we want is the width of the column track should be between 250px and 1 fractional unit.
-        and CSS should add as many tracks as it can fit in the container based on the viewport width. */
-    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
-    // no need to specify grid-template-rows because those will be automatically create (implicit grid);
-    
-    gap: 6rem; // space between Grid items. grid-gap is replaced by gap.
-    align-items: start; // by default the items are stretched, 
-                        // hence the space between feature heading ans feature text is not consistent.
-                        // setting align-items: start, will have consistent spacing between heading and text
+    /* PROGRESSIVE ENHANCEMENTS -
+        With this we build a page with old CSS methods pretending that new CSS methods 
+            like Flexbox, Grid doesn’t even exist. 
+        And on top of top, we build the layout with modern CSS methods (Flexbox, Grids) if the browser supports it.
+    */
+    @supports(display: grid) {
+        display: grid; // nested grid
+        /*
+            We basically want 3 columns and 2 rows. So this will do - 
+            grid-template-columns: repeat(3, 1fr);
+            However for responsive design this will not look properly on small devices.
+            What we want is the width of the column track should be between 250px and 1 fractional unit.
+            and CSS should add as many tracks as it can fit in the container based on the viewport width. */
+        grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+        // no need to specify grid-template-rows because those will be automatically create (implicit grid);
+        
+        gap: 6rem; // space between Grid items. grid-gap is replaced by gap.
+        align-items: start; // by default the items are stretched, 
+                            // hence the space between feature heading ans feature text is not consistent.
+                            // setting align-items: start, will have consistent spacing between heading and text    
+    }
 
     @media only screen and (max-width: $bp-medium) {
         margin: 10rem 0;
@@ -29,6 +36,26 @@
 
 // reusable feature
 .feature {
+
+    /* PROGRESSIVE ENHANCEMENTS -
+        With this we build a page with old CSS methods pretending that new CSS methods 
+            like Flexbox, Grid doesn’t even exist. 
+        And on top of top, we build the layout with modern CSS methods (Flexbox, Grids) if the browser supports it.
+    */
+    float: left;
+    width: 33.3333%;
+    margin-bottom: 6rem;
+
+    @supports(display: grid) {
+        /* If browser supports grid, then we don't want the float CSS methods to be applied
+           otherwise it will mess up with grid methods and may produce incorrect results.
+           We don't have to reset all these old CSS methods which we wanted for older browsers
+           because certain things are ignored by CSS Grid containers and items and also by Flex container and items.
+           So the things which are ignored by Grid and Flexbox are - floats, display:inline-block,
+            display:table-cell, vertical-align */
+        width: auto; // reset width to auto if browse already supports grid
+        margin-bottom: 0;
+    }
 
     // this feature itself is a grid item, but will also make this a grid container
     display: grid;
