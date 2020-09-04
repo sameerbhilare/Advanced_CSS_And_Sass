@@ -96,6 +96,11 @@ body {
   font-family: "Josefin Sans", sans-serif;
   font-weight: 400; }
 
+.heading-1 {
+  font-size: 4.5rem;
+  color: #f9f7f6;
+  line-height: 1; }
+
 .heading-2 {
   font-size: 4rem;
   font-style: italic;
@@ -146,10 +151,38 @@ body {
 .sidebar {
   background-color: #c69963;
   grid-column: sidebar-start / sidebar-end;
-  grid-row: 1 / -1; }
+  grid-row: 1 / -1;
+  display: flex;
+  justify-content: center; }
+
+.nav-btn {
+  border: none;
+  border-radius: 0;
+  background-color: #fff;
+  height: 2px;
+  width: 4.5rem;
+  margin-top: 4rem;
+  cursor: pointer;
+  outline: none; }
+  .nav-btn::before, .nav-btn::after {
+    content: '';
+    display: block;
+    background-color: #fff;
+    height: 2px;
+    width: 4.5rem;
+    cursor: pointer; }
+  .nav-btn::before {
+    transform: translateY(-1.5rem); }
+  .nav-btn::after {
+    transform: translateY(1.5rem); }
 
 .header {
   background-color: #54483A;
+  background-image: linear-gradient(rgba(16, 29, 44, 0.93), rgba(16, 29, 44, 0.93)), url(../img/hero.jpeg);
+  background-size: cover;
+  background-position: center;
+  padding: 8rem;
+  padding-top: 4rem;
   /*
         Header-Row section is divided into 2 parts, header and realtors.
         Of the total 8 columns, We want the header to span 6 columns and realtors to have 2 columns.
@@ -157,10 +190,50 @@ body {
         Hence the first part (header) will span from full-start till end of column 6 (which is also start of column 7)
         And the 2nd part (realtors) will span from end of column 6 (which is also start of column 7) till full-end.
     */
-  grid-column: full-start / col-end 6; }
+  grid-column: full-start / col-end 6;
+  display: grid;
+  /* explicit grid for logo as 1fr so that we can see a big gap between logo and rest.
+       min-content - for h4 heading
+       6rem - for h1 heading
+       1fr - for button
+    */
+  grid-template-rows: 1fr min-content 6rem 1fr;
+  /* Logo is not looking at the center w.r.t other items of this grid.
+       That's because by default the grid column width is all available space.
+       We should make it so that the column width will be equal to the size of the largest content/item. */
+  grid-template-columns: max-content;
+  row-gap: 1.5rem;
+  justify-content: center; }
+  .header__logo {
+    height: 3rem;
+    justify-self: center; }
+  .header__btn {
+    align-self: start;
+    justify-self: start; }
+  .header__seenon-text {
+    display: grid;
+    grid-template-columns: 1fr max-content 1fr;
+    column-gap: 1.5rem;
+    align-items: center;
+    font-size: 1.6rem;
+    color: #aaa; }
+    .header__seenon-text::before, .header__seenon-text::after {
+      content: '';
+      display: block;
+      height: 1px;
+      background-color: currentColor; }
+  .header__seenon-logos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 3rem;
+    justify-items: center; }
+    .header__seenon-logos img {
+      height: 2.5rem;
+      filter: brightness(70%); }
 
 .realtors {
   background-color: #101d2c;
+  padding: 3rem;
   /*
         Header-Row section is divided into 2 parts, header and realtors.
         Of the total 8 columns, We want the header to span 6 columns and realtors to have 2 columns.
@@ -168,7 +241,28 @@ body {
         Hence the first part (header) will span from full-start till end of column 6 (which is also start of column 7)
         And the 2nd part (realtors) will span from end of column 6 (which is also start of column 7) till full-end.
     */
-  grid-column: col-start 7 / full-end; }
+  grid-column: col-start 7 / full-end;
+  display: grid;
+  row-gap: 2rem;
+  align-content: center;
+  justify-content: center;
+  justify-items: center; }
+  .realtors__list {
+    display: grid;
+    /* 1st column - min-content - as we have defined width for img to 7rem. So it should fit that
+           2nd column - max-content - so that the text doesn't create any line breaks for the content. */
+    grid-template-columns: min-content max-content;
+    column-gap: 2.5rem;
+    row-gap: 4vh;
+    align-items: center; }
+  .realtors__sold {
+    text-transform: uppercase;
+    color: #aaa;
+    margin-top: -3px; }
+  .realtors__img {
+    width: 7rem;
+    border-radius: 50%;
+    display: block; }
 
 .features {
   grid-column: center-start / center-end;
@@ -254,13 +348,172 @@ body {
     margin-bottom: 4rem; }
 
 .homes {
-  background-color: #101d2c;
-  grid-column: center-start / center-end; }
+  grid-column: center-start / center-end;
+  margin: 15rem 0;
+  display: grid;
+  /*
+        We basically want 3 columns and 2 rows. So this will do - 
+        grid-template-columns: repeat(3, 1fr);
+        However for responsive design this will not look properly on small devices.
+        What we want is the width of the column track should be between 250px and 1 fractional unit.
+        and CSS should add as many tracks as it can fit in the container based on the viewport width. */
+  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+  gap: 7rem; }
+
+.home {
+  background-color: #f9f7f6;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  row-gap: 3.5rem; }
+  .home__img {
+    width: 100%;
+    grid-column: 1 / -1;
+    grid-row: 1 / 2;
+    z-index: 1; }
+  .home__like {
+    /* Here we will use overlapping. 
+           Basically placing this like Grid item on top of the image on another Grid cell. 
+           Be defining grid-row and grid-column, we can set the position for this item.
+           However this will not be on top of img grid item, that because CSS Automatic Placement Algorithm
+           does not place grid items one on top of each other, 
+           but instead it moves one of the items(least specific configuration) in next cell.
+           In order to have both the grid items on top of each other, we need to specify grid-row for img grid item as well */
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
+    z-index: 2;
+    justify-self: end;
+    margin: 1rem;
+    fill: #c69963;
+    height: 2rem;
+    width: 2rem; }
+  .home__name {
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    text-align: center;
+    padding: 1.25rem;
+    background-color: #101d2c;
+    color: #fff;
+    grid-column: 1 / -1;
+    width: 80%;
+    justify-self: center;
+    grid-row: 1 / 2;
+    z-index: 2;
+    align-self: end;
+    transform: translateY(50%); }
+  .home__location, .home__rooms {
+    /* Since &__name is moved down due to transform, it overlaps some of the row-gap. 
+           This crates an inconsitent spacing overall. */
+    margin-top: 2.5rem; }
+  .home__location, .home__rooms, .home__area, .home__price {
+    font-size: 1.5rem;
+    margin-left: 2rem;
+    display: flex;
+    align-items: center; }
+    .home__location svg, .home__rooms svg, .home__area svg, .home__price svg {
+      fill: #c69963;
+      height: 2rem;
+      width: 2rem;
+      /* To have some space between icon and the text - 
+               We can specify space gaps in Flexbox like we do in Grids using gap property. 
+               However the browser support for gap proeprty in Flexbox is low as of today.
+               Hence fixing this issue using margin trick. */
+      margin-right: 1rem; }
+  .home__btn {
+    grid-column: 1 / -1; }
 
 .gallery {
-  background-color: #54483A;
-  grid-column: full-start / full-end; }
+  background-color: #f9f7f6;
+  grid-column: full-start / full-end;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(7, 5vw);
+  gap: 1.5rem;
+  padding: 1.5rem; }
+  .gallery__item--1 {
+    grid-row: 1 / span 2;
+    grid-column: 1 / span 2; }
+  .gallery__item--2 {
+    grid-row: 1 / span 3;
+    grid-column: 3 / span 3; }
+  .gallery__item--3 {
+    grid-row: 1 / span 2;
+    grid-column: 6 / span 1; }
+  .gallery__item--4 {
+    grid-row: 1 / span 2;
+    grid-column: 7 / span 2; }
+  .gallery__item--5 {
+    grid-row: 3 / span 3;
+    grid-column: 1 / span 2; }
+  .gallery__item--6 {
+    grid-row: 4 / span 2;
+    grid-column: 3 / span 2; }
+  .gallery__item--7 {
+    grid-row: 4 / span 1;
+    grid-column: 5 / span 1; }
+  .gallery__item--8 {
+    grid-row: 3 / span 2;
+    grid-column: 6 / span 2; }
+  .gallery__item--9 {
+    grid-row: 3 / span 3;
+    grid-column: 8 / span 1; }
+  .gallery__item--10 {
+    grid-row: 6 / span 2;
+    grid-column: 1 / span 1; }
+  .gallery__item--11 {
+    grid-row: 6 / span 2;
+    grid-column: 2 / span 2; }
+  .gallery__item--12 {
+    grid-row: 6 / span 2;
+    grid-column: 4 / span 1; }
+  .gallery__item--13 {
+    grid-row: 5 / span 3;
+    grid-column: 5 / span 3; }
+  .gallery__item--14 {
+    grid-row: 6 / span 2;
+    grid-column: 8 / span 1; }
+  .gallery__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block; }
 
 .footer {
   background-color: #101d2c;
-  grid-column: full-start / full-end; }
+  grid-column: full-start / full-end;
+  padding: 8rem; }
+
+.nav {
+  list-style: none;
+  /*
+        We can implement this either using Flexbox or Grid.
+        With Flexbox - we would need to manually manage the space between items 
+                       (until 'gap' property is widely supported by different browsers).
+        With Grid - space can be easily taken care using grid gutters.
+    */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 2rem;
+  align-items: center; }
+  .nav__link:link, .nav__link:visited {
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 1.1rem;
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 1.5rem;
+    display: block;
+    transition: all .2s; }
+  .nav__link:hover, .nav__link:active {
+    background-color: rgba(255, 255, 255, 0.05);
+    transform: translateY(-3px); }
+
+.copyright {
+  font-size: 1.1rem;
+  color: #aaa;
+  margin-top: 6rem;
+  width: 70%;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center; }

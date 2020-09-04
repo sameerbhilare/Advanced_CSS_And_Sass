@@ -1,4 +1,112 @@
 .homes {
-    background-color: $color-secondary;
     grid-column: center-start / center-end;
+    margin: 15rem 0;
+
+    display: grid;
+    /*
+        We basically want 3 columns and 2 rows. So this will do - 
+        grid-template-columns: repeat(3, 1fr);
+        However for responsive design this will not look properly on small devices.
+        What we want is the width of the column track should be between 250px and 1 fractional unit.
+        and CSS should add as many tracks as it can fit in the container based on the viewport width. */
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    gap: 7rem;
+}
+
+.home {
+    background-color: $color-grey-light-1;
+    
+    display: grid;
+    // most of the times we define only columns and let CSS figure out rows. It's pretty common.
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 3.5rem;
+
+    &__img {
+        width: 100%;
+        grid-column: 1 / -1;
+        // we want like icon to be on top of img, so we need to explicitly give grid-row
+        // otherwise CSS Automatic Placement Algorithm will move this item(least specific configuration) in next cell
+        grid-row: 1 / 2;
+        z-index: 1;
+    }
+
+    &__like {
+        /* Here we will use overlapping. 
+           Basically placing this like Grid item on top of the image on another Grid cell. 
+           Be defining grid-row and grid-column, we can set the position for this item.
+           However this will not be on top of img grid item, that because CSS Automatic Placement Algorithm
+           does not place grid items one on top of each other, 
+           but instead it moves one of the items(least specific configuration) in next cell.
+           In order to have both the grid items on top of each other, we need to specify grid-row for img grid item as well */
+        grid-row: 1 / 2;
+        grid-column: 2 / 3;
+        z-index: 2; // just to double sure that this icon should be on top of the img
+        justify-self: end; // to push only this item to the end,
+        margin: 1rem; // so that it won't touch the img borders.
+
+        fill: $color-primary;
+        height: 2rem;
+        width: 2rem;
+    }
+
+    &__name {
+        // general setting
+        font-family: $font-display;
+        font-size: 1.6rem;
+        font-weight: 400;
+        text-align: center;
+        padding: 1.25rem;
+        background-color: $color-secondary;
+        color: #fff;
+        
+        grid-column: 1 / -1;
+        width: 80%;
+        justify-self: center;
+
+        // overlapping this item as well, on top of the img item to have a cleaner solution
+        grid-row: 1 / 2;
+        z-index: 2;
+        align-self: end;
+        // move down by 50% of its width so that it will at exact center of img bottom border
+        transform: translateY(50%); 
+    }
+
+    &__location,
+    &__rooms {
+        /* Since &__name is moved down due to transform, it overlaps some of the row-gap. 
+           This crates an inconsitent spacing overall. */
+        margin-top: 2.5rem; // so that the spacing will look equal btween the &__name and &__btn
+    }
+
+    &__location,
+    &__rooms,
+    &__area,
+    &__price {
+
+        font-size: 1.5rem;
+        margin-left: 2rem;
+
+        // the icon and the text should be side by side and aligned properly
+        display: flex;
+        align-items: center; // to vertically(cross axis) align items so that icon and text will be exactly side by side
+        //gap: 1rem; // As of today, Firefox, Chrome and Edge latest versions support this proeprty for Flexbox also
+
+        svg {
+            fill: $color-primary;
+            height: 2rem;
+            width: 2rem;
+           
+            /* To have some space between icon and the text - 
+               We can specify space gaps in Flexbox like we do in Grids using gap property. 
+               However the browser support for gap proeprty in Flexbox is low as of today.
+               Hence fixing this issue using margin trick. */
+            margin-right: 1rem;
+                                
+        }
+    }
+
+    &__btn {
+        grid-column: 1 / -1;
+    }
+
 }

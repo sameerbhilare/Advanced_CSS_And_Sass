@@ -1,4 +1,53 @@
 .footer {
     background-color: $color-secondary;
     grid-column: full-start / full-end;
+    padding: 8rem;
+}
+
+.nav {
+    list-style: none;
+    
+    /*
+        We can implement this either using Flexbox or Grid.
+        With Flexbox - we would need to manually manage the space between items 
+                       (until 'gap' property is widely supported by different browsers).
+        With Grid - space can be easily taken care using grid gutters.
+    */
+    display: grid;
+    // column design for responsive layout without media queries
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 2rem;
+    align-items: center;
+
+    &__link:link,
+    &__link:visited {
+        font-family: $font-display;
+        font-size: 1.1rem;
+        color: #fff;
+        text-decoration: none;
+        text-transform: uppercase;
+        text-align: center;
+        padding: 1.5rem;
+        display: block; // so that padding can be applied
+        transition: all .2s;
+
+    }
+
+    &__link:hover,
+    &__link:active {
+        background-color: rgba($color: #fff, $alpha: .05); // very small opacity so that in the end 
+                                                             // we can see slightly lighter background blue color
+        transform: translateY(-3px);
+    }
+}
+
+
+.copyright {
+    font-size: 1.1rem;
+    color: $color-grey-light-2;
+    margin-top: 6rem;
+    width: 70%;
+    margin-right: auto; // since with is not 100%, need to center the element as per viewport width
+    margin-left: auto;  // since with is not 100%, need to center the element as per viewport width
+    text-align: center;
 }

@@ -8,7 +8,9 @@
 .heading-1 {
     @extend %heading; // extend works opposite of mixins. 
                       // The selector here (heading-1) is copied over to %heading at the top
-    
+    font-size: 4.5rem;
+    color: $color-grey-light-1;
+    line-height: 1;
 }
 
 .heading-2 {

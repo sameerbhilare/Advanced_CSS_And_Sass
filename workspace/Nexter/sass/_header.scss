@@ -1,5 +1,11 @@
 .header {
     background-color: $color-grey-dark-1;
+    background-image: linear-gradient(rgba($color-secondary, .93), rgba($color-secondary, .93)),
+                      url(../img/hero.jpeg);
+    background-size: cover;
+    background-position: center;
+    padding: 8rem;
+    padding-top: 4rem; // to have less space above logo
 
     /*
         Header-Row section is divided into 2 parts, header and realtors.
@@ -9,4 +15,63 @@
         And the 2nd part (realtors) will span from end of column 6 (which is also start of column 7) till full-end.
     */
     grid-column: full-start / col-end 6;
+
+    // creating this entire header as grid container
+    display: grid;
+
+    /* explicit grid for logo as 1fr so that we can see a big gap between logo and rest.
+       min-content - for h4 heading
+       6rem - for h1 heading
+       1fr - for button
+    */
+    grid-template-rows: 1fr min-content 6rem 1fr; 
+    
+    /* Logo is not looking at the center w.r.t other items of this grid.
+       That's because by default the grid column width is all available space.
+       We should make it so that the column width will be equal to the size of the largest content/item. */
+    grid-template-columns: max-content;
+    row-gap: 1.5rem;
+    justify-content: center;
+
+    &__logo {
+        height: 3rem;
+        justify-self: center;
+    }
+
+    &__btn {
+        align-self: start;
+        justify-self: start;
+    }
+
+    &__seenon-text {
+        // even text can be a grid item
+        display: grid;
+        grid-template-columns: 1fr max-content 1fr;
+        column-gap: 1.5rem;
+        align-items: center;
+
+        font-size: 1.6rem;
+        color: $color-grey-light-2;
+
+        &::before,
+        &::after {
+            content: '';
+            display: block;
+            height: 1px;
+            background-color: currentColor;
+        }
+    }
+
+    &__seenon-logos {
+
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        column-gap: 3rem;
+        justify-items: center;
+
+        img {
+            height: 2.5rem;
+            filter: brightness(70%); // very useful property
+        }
+    }
 }

@@ -2,4 +2,33 @@
     background-color: $color-primary;
     grid-column: sidebar-start / sidebar-end;
     grid-row: 1 / -1; // to span all the way from top start till bottom end (till end of explicit grid).
+
+    // to align the nav-btn in the center
+    display: flex;
+    justify-content: center;
+}
+
+.nav-btn {
+    border: none;
+    border-radius: 0;
+    background-color: #fff;
+    height: 2px;
+    width: 4.5rem;
+    margin-top: 4rem;
+    cursor: pointer;
+    outline: none;
+
+    &::before,
+    &::after {
+        content: '';    // must for before and after pseudo elements
+        display: block; // must for before and after pseudo elements
+        background-color: #fff;
+        height: 2px;
+        width: 4.5rem;
+        cursor: pointer;
+    }
+
+    &::before { transform: translateY(-1.5rem); }
+
+    &::after { transform: translateY(1.5rem); }
 }
