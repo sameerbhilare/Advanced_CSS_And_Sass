@@ -1,4 +1,50 @@
 .features {
-    background-color: $color-grey-light-2;
     grid-column: center-start / center-end;
+
+    margin: 15rem 0;
+
+    display: grid; // nested grid
+    /*
+        We basically want 3 columns and 2 rows. So this will do - 
+        grid-template-columns: repeat(3, 1fr);
+        However for responsive design this will not look properly on small devices.
+        What we want is the width of the column track should be between 250px and 1 fractional unit.
+        and CSS should add as many tracks as it can fit in the container based on the viewport width. */
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    // no need to specify grid-template-rows because those will be automatically create (implicit grid);
+    
+    gap: 6rem; // space between Grid items. grid-gap is replaced by gap.
+    align-items: start; // by default the items are stretched, 
+                        // hence the space between feature heading ans feature text is not consistent.
+                        // setting align-items: start, will have consistent spacing between heading and text
+}
+
+// reusable feature
+.feature {
+
+    // this feature itself is a grid item, but will also make this a grid container
+    display: grid;
+
+    // first column for icon set to min-content so that it will occupy whatever defined width of that icon
+    // and then 2nd column should occupy rest of the space for the text content.
+    grid-template-columns: min-content 1fr; 
+    // many times we don't have to define grid-template-rows;
+
+    row-gap: 1.5rem; // grid-row-gap is replaced by row-gap
+    column-gap: 2.5rem; // grid-column-gap is replaced by column-gap
+    
+    &__icon {
+        fill: $color-primary;
+        width: 4.5rem;
+        height: 4.5rem;
+        grid-row: 1 / span 2; /* so that the icon should span entire column
+                                -1 instead of span 2 won't work here, bcz -1 means end of explicit grid.
+                                However we have ony one row in explicit grid (as we have not defined grid-template-rows)
+                              */
+        transform: translateY(-1rem); // shift the icon little bit to the top
+    }
+
+    &__text {
+        font-size: 1.7rem;
+    }
 }

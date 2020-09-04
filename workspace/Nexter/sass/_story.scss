@@ -11,10 +11,61 @@
     &__pictures {
         background-color: $color-primary;
         grid-column: full-start / col-end 4;
+        background-image: linear-gradient(rgba($color-primary, .5), rgba($color-primary, .5)),
+                          url(../img/back.jpg);
+
+        display: grid;
+        /*
+            We want a 6 X 6 grid, so that we can place the img--1 in 2/3rd part and remaining 1/3rd part will be empty.
+        */
+        grid-template-rows: repeat(6, 1fr);
+        grid-template-columns: repeat(6, 1fr);
+        /* Grid item by default tries to stretch itself, but with images it's different.
+        Image has specific dimensions and it always tries to keep its aspect ratio.
+        So we should use align-items: center; if we want the image to be exactly at the center  */
+        align-items: center;
+    }
+
+    &__img--1 {
+        width: 100%; // always provide width to images in percentages so they become flexible/responsive
+        grid-row: 2 / 6;
+        grid-column: 2 / 6;
+        box-shadow: 0 2rem 5rem rgba(0,0,0,.1);
+    }
+
+    &__img--2 {
+        width: 115%;    // because we want the image to overflow its assigned width
+        grid-row: 4 / 6;
+        grid-column: 4 / 7;
+        z-index: 20;    // so that it will show on the top
+        box-shadow: 0 2rem 5rem rgba(0,0,0,.2);
     }
 
     &__content {
         background-color: $color-grey-light-1;
         grid-column: col-start 5 / full-end;
+
+        padding: 6rem 8vw; // using viewport width for left and right padding so that it makes more responsive
+
+        
+        // SOLUTION 1: USING FLEXBOX (since we have one dimentional view)
+        // Flexbox is often used in conjunction with CSS Grid depending on the situations.
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+
+        // SOLUTION 2: USING GRID
+        /*
+        display: grid;
+        align-content: center;  // to align grid track vertically
+        justify-items: start;   // to align grid items horizontally
+        */
+    }
+
+    &__text {
+        font-size: 1.5rem;
+        font-style: italic;
+        margin-bottom: 4rem;
     }
 }
