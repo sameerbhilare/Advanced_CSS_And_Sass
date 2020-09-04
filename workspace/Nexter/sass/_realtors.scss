@@ -18,6 +18,12 @@
     justify-content: center;
     justify-items: center;
 
+    @media only screen and (max-width: $bp-medium) {
+        /* At 800px, we want a new row for realtors. 
+           So we want the header and the realtors one below another and not side by side. */
+        grid-column: 1 / -1;
+    }
+
     &__list {
 
         display: grid;
@@ -28,6 +34,16 @@
         row-gap: 4vh;   // because we want the margin between grid items to be dependant on viewport height
         //justify-content: center;
         align-items: center; // centering items inside the cell vertically
+
+        @media only screen and (max-width: $bp-medium) {
+            /* At 800px, the realtors items should be side by side instead of one below other. */
+            grid-template-columns: repeat(3, min-content max-content); // we can put more than 1 track in repeat() function
+        }
+
+        @media only screen and (max-width: $bp-small) {
+            // at 600px, put realtors one below other. (same as that of largest screen view)
+            grid-template-columns: min-content max-content;
+        }
     }
 
     &__sold {

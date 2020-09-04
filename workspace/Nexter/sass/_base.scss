@@ -15,6 +15,12 @@ $font-primary: 'Nunito', sans-serif;
 $font-display: 'Josefin Sans', sans-serif;
 
 
+// RESPONSIVE BREAKPOINTS
+$bp-largest: 75em; // 1200px / 16 => 75 
+$bp-large: 62.5em; // 1000px / 16 => 62.5 
+$bp-medium: 50em; // 800px / 16 => 50
+$bp-small: 37.5em; // 600px / 16 => 37.5
+
 // UNIVERSAL RESET 
 *,
 *::before,
@@ -27,6 +33,10 @@ $font-display: 'Josefin Sans', sans-serif;
 html {
     box-sizing: border-box;
     font-size: 62.5%; // 10px/16px = 62.5%, so 1rem = 10px now
+
+    @media only screen and (max-width: $bp-largest) {
+        font-size: 50%;  // 8px/16 = 50%, reducing the overall font-size to 8px
+    }
 }
 
 body {
@@ -113,10 +123,52 @@ body {
 
         Now let's name the column grid lines - sidebar-start, sidebar-end, full-start, full-end, center-sart, center-end
         col-start 1 tot8, col-end 1 to 8.
+        It is very important to name the grid lines. This is tremedously helpful while writing media queries.
+        Without the names, it would be a nightmare because with just numbers whole layout will change
+        if we remove say one column for smaller viewport.
         We generally do not name rows, because for the overall layout the focus is mostly on the columns due to responsive design
     */
     grid-template-columns: [sidebar-start] 8rem [sidebar-end full-start] minmax(6rem, 1fr)
             [center-start] repeat(8, [col-start] minmax(min-content, 14rem) [col-end]) [center-end] 
             minmax(6rem, 1fr) [full-end]; 
 
+
+    /* CSS Grid is very helpful to write code which is responsive.
+       Here we just need to change the layout definitions (rows/columns) */
+    @media only screen and (max-width: $bp-large) {
+        
+        /* At 1000px, we want to remove the sidebar from first column and put it as first row.
+           Hence removing  [sidebar-start] 8rem [sidebar-end from column template 
+           and putting 6rem(not required to have 8rem) in row template.
+           Of course, we also need to make changes in _sidebar.scss because we removed sidebar-start/end. */
+
+        grid-template-rows: 6rem 80vh min-content 40vw repeat(3, min-content); 
+
+        grid-template-columns: [full-start] minmax(6rem, 1fr)
+            [center-start] repeat(8, [col-start] minmax(min-content, 14rem) [col-end]) [center-end] 
+            minmax(6rem, 1fr) [full-end]; 
+    }
+
+
+    /* CSS Grid is very helpful to write code which is responsive.
+       Here we just need to change the layout definitions (rows/columns) */
+    @media only screen and (max-width: $bp-medium) {
+        
+        /* At 800px, we want a new row for realtors. 
+           So we want the header and the realtors one below another and not side by side.
+           so for that we need to change the row definition.
+           1. We want the header to cover full viewport, i.e. 100vh, 
+              however we have 6rem sidebar at the top now. So we need to deduct that height.
+              It's easy to do the calculation between different units(rem, vh) using the amazing calc function.
+              If we just use 100vh, then once you start scrolling you will still see some part of header
+              as you scroll, which doesn;t look good.
+           2. Also Added min-content for realtors after 100vh(which is for header).
+           3. Also for story removing 40vh and using min-content */
+
+        //grid-template-rows: 6rem calc(100vh - 6rem) min-content min-content min-content repeat(3, min-content); 
+        grid-template-rows: 6rem calc(100vh - 6rem); // this is same above above commented line. 
+                                                     // Automatic Placement Algorith will take care of this
+
+        // no change in grid-template-columns definition
+    }
 }

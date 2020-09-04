@@ -21,17 +21,28 @@
 
     /* explicit grid for logo as 1fr so that we can see a big gap between logo and rest.
        min-content - for h4 heading
-       6rem - for h1 heading
+       minmax(6rem, min-content) - for h1 heading, added minmax for responsive design
        1fr - for button
     */
-    grid-template-rows: 1fr min-content 6rem 1fr; 
+    grid-template-rows: 1fr min-content minmax(6rem, min-content) 1fr; 
     
     /* Logo is not looking at the center w.r.t other items of this grid.
        That's because by default the grid column width is all available space.
-       We should make it so that the column width will be equal to the size of the largest content/item. */
-    grid-template-columns: max-content;
+       We should make it so that the column width will be equal to the size of the largest content/item.
+       Using minmax for being responsive so that column should never be smaller than min-content */
+    grid-template-columns: minmax(min-content, max-content);
     row-gap: 1.5rem;
     justify-content: center;
+
+    @media only screen and (max-width: $bp-medium) {
+        /* At 800px, we want a new row for realtors. 
+           So we want the header and the realtors one below another and not side by side. */
+        grid-column: 1 / -1;
+    }
+
+    @media only screen and (max-width: $bp-small) {
+        padding: 5rem; // reducing  from 8rem to 5rem
+    }
 
     &__logo {
         height: 3rem;
@@ -68,9 +79,11 @@
         grid-template-columns: repeat(4, 1fr);
         column-gap: 3rem;
         justify-items: center;
+        align-items: center;
 
         img {
-            height: 2.5rem;
+            max-height: 2.5rem; // using max-height instead of height for responsive layout;
+            max-width: 100%;
             filter: brightness(70%); // very useful property
         }
     }

@@ -8,6 +8,9 @@
 html {
   box-sizing: border-box;
   font-size: 62.5%; }
+  @media only screen and (max-width: 75em) {
+    html {
+      font-size: 50%; } }
 
 body {
   font-family: "Nunito", sans-serif;
@@ -88,9 +91,37 @@ body {
 
         Now let's name the column grid lines - sidebar-start, sidebar-end, full-start, full-end, center-sart, center-end
         col-start 1 tot8, col-end 1 to 8.
+        It is very important to name the grid lines. This is tremedously helpful while writing media queries.
+        Without the names, it would be a nightmare because with just numbers whole layout will change
+        if we remove say one column for smaller viewport.
         We generally do not name rows, because for the overall layout the focus is mostly on the columns due to responsive design
     */
-  grid-template-columns: [sidebar-start] 8rem [sidebar-end full-start] minmax(6rem, 1fr) [center-start] repeat(8, [col-start] minmax(min-content, 14rem) [col-end]) [center-end] minmax(6rem, 1fr) [full-end]; }
+  grid-template-columns: [sidebar-start] 8rem [sidebar-end full-start] minmax(6rem, 1fr) [center-start] repeat(8, [col-start] minmax(min-content, 14rem) [col-end]) [center-end] minmax(6rem, 1fr) [full-end];
+  /* CSS Grid is very helpful to write code which is responsive.
+       Here we just need to change the layout definitions (rows/columns) */
+  /* CSS Grid is very helpful to write code which is responsive.
+       Here we just need to change the layout definitions (rows/columns) */ }
+  @media only screen and (max-width: 62.5em) {
+    .container {
+      /* At 1000px, we want to remove the sidebar from first column and put it as first row.
+           Hence removing  [sidebar-start] 8rem [sidebar-end from column template 
+           and putting 6rem(not required to have 8rem) in row template.
+           Of course, we also need to make changes in _sidebar.scss because we removed sidebar-start/end. */
+      grid-template-rows: 6rem 80vh min-content 40vw repeat(3, min-content);
+      grid-template-columns: [full-start] minmax(6rem, 1fr) [center-start] repeat(8, [col-start] minmax(min-content, 14rem) [col-end]) [center-end] minmax(6rem, 1fr) [full-end]; } }
+  @media only screen and (max-width: 50em) {
+    .container {
+      /* At 800px, we want a new row for realtors. 
+           So we want the header and the realtors one below another and not side by side.
+           so for that we need to change the row definition.
+           1. We want the header to cover full viewport, i.e. 100vh, 
+              however we have 6rem sidebar at the top now. So we need to deduct that height.
+              It's easy to do the calculation between different units(rem, vh) using the amazing calc function.
+              If we just use 100vh, then once you start scrolling you will still see some part of header
+              as you scroll, which doesn;t look good.
+           2. Also Added min-content for realtors after 100vh(which is for header).
+           3. Also for story removing 40vh and using min-content */
+      grid-template-rows: 6rem calc(100vh - 6rem); } }
 
 .heading-1, .heading-2, .heading-3, .heading-4 {
   font-family: "Josefin Sans", sans-serif;
@@ -154,6 +185,13 @@ body {
   grid-row: 1 / -1;
   display: flex;
   justify-content: center; }
+  @media only screen and (max-width: 62.5em) {
+    .sidebar {
+      /* At 1000px, we want to remove the sidebar from first column and put it as first row. */
+      grid-column: 1 / -1;
+      grid-row: 1 / 2;
+      justify-content: flex-end;
+      align-items: center; } }
 
 .nav-btn {
   border: none;
@@ -175,6 +213,15 @@ body {
     transform: translateY(-1.5rem); }
   .nav-btn::after {
     transform: translateY(1.5rem); }
+  @media only screen and (max-width: 62.5em) {
+    .nav-btn {
+      /* At 1000px, we want to remove the sidebar from first column and put it as first row. */
+      margin-top: 0;
+      margin-right: 3rem; }
+      .nav-btn::before {
+        transform: translateY(-1.2rem); }
+      .nav-btn::after {
+        transform: translateY(1.2rem); } }
 
 .header {
   background-color: #54483A;
@@ -194,16 +241,25 @@ body {
   display: grid;
   /* explicit grid for logo as 1fr so that we can see a big gap between logo and rest.
        min-content - for h4 heading
-       6rem - for h1 heading
+       minmax(6rem, min-content) - for h1 heading, added minmax for responsive design
        1fr - for button
     */
-  grid-template-rows: 1fr min-content 6rem 1fr;
+  grid-template-rows: 1fr min-content minmax(6rem, min-content) 1fr;
   /* Logo is not looking at the center w.r.t other items of this grid.
        That's because by default the grid column width is all available space.
-       We should make it so that the column width will be equal to the size of the largest content/item. */
-  grid-template-columns: max-content;
+       We should make it so that the column width will be equal to the size of the largest content/item.
+       Using minmax for being responsive so that column should never be smaller than min-content */
+  grid-template-columns: minmax(min-content, max-content);
   row-gap: 1.5rem;
   justify-content: center; }
+  @media only screen and (max-width: 50em) {
+    .header {
+      /* At 800px, we want a new row for realtors. 
+           So we want the header and the realtors one below another and not side by side. */
+      grid-column: 1 / -1; } }
+  @media only screen and (max-width: 37.5em) {
+    .header {
+      padding: 5rem; } }
   .header__logo {
     height: 3rem;
     justify-self: center; }
@@ -226,9 +282,11 @@ body {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     column-gap: 3rem;
-    justify-items: center; }
+    justify-items: center;
+    align-items: center; }
     .header__seenon-logos img {
-      height: 2.5rem;
+      max-height: 2.5rem;
+      max-width: 100%;
       filter: brightness(70%); }
 
 .realtors {
@@ -247,6 +305,11 @@ body {
   align-content: center;
   justify-content: center;
   justify-items: center; }
+  @media only screen and (max-width: 50em) {
+    .realtors {
+      /* At 800px, we want a new row for realtors. 
+           So we want the header and the realtors one below another and not side by side. */
+      grid-column: 1 / -1; } }
   .realtors__list {
     display: grid;
     /* 1st column - min-content - as we have defined width for img to 7rem. So it should fit that
@@ -255,6 +318,13 @@ body {
     column-gap: 2.5rem;
     row-gap: 4vh;
     align-items: center; }
+    @media only screen and (max-width: 50em) {
+      .realtors__list {
+        /* At 800px, the realtors items should be side by side instead of one below other. */
+        grid-template-columns: repeat(3, min-content max-content); } }
+    @media only screen and (max-width: 37.5em) {
+      .realtors__list {
+        grid-template-columns: min-content max-content; } }
   .realtors__sold {
     text-transform: uppercase;
     color: #aaa;
@@ -277,6 +347,12 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
   gap: 6rem;
   align-items: start; }
+  @media only screen and (max-width: 50em) {
+    .features {
+      margin: 10rem 0; } }
+  @media only screen and (max-width: 37.5em) {
+    .features {
+      margin: 7rem 0; } }
 
 .feature {
   display: grid;
@@ -308,6 +384,7 @@ body {
     background-color: #c69963;
     grid-column: full-start / col-end 4;
     background-image: linear-gradient(rgba(198, 153, 99, 0.5), rgba(198, 153, 99, 0.5)), url(../img/back.jpg);
+    background-size: cover;
     display: grid;
     /*
             We want a 6 X 6 grid, so that we can place the img--1 in 2/3rd part and remaining 1/3rd part will be empty.
@@ -318,17 +395,33 @@ body {
         Image has specific dimensions and it always tries to keep its aspect ratio.
         So we should use align-items: center; if we want the image to be exactly at the center  */
     align-items: center; }
+    @media only screen and (max-width: 50em) {
+      .story__pictures {
+        /* At 800px, we want the story content and picture one below other and not side by side */
+        grid-column: 1 / -1;
+        padding: 6rem; } }
   .story__img--1 {
     width: 100%;
     grid-row: 2 / 6;
     grid-column: 2 / 6;
     box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.1); }
+    @media only screen and (max-width: 50em) {
+      .story__img--1 {
+        /* At 800px, we want change column definition for story pictures */
+        grid-column: 1 / 5;
+        grid-row: 1 / -1;
+        width: 100%; } }
   .story__img--2 {
     width: 115%;
     grid-row: 4 / 6;
     grid-column: 4 / 7;
     z-index: 20;
     box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.2); }
+    @media only screen and (max-width: 50em) {
+      .story__img--2 {
+        /* At 800px, we want change column definition for story pictures */
+        grid-row: 1 / -1;
+        width: 100%; } }
   .story__content {
     background-color: #f9f7f6;
     grid-column: col-start 5 / full-end;
@@ -342,6 +435,11 @@ body {
         align-content: center;  // to align grid track vertically
         justify-items: start;   // to align grid items horizontally
         */ }
+    @media only screen and (max-width: 50em) {
+      .story__content {
+        /* At 800px, we want the story content and picture one below other and not side by side */
+        grid-column: 1 / -1;
+        grid-row: 5 / 6; } }
   .story__text {
     font-size: 1.5rem;
     font-style: italic;
@@ -359,6 +457,12 @@ body {
         and CSS should add as many tracks as it can fit in the container based on the viewport width. */
   grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
   gap: 7rem; }
+  @media only screen and (max-width: 50em) {
+    .homes {
+      margin: 10rem 0; } }
+  @media only screen and (max-width: 37.5em) {
+    .homes {
+      margin: 7rem 0; } }
 
 .home {
   background-color: #f9f7f6;
@@ -482,6 +586,12 @@ body {
   background-color: #101d2c;
   grid-column: full-start / full-end;
   padding: 8rem; }
+  @media only screen and (max-width: 50em) {
+    .footer {
+      padding: 4rem 0; } }
+  @media only screen and (max-width: 37.5em) {
+    .footer {
+      padding: 2rem 0; } }
 
 .nav {
   list-style: none;
@@ -517,3 +627,9 @@ body {
   margin-right: auto;
   margin-left: auto;
   text-align: center; }
+  @media only screen and (max-width: 50em) {
+    .copyright {
+      margin-top: 5rem; } }
+  @media only screen and (max-width: 37.5em) {
+    .copyright {
+      margin-top: 4rem; } }

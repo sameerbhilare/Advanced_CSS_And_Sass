@@ -17,6 +17,14 @@
     align-items: start; // by default the items are stretched, 
                         // hence the space between feature heading ans feature text is not consistent.
                         // setting align-items: start, will have consistent spacing between heading and text
+
+    @media only screen and (max-width: $bp-medium) {
+        margin: 10rem 0;
+    }
+
+    @media only screen and (max-width: $bp-small) {
+        margin: 7rem 0;
+    }
 }
 
 // reusable feature

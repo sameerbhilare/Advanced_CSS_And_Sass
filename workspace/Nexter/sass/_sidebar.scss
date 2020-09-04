@@ -6,6 +6,14 @@
     // to align the nav-btn in the center
     display: flex;
     justify-content: center;
+
+    @media only screen and (max-width: $bp-large) {
+        /* At 1000px, we want to remove the sidebar from first column and put it as first row. */
+        grid-column: 1 / -1;
+        grid-row: 1 / 2;
+        justify-content: flex-end; // so that the burger icon will be on top right corner
+        align-items: center;
+    }
 }
 
 .nav-btn {
@@ -31,4 +39,13 @@
     &::before { transform: translateY(-1.5rem); }
 
     &::after { transform: translateY(1.5rem); }
+
+    @media only screen and (max-width: $bp-large) {
+        /* At 1000px, we want to remove the sidebar from first column and put it as first row. */
+        margin-top: 0; // for burger icon
+        margin-right: 3rem; // for burger icon
+
+        &::before { transform: translateY(-1.2rem); }
+        &::after { transform: translateY(1.2rem); }
+    }
 }

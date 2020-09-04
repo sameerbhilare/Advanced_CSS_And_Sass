@@ -13,6 +13,7 @@
         grid-column: full-start / col-end 4;
         background-image: linear-gradient(rgba($color-primary, .5), rgba($color-primary, .5)),
                           url(../img/back.jpg);
+        background-size: cover;
 
         display: grid;
         /*
@@ -24,6 +25,13 @@
         Image has specific dimensions and it always tries to keep its aspect ratio.
         So we should use align-items: center; if we want the image to be exactly at the center  */
         align-items: center;
+
+        @media only screen and (max-width: $bp-medium) {
+        
+            /* At 800px, we want the story content and picture one below other and not side by side */
+            grid-column: 1 / -1;
+            padding: 6rem;
+        }
     }
 
     &__img--1 {
@@ -31,6 +39,14 @@
         grid-row: 2 / 6;
         grid-column: 2 / 6;
         box-shadow: 0 2rem 5rem rgba(0,0,0,.1);
+
+        @media only screen and (max-width: $bp-medium) {
+        
+            /* At 800px, we want change column definition for story pictures */
+            grid-column: 1 / 5;
+            grid-row: 1 / -1;
+            width: 100%;
+        }
     }
 
     &__img--2 {
@@ -39,6 +55,13 @@
         grid-column: 4 / 7;
         z-index: 20;    // so that it will show on the top
         box-shadow: 0 2rem 5rem rgba(0,0,0,.2);
+
+        @media only screen and (max-width: $bp-medium) {
+        
+            /* At 800px, we want change column definition for story pictures */
+            grid-row: 1 / -1;
+            width: 100%;
+        }
     }
 
     &__content {
@@ -61,6 +84,13 @@
         align-content: center;  // to align grid track vertically
         justify-items: start;   // to align grid items horizontally
         */
+
+        @media only screen and (max-width: $bp-medium) {
+        
+            /* At 800px, we want the story content and picture one below other and not side by side */
+            grid-column: 1 / -1;
+            grid-row: 5 / 6; // because we want content first and then picture
+        }
     }
 
     &__text {

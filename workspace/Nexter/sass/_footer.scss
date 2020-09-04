@@ -2,6 +2,14 @@
     background-color: $color-secondary;
     grid-column: full-start / full-end;
     padding: 8rem;
+
+    @media only screen and (max-width: $bp-medium) {
+        padding: 4rem 0;
+    }
+
+    @media only screen and (max-width: $bp-small) {
+        padding: 2rem 0;
+    }
 }
 
 .nav {
@@ -50,4 +58,12 @@
     margin-right: auto; // since with is not 100%, need to center the element as per viewport width
     margin-left: auto;  // since with is not 100%, need to center the element as per viewport width
     text-align: center;
+
+    @media only screen and (max-width: $bp-medium) {
+        margin-top: 5rem;
+    }
+
+    @media only screen and (max-width: $bp-small) {
+        margin-top: 4rem;
+    }
 }
