@@ -1,0 +1,126 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: sans-serif;
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.4rem;
+    height: 100vh; /* for linear gradient to work on <body>, we need to specify height for the body element */
+    background-image: linear-gradient(rgba(0,0,0, .1), rgba(0,0,0, .95)), url(background.jpg);
+    background-size: cover;    
+}
+
+
+.container {
+    
+    /********************
+     PURE CSS */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    width: 25%;
+    height: auto;
+
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 3rem;
+
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+h2 {
+    margin-bottom: 3.5rem;
+}
+
+.form__input-box > * {
+    display: block;    
+}
+
+.form__input-box {
+    margin-bottom: 2rem;
+}
+
+.form__input-box label {
+    margin-bottom: .4rem;
+    
+    /* placeolder shown */
+    transform: translate(0, -6rem);
+    opacity: 1;
+    transition: all .4s;
+}
+
+.form__input-box input {
+    font-family: sans-serif;
+    font-size: 1.4rem;
+    
+    padding: 1rem 1.6rem;
+    width: 90%;
+    margin: 0 auto;
+    border-radius: 3px;
+    border: none;
+    border: 1px solid transparent; /* IMP: since we are using border on :focus, you may see minor shake without this line*/
+}
+
+.form__input-box input:focus {
+    outline: none;
+    border: 1px solid rgb(68, 67, 67);
+}
+
+.form__input-box input:placeholder-shown + label {
+    transform: translate(1.7rem, -2.5rem);
+    opacity: 0;
+}
+
+.btn-box {
+    width: 100%;
+    text-align: center;
+}
+
+.btn {
+    border: none;
+    border-radius: 100px;
+    outline: none;
+    padding: 1rem 2rem;
+    width: 45%;
+    font-size: 1.5rem;
+    background-color: rgb(24, 67, 124, .8);
+    color: #fff;
+
+    transition: all .2s;
+    backface-visibility: hidden; /* to avoid slight blurrs due to transforms */
+}
+
+.btn:hover,
+.btn:active {
+    background-color: rgb(24, 67, 124);
+}
+
+.btn:active {
+    transform: translateY(3px);
+}
+
+
+.demo {
+    width: 60%;
+    margin: 0 auto;
+
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    border: 1px dashed #ccc;
+    border-radius: 3px;
+    padding: 2rem;
+    color: rgb(97, 95, 95);
+
+}

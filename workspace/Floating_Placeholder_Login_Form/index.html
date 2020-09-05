@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Floating Placeholder Input Login Form</title>
+</head>
+<body>
+    <div class="container">
+        <form action="#" class="form">
+            <h2>Login Form</h2>
+            <div class="form__input-box">
+                <input type="text" name="username" id="username" placeholder="Username" required autocomplete="off">
+                <label for="username">Username</label>
+            </div>
+            <div class="form__input-box">
+                <input type="password" name="password" id="password" placeholder="Password" required>
+                <label for="password">Password</label>
+            </div>
+            <div class="btn-box">
+                <input type="submit" name="submit" class="btn" value="Submit">
+            </div>
+        </form>
+    </div>
+
+    <div class="demo">
+        <p>
+            This is a sample login page with Floating labels for the input text boxes.
+            At start, you see the placeholders for both Username and Password textboxes,
+            and as soon as you start typing, the placeholder label magically shifts 
+            before it's respective textbox. Also if the textbox is empty, the label just disappers.
+        </p>
+    </div>
+</body>
+</html>
