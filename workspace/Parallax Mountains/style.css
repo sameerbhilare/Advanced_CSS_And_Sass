@@ -1,0 +1,79 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.zoom {
+    width: 100%;
+    height: 1000px;  /* needs enought height so that the scrolling effect will be more natural */
+    position: relative;
+    overflow: hidden; /* important - otherwise scolling images will overflow the div. */
+    /* fixed backround image which will not change its position based on scroll */
+    background: url(img/bg.jpg);
+    background-size: cover;
+}
+
+.zoom:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 200px;
+    z-index: 1000;
+    /* for nice snowy effect at the bottom of the image just before the text content start */
+    background: linear-gradient(transparent, #fff); 
+}
+
+.zoom #layer1 {
+    /*
+        We want the this left image to shift to left based on scroll, hence 
+        1. specifying the position in % is very important for parallax effect.
+        2. initial position negative translateX bcz we want to move it to left along the X axis 
+           (hence negative translateY %) and need to specify left for its initial postion
+    */
+    position: absolute;
+    width: 100%;
+    left: 40%;
+    transform: translateX(-50%);
+
+    z-index: 10; /* to have this on top of all ther images */
+}
+
+.zoom #layer2 {
+    /*
+        We want the this right image to shift to right based on scroll, hence 
+        1. specifying the position in % is very important for parallax effect.
+        2. initial position specified with right: 0
+        The logic to shift this image right is in javascript (index.html).
+    */
+    position: absolute;
+    width: 100%;
+    right: 0;
+    z-index: 9; /* to have this on top of text image but below layer 1 (Mountain 1 image)*/
+}
+
+.zoom #text {
+    /* initial position of this text image should be behind the mountains
+       and as we scroll, it should shift upwards along the Y axis.
+       The logic to shift this image upwards is in javascript (index.html). */
+    position: absolute;
+    width: 100%;
+    right: 0;
+    transform: translateY(50%);
+}
+
+.content {
+    padding: 100px;
+    box-sizing: border-box;
+    font-family: consolas;
+}
+
+.content h2 {
+    margin: 0;
+    padding: 0;
+    font-size: 4em;
+}
+
+.content p {
+    font-size: 1.2em;
+}
